@@ -1,0 +1,60 @@
+CHESS… but better 1.1
+
+-Create a 1v1 chess game using Kaboom
+-Improve gameplay with list building 
+-Hypothetically put online/on Steam?
+
+Alex=Lead Dev
+George=Art director
+Dean=Product Manager
+Finn=Gameplay design
+
+
+Issues with online chess
+	-No list-building aspect
+	-Hard to monetize 
+
+
+Listbuilding
+-Ability of pieces to evolve like Pokemon mid-game
+-New pieces for gameplay variety 
+-In the future introduce alternative pawn-troop types
+
+Hard to monetize
+-New pieces available through loot boxes 
+-Battle pass
+-Ability to create power creep
+
+Core Gameplay changes
+-Nonpawn pieces have a points value, you get 100 points to build your list(You must have a king and a row of pawns)
+
+Knight+bishop=10
+Rook = 20
+Queen = 30
+King(Free and required)
+
+
+-Players take turns placing their nonpawn pieces
+
+-If one of your pieces lands on a piece of the same type they "evolve" gaining a new special ability
+
+
+
+Evolutions
+Rook-Mega Rook
+-2X2 area
+-Enemy pieces it covers while evolving are destroyed
+-Allied pieces become embarked, and when the mega rook is destroyed they are dropped off  in an unoccupied part of the 2X2 area
+
+
+Knight-Mega Knight
+-Creates a shockwave on landing destroying all pieces a circle around it
+
+Bishop-Pope
+Can move through pawns destroying them
+
+Queen-High Queen
+-Can teleport once per round(at the start of either players turn)
+
+Super Pawn
+-Can move two every time, and attack backwards diagonally 
