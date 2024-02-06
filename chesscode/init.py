@@ -8,7 +8,7 @@ def loadimages():
 
 
 def drawboard(screen):   
-    colors=[pygame.Color('white'),pygame.Color('blue')]
+    colors=[pygame.Color('green'),pygame.Color('red')]
     for r in range(8):
         for c in range(8):
             color=colors[(r+c)%2]
