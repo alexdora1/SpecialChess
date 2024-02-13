@@ -13,8 +13,7 @@ for r in range(9):
       pygame.draw.rect(screen, color, pygame.Rect(c*64,r*64,64,64))
 
 pieces = ["Rook", "Knight", "Boat", "Elephant", "King", "Queen", "Boat", "Knight", "Rook"]
-#green_pieces = []
-#red_pieces = []
+
 
 #Creating Board
 a =[]
@@ -74,6 +73,12 @@ running = True
 while running:
   drawboard(board)
   #We're going to need a shitload of logic here 
+  #Find whose turn it is
+  #Find which piece is being seleceted 
+  #Find where the piece is being moved to  
+  #Find if the move is legal 
+  #Have it interact with other pieces
+  #Checkmate 
 
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
