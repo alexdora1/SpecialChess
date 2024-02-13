@@ -49,21 +49,21 @@ for i in range(0, 80):
      h.append('Red_Pawn')
   elif 71< i:
       board[8].append('Red_' + pieces[(i-72)])
-
+#Fixing an oopsie
 board[8].append('Red_Rook')
 
 #putting board into the game
-xloc = 0
-yloc = 0
-for i in board:
-   xloc = 0
-   yloc += 64
-   for z in i:
-      if z != '_':
-        screen.blit(pygame.image.load('assets/' + z + ".png"), (xloc, (yloc - 64)))
-        xloc += 64
+def drawboard(ex_board):
+  xloc = 0
+  yloc = 0
+  for i in ex_board:
+    xloc = 0
+    yloc += 64
+    for z in i:
+        if z != '_':
+          screen.blit(pygame.image.load('assets/' + z + ".png"), (xloc, (yloc - 64)))
+          xloc += 64
 
-print(board)
 
 pygame.display.flip()
 
@@ -72,6 +72,7 @@ pygame.display.flip()
 
 running = True
 while running:
+  drawboard(board)
   #We're going to need a shitload of logic here 
 
   for event in pygame.event.get():
