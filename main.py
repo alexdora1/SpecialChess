@@ -1,16 +1,22 @@
 import pygame
+import time
+
+#Adding a function to show the clicking
 
 (width, height) = (575, 575)
 screen = pygame.display.set_mode((width, height))
 
-Piecewidth = 64 
-Pieceheight = 64
+def drawboard(screen):
+  Piecewidth = 64 
+  Pieceheight = 64
 
-colors=[pygame.Color('green'),pygame.Color('red')]
-for r in range(9):
-    for c in range(9):
-      color=colors[(r+c)%2]
-      pygame.draw.rect(screen, color, pygame.Rect(c*64,r*64,64,64))
+  colors=[pygame.Color('green'),pygame.Color('red')]
+  for r in range(9):
+      for c in range(9):
+        color=colors[(r+c)%2]
+        pygame.draw.rect(screen, color, pygame.Rect(c*64,r*64,64,64))
+  
+  
 
 pieces = ["Rook", "Knight", "Boat", "Elephant", "King", "Queen", "Boat", "Knight", "Rook"]
 
@@ -52,7 +58,7 @@ for i in range(0, 80):
 board[8].append('Red_Rook')
 
 #putting board into the game
-def drawboard(ex_board):
+def drawpieces(ex_board):
   xloc = 0
   yloc = 0
   for i in ex_board:
@@ -66,12 +72,15 @@ def drawboard(ex_board):
 
 pygame.display.flip()
 
-
-
+#Assigning positions for the mouse clicks using placeholder values (-1,-1) cannot be clicked
+pos1 = [-1,-1]
+pos2 = [-1, -1]
 
 running = True
 while running:
-  drawboard(board)
+  drawboard(screen)
+  drawpieces(board)
+
   #We're going to need a shitload of logic here 
   #Find whose turn it is
   #Find which piece is being seleceted 
@@ -83,4 +92,22 @@ while running:
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       running = False
+    #Recognizing first and second clicks 
+    elif event.type == pygame.MOUSEBUTTONDOWN:
+      if pos1 == [-1,-1]:
+        pos1 = pygame.mouse.get_pos()
+        pos2 = [-1,-1]
+      elif pos1 != [-1, -1]:
+        pos2 = pygame.mouse.get_pos()
+        #Theoretically: move the chess piece 
+        pos1 = [-1,-1]
+  
+  #marking pieces 
+  pygame.draw.rect(screen, pygame.Color('blue'), pygame.Rect((pos1[0] - (pos1[0]) % 64), (pos1[1]-pos1[1]%64), 64, 64))
+  
+  time.sleep(0.2)
+  pygame.draw.rect(screen, pygame.Color('purple'), pygame.Rect((pos2[0] - (pos2[0]) % 64), (pos2[1]-pos2[1]%64), 64, 64))
+  drawpieces(board)
+
+
   pygame.display.update()
