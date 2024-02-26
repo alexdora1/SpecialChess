@@ -92,19 +92,41 @@ while running:
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       running = False
+
     #Recognizing first and second clicks 
+      
+    # -1-1 is a placeholder value representing the area of the board
+      
+      
+
+    #When mouse clicks on cordinate grid, check mouse location to see if it matches with a piece location.
+
+
+
     elif event.type == pygame.MOUSEBUTTONDOWN:
       if pos1 == [-1,-1]:
         pos1 = pygame.mouse.get_pos()
         pos2 = [-1,-1]
+        #Check if position 1 is in list
+
       elif pos1 != [-1, -1]:
         pos2 = pygame.mouse.get_pos()
-        #Theoretically: move the chess piece 
         pos1 = [-1,-1]
+        #Set matched piece to this position
+
+
+#On click pull mouse cordinates
   
+#compare mouse coardinates to list of piece coardinates
+        #Search through list
+#If there is a match, set piece cordinates to next mouse click. 
+# Run Drawboard again  
+        
+
   #marking pieces 
   pygame.draw.rect(screen, pygame.Color('blue'), pygame.Rect((pos1[0] - (pos1[0]) % 64), (pos1[1]-pos1[1]%64), 64, 64))
   
+
   time.sleep(0.2)
   pygame.draw.rect(screen, pygame.Color('purple'), pygame.Rect((pos2[0] - (pos2[0]) % 64), (pos2[1]-pos2[1]%64), 64, 64))
   drawpieces(board)
