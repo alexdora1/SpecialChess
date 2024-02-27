@@ -90,9 +90,26 @@ for i in range(0, 80):
     Pieces[i] = Piece('r', pieces_names[(i-27)], ('assets/Red_' + pieces_names[i-27]+'.png'), ((64*(i-27), 64*8)))
 
 #Fixing an oopsie
+def islegal(ex_board, pos1, pos2):
+  for i in ex_board:
+    if i.loc == (pos1[0], pos1[1]):
+      if i.type == 'Pawn':
+        if i.team == 'r':
+          if ((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) >= (-128)) and (pos2[1] - pos1[1] < 0)):
+            return True
+          for c in ex_board: 
+            if ((pos1[0] - pos2[0] == 0) and (pos2[1] - pos1[1]) >= (128) and pos2[1] - pos1[1] > 0):
+              ex_board.pop(c)
+              return True
+        elif i.team == 'g':
+          if ((pos1[0] - pos2[0] == 0) and (pos1[1] - pos2[1]) >= (-128) and pos1[1] - pos2[1] < 0):
+            return True
+          for c in ex_board: 
+            if c.team == ('r') and c.loc == (pos2[0], pos2[1]) and (c.loc[0] - pos2[0] == (-64) or c.loc[0] - pos2[0] == 64) and (pos2[1] - pos1[1] == (-64)):
+              ex_board.pop(c)
+              return True 
+      
 
-
-print(rK.image)
 #putting board into the game
 def drawpieces(ex_board):
   for i in ex_board:
@@ -125,20 +142,18 @@ while running:
     elif event.type == pygame.MOUSEBUTTONDOWN:
       if pos1 == [-1,-1]:
         pos1 = pygame.mouse.get_pos()
+        pos1 = [(pos1[0] - (int(pos1[0]) % 64)), pos1[1] - pos1[1] % 64]
+        
         pos2 = [-1,-1]
       elif pos1 != [-1, -1]:
         pos2 = pygame.mouse.get_pos()
-        #Theoretically: move the chess piece 
-        for i in Pieces:
-          if i.loc == ((pos1[0] - pos1[0] % 64), (pos1[1]-pos1[1] % 64)):
-            pygame.draw.rect(screen, pygame.Color('blue'), pygame.Rect((pos1[0] - ((pos1[0]) % 64)), (pos1[1]-(pos1[1]%64)), 64, 64))
+        pos2 = [(pos2[0] - pos2[0] % 64), (pos2[1] - pos2[1] % 64)] 
+      
 
-            time.sleep(1)
-            print(i.loc) 
-            print("initial")
-            time.sleep(0.2)
-            i.loc = ((pos2[0]-(pos2[0])% 64), (pos2[1] - (pos2[1])%64))
-            print(i.loc)
+        for i in Pieces:
+          if (i.loc == (pos1[0], pos1[1])) and islegal(Pieces, pos1, pos2):
+            pygame.draw.rect(screen, pygame.Color('blue'), pygame.Rect((pos1[0] - ((pos1[0]) % 64)), (pos1[1]-(pos1[1]%64)), 64, 64))
+            i.loc = (pos2[0], pos2[1])
             pygame.draw.rect(screen, pygame.Color('purple'), pygame.Rect((pos2[0] - (pos2[0]) % 64), (pos2[1]-pos2[1]%64), 64, 64))
             drawpieces(Pieces)
         
