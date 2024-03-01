@@ -11,6 +11,7 @@ class Piece:
         self.team = team
         self.type = type
         self.image = image
+        
         self.loc = loc
 
 #Assiging places 
@@ -80,8 +81,12 @@ i = []
 
 #putting pieces in board with for loop. '_' is an unoccupied space
 for i in range(0, 80):
+  
+  
+    
   if i < 9:
-    Pieces[i] = Piece("g", pieces_names[i],('assets/Green_' + pieces_names[i]+ '.png'), ((64*i), 0))
+    
+    Pieces[i] = Piece("g", pieces_names[i],('assets/'+'Green_' + pieces_names[i]+ '.png'), ((64*i), 0))
   elif 8 < i < 18:
    Pieces[i] = Piece("g", 'Pawn',('assets/Green_Pawn.png'), ((64*(i-9), 64)))
   elif 17 < i  < 27:
@@ -96,7 +101,10 @@ print(rK.image)
 #putting board into the game
 def drawpieces(ex_board):
   for i in ex_board:
-    screen.blit(pygame.image.load(i.image), (i.loc))
+    
+    image2=pygame.image.load(i.image)
+    image3 = pygame.transform.scale(image2, (64,64))
+    screen.blit(image3, (i.loc))
 
 
 pygame.display.flip()
@@ -133,10 +141,10 @@ while running:
           if i.loc == ((pos1[0] - pos1[0] % 64), (pos1[1]-pos1[1] % 64)):
             pygame.draw.rect(screen, pygame.Color('blue'), pygame.Rect((pos1[0] - ((pos1[0]) % 64)), (pos1[1]-(pos1[1]%64)), 64, 64))
 
-            time.sleep(1)
+            
             print(i.loc) 
             print("initial")
-            time.sleep(0.2)
+            
             i.loc = ((pos2[0]-(pos2[0])% 64), (pos2[1] - (pos2[1])%64))
             print(i.loc)
             pygame.draw.rect(screen, pygame.Color('purple'), pygame.Rect((pos2[0] - (pos2[0]) % 64), (pos2[1]-pos2[1]%64), 64, 64))
