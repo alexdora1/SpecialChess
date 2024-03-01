@@ -13,6 +13,36 @@ class Piece:
         self.image = image
         self.loc = loc
 
+class Rook(Piece):
+  def islegal():
+    print("UwU")
+
+class Pawn(Piece):
+  def islegal(self, ex_board, pos1, pos2):    
+    if self.loc == pos1:                  
+      if self.team == 'r':
+        if pos1[1] == 64:
+          if ((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) >= (-128)) and (pos2[1] - pos1[1] < 0)):
+            return True
+        if ((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) >= (-64)) and (pos2[1] - pos1[1] < 0)):
+          return True
+        for c in ex_board: 
+          if ((pos1[0] - pos2[0] == 0) and (pos2[1] - pos1[1]) >= (128) and pos2[1] - pos1[1] > 0):
+            ex_board.pop(c)
+            return True
+      elif self.team == 'g':
+        if ((pos1[0] - pos2[0] == 0) and (pos1[1] - pos2[1]) >= (-128) and pos1[1] - pos2[1] < 0):
+          return True
+        for c in ex_board: 
+          if c.team == ('r') and c.loc == (pos2[0], pos2[1]) and (c.loc[0] - pos2[0] == (-64) or c.loc[0] - pos2[0] == 64) and (pos2[1] - pos1[1] == (-64)):
+            ex_board.pop(c)
+            return True 
+    else:
+      return False
+
+
+        
+
 #Assiging places 
         
 gR1 = Piece('', '', '', (0,0))
@@ -24,24 +54,24 @@ gQ = Piece('', '', '', (0,0))
 gB2= Piece('', '', '', (0,0))
 gN2 = Piece('', '', '', (0,0))
 gR2 = Piece('', '', '', (0,0))
-gP1 = Piece('', '', '', (0,0))
-gP2 = Piece('', '', '', (0,0))
-gP3 = Piece('', '', '', (0,0))
-gP4 = Piece('', '', '', (0,0))
-gP5 = Piece('', '', '', (0,0))
-gP6 = Piece('', '', '', (0,0))
-gP7 = Piece('', '', '', (0,0))
-gP8 = Piece('', '', '', (0,0))
-gP9 = Piece('', '', '', (0,0))
-rP1 = Piece('', '', '', (0,0))
-rP2 = Piece('', '', '', (0,0))
-rP3 = Piece('', '', '', (0,0))
-rP4 = Piece('', '', '', (0,0))
-rP5 = Piece('', '', '', (0,0))
-rP6 = Piece('', '', '', (0,0))
-rP7 = Piece('', '', '', (0,0))
-rP8 = Piece('', '', '', (0,0))
-rP9 = Piece('', '', '', (0,0))
+gP1 = Pawn('', '', '', (0,0))
+gP2 = Pawn('', '', '', (0,0))
+gP3 = Pawn('', '', '', (0,0))
+gP4 = Pawn('', '', '', (0,0))
+gP5 = Pawn('', '', '', (0,0))
+gP6 = Pawn('', '', '', (0,0))
+gP7 = Pawn('', '', '', (0,0))
+gP8 = Pawn('', '', '', (0,0))
+gP9 = Pawn('', '', '', (0,0))
+rP1 = Pawn('', '', '', (0,0))
+rP2 = Pawn('', '', '', (0,0))
+rP3 = Pawn('', '', '', (0,0))
+rP4 = Pawn('', '', '', (0,0))
+rP5 = Pawn('', '', '', (0,0))
+rP6 = Pawn('', '', '', (0,0))
+rP7 = Pawn('', '', '', (0,0))
+rP8 = Pawn('', '', '', (0,0))
+rP9 = Pawn('', '', '', (0,0))
 rR1 = Piece('', '', '', (0,0))
 rB1 = Piece('', '', '', (0,0))
 rN1 = Piece('', '', '', (0,0))
@@ -83,39 +113,20 @@ for i in range(0, 80):
   if i < 9:
     Pieces[i] = Piece("g", pieces_names[i],('assets/Green_' + pieces_names[i]+ '.png'), ((64*i), 0))
   elif 8 < i < 18:
-   Pieces[i] = Piece("g", 'Pawn',('assets/Green_Pawn.png'), ((64*(i-9), 64)))
+   Pieces[i] = Pawn("g", 'Pawn',('assets/Green_Pawn.png'), ((64*(i-9), 64)))
   elif 17 < i  < 27:
-    Pieces[i] = Piece('r', 'Pawn', ('assets/Red_Pawn.png'), ((64*(i-18)), 64*7))
+    Pieces[i] = Pawn('r', 'Pawn', ('assets/Red_Pawn.png'), ((64*(i-18)), 64*7))
   elif 26 < i < 36:
     Pieces[i] = Piece('r', pieces_names[(i-27)], ('assets/Red_' + pieces_names[i-27]+'.png'), ((64*(i-27), 64*8)))
 
-#Fixing an oopsie
-def islegal(ex_board, pos1, pos2):
-  for i in ex_board:
-    if i.loc == (pos1[0], pos1[1]):
-      if i.type == 'Pawn':
-        if i.team == 'r':
-          if ((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) >= (-128)) and (pos2[1] - pos1[1] < 0)):
-            return True
-          for c in ex_board: 
-            if ((pos1[0] - pos2[0] == 0) and (pos2[1] - pos1[1]) >= (128) and pos2[1] - pos1[1] > 0):
-              ex_board.pop(c)
-              return True
-        elif i.team == 'g':
-          if ((pos1[0] - pos2[0] == 0) and (pos1[1] - pos2[1]) >= (-128) and pos1[1] - pos2[1] < 0):
-            return True
-          for c in ex_board: 
-            if c.team == ('r') and c.loc == (pos2[0], pos2[1]) and (c.loc[0] - pos2[0] == (-64) or c.loc[0] - pos2[0] == 64) and (pos2[1] - pos1[1] == (-64)):
-              ex_board.pop(c)
-              return True 
-      
+
 
 #putting board into the game
 def drawpieces(ex_board):
   for i in ex_board:
     screen.blit(pygame.image.load(i.image), (i.loc))
 
-
+move = 0
 pygame.display.flip()
 
 #Assigning positions for the mouse clicks using placeholder values (-1,-1) cannot be clicked
@@ -151,11 +162,18 @@ while running:
       
 
         for i in Pieces:
-          if (i.loc == (pos1[0], pos1[1])) and islegal(Pieces, pos1, pos2):
-            pygame.draw.rect(screen, pygame.Color('blue'), pygame.Rect((pos1[0] - ((pos1[0]) % 64)), (pos1[1]-(pos1[1]%64)), 64, 64))
-            i.loc = (pos2[0], pos2[1])
-            pygame.draw.rect(screen, pygame.Color('purple'), pygame.Rect((pos2[0] - (pos2[0]) % 64), (pos2[1]-pos2[1]%64), 64, 64))
-            drawpieces(Pieces)
+          if isinstance(i, Pawn):
+            if (i.loc == (pos1[0], pos1[1])) and i.islegal(Pieces, pos1, pos2):
+              pygame.draw.rect(screen, pygame.Color('blue'), pygame.Rect((pos1[0] - ((pos1[0]) % 64)), (pos1[1]-(pos1[1]%64)), 64, 64))
+              i.loc = (pos2[0], pos2[1])
+              pygame.draw.rect(screen, pygame.Color('purple'), pygame.Rect((pos2[0] - (pos2[0]) % 64), (pos2[1]-pos2[1]%64), 64, 64))
+              drawpieces(Pieces)
+          elif isinstance(i, Piece):
+            if (i.loc == (pos1[0], pos1[1])):
+              pygame.draw.rect(screen, pygame.Color('blue'), pygame.Rect((pos1[0] - ((pos1[0]) % 64)), (pos1[1]-(pos1[1]%64)), 64, 64))
+              i.loc = (pos2[0], pos2[1])
+              pygame.draw.rect(screen, pygame.Color('purple'), pygame.Rect((pos2[0] - (pos2[0]) % 64), (pos2[1]-pos2[1]%64), 64, 64))
+              drawpieces(Pieces)
         
         pos1 = [-1,-1]
   
