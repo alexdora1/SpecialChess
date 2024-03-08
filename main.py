@@ -11,8 +11,50 @@ class Piece:
         self.team = team
         self.type = type
         self.image = image
-        
         self.loc = loc
+
+class Rook(Piece):
+  def islegal(self, ex_board, pos1, pos2):
+    return True
+
+class Pawn(Piece):
+  def islegal(self, ex_board, pos1, pos2):
+    print(pos1)
+    print(pos2)
+    print(pos2[1] - pos1[1])                  
+    if self.team == 'g':
+      if pos1[1] == 64:
+        #this is the only part that works
+        if ((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) == (128)) and (pos2[1] - pos1[1] > 0)):
+          return True
+        elif ((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) == (64)) and (pos2[1] - pos1[1] > 0)):
+          return True
+      else:
+        if((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) == (64)) and (pos2[1] - pos1[1] > 0)):
+          return True
+        elif (((pos1[0] - pos2[0] == 64) or (pos1[0] - pos2[0] == (-64))) and (pos2[1] - pos1[1]) == (64) and pos2[1] - pos1[1] > 0):
+            for c in ex_board:
+              if c.loc == (pos2[0], pos2[1]):
+                ex_board.pop((ex_board.index(c)))
+                return True
+    else:
+      if pos1[1] == 448:
+        #this is the only part that works
+        if ((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) == (-128)) and (pos2[1] - pos1[1] < 0)):
+          return True
+        elif ((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) == (-64)) and (pos2[1] - pos1[1] < 0)):
+          return True
+      else:
+        if((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) == (-64)) and (pos2[1] - pos1[1] < 0)):
+          return True
+        elif (((pos1[0] - pos2[0] == 64) or (pos1[0] - pos2[0] == (-64))) and (pos2[1] - pos1[1]) == (-64) and pos2[1] - pos1[1] < 0):
+            for c in ex_board:
+              if c.loc == (pos2[0], pos2[1]):
+                ex_board.pop((ex_board.index(c)))
+                return True
+    return False
+
+        
 
 #Assiging places 
         
@@ -25,24 +67,24 @@ gQ = Piece('', '', '', (0,0))
 gB2= Piece('', '', '', (0,0))
 gN2 = Piece('', '', '', (0,0))
 gR2 = Piece('', '', '', (0,0))
-gP1 = Piece('', '', '', (0,0))
-gP2 = Piece('', '', '', (0,0))
-gP3 = Piece('', '', '', (0,0))
-gP4 = Piece('', '', '', (0,0))
-gP5 = Piece('', '', '', (0,0))
-gP6 = Piece('', '', '', (0,0))
-gP7 = Piece('', '', '', (0,0))
-gP8 = Piece('', '', '', (0,0))
-gP9 = Piece('', '', '', (0,0))
-rP1 = Piece('', '', '', (0,0))
-rP2 = Piece('', '', '', (0,0))
-rP3 = Piece('', '', '', (0,0))
-rP4 = Piece('', '', '', (0,0))
-rP5 = Piece('', '', '', (0,0))
-rP6 = Piece('', '', '', (0,0))
-rP7 = Piece('', '', '', (0,0))
-rP8 = Piece('', '', '', (0,0))
-rP9 = Piece('', '', '', (0,0))
+gP1 = Pawn('', '', '', (0,0))
+gP2 = Pawn('', '', '', (0,0))
+gP3 = Pawn('', '', '', (0,0))
+gP4 = Pawn('', '', '', (0,0))
+gP5 = Pawn('', '', '', (0,0))
+gP6 = Pawn('', '', '', (0,0))
+gP7 = Pawn('', '', '', (0,0))
+gP8 = Pawn('', '', '', (0,0))
+gP9 = Pawn('', '', '', (0,0))
+rP1 = Pawn('', '', '', (0,0))
+rP2 = Pawn('', '', '', (0,0))
+rP3 = Pawn('', '', '', (0,0))
+rP4 = Pawn('', '', '', (0,0))
+rP5 = Pawn('', '', '', (0,0))
+rP6 = Pawn('', '', '', (0,0))
+rP7 = Pawn('', '', '', (0,0))
+rP8 = Pawn('', '', '', (0,0))
+rP9 = Pawn('', '', '', (0,0))
 rR1 = Piece('', '', '', (0,0))
 rB1 = Piece('', '', '', (0,0))
 rN1 = Piece('', '', '', (0,0))
@@ -81,32 +123,27 @@ i = []
 
 #putting pieces in board with for loop. '_' is an unoccupied space
 for i in range(0, 80):
-  
-  
-    
   if i < 9:
-    
-    Pieces[i] = Piece("g", pieces_names[i],('assets/'+'Green_' + pieces_names[i]+ '.png'), ((64*i), 0))
+    Pieces[i] = Piece("g", pieces_names[i],('assets/Green_' + pieces_names[i]+ '.png'), ((64*i), 0))
   elif 8 < i < 18:
-   Pieces[i] = Piece("g", 'Pawn',('assets/Green_Pawn.png'), ((64*(i-9), 64)))
+   Pieces[i] = Pawn("g", 'Pawn',('assets/Green_Pawn.png'), ((64*(i-9), 64)))
   elif 17 < i  < 27:
-    Pieces[i] = Piece('r', 'Pawn', ('assets/Red_Pawn.png'), ((64*(i-18)), 64*7))
+    Pieces[i] = Pawn('r', 'Pawn', ('assets/Red_Pawn.png'), ((64*(i-18)), 64*7))
   elif 26 < i < 36:
     Pieces[i] = Piece('r', pieces_names[(i-27)], ('assets/Red_' + pieces_names[i-27]+'.png'), ((64*(i-27), 64*8)))
 
-#Fixing an oopsie
 
 
-print(rK.image)
 #putting board into the game
 def drawpieces(ex_board):
-  for i in ex_board:
-    
-    image2=pygame.image.load(i.image)
-    image3 = pygame.transform.scale(image2, (64,64))
-    screen.blit(image3, (i.loc))
+ for i in ex_board:
+  
+   image2=pygame.image.load(i.image)
+   image3 = pygame.transform.scale(image2, (64,64))
+   screen.blit(image3, (i.loc))
 
 
+move = 0
 pygame.display.flip()
 
 #Assigning positions for the mouse clicks using placeholder values (-1,-1) cannot be clicked
@@ -133,22 +170,28 @@ while running:
     elif event.type == pygame.MOUSEBUTTONDOWN:
       if pos1 == [-1,-1]:
         pos1 = pygame.mouse.get_pos()
+        pos1 = [(pos1[0] - (int(pos1[0]) % 64)), pos1[1] - pos1[1] % 64]
+        
         pos2 = [-1,-1]
       elif pos1 != [-1, -1]:
         pos2 = pygame.mouse.get_pos()
-        #Theoretically: move the chess piece 
-        for i in Pieces:
-          if i.loc == ((pos1[0] - pos1[0] % 64), (pos1[1]-pos1[1] % 64)):
-            pygame.draw.rect(screen, pygame.Color('blue'), pygame.Rect((pos1[0] - ((pos1[0]) % 64)), (pos1[1]-(pos1[1]%64)), 64, 64))
+        pos2 = [(pos2[0] - pos2[0] % 64), (pos2[1] - pos2[1] % 64)] 
+      
 
-            
-            print(i.loc) 
-            print("initial")
-            
-            i.loc = ((pos2[0]-(pos2[0])% 64), (pos2[1] - (pos2[1])%64))
-            print(i.loc)
-            pygame.draw.rect(screen, pygame.Color('purple'), pygame.Rect((pos2[0] - (pos2[0]) % 64), (pos2[1]-pos2[1]%64), 64, 64))
-            drawpieces(Pieces)
+        for i in Pieces:
+          if isinstance(i, Pawn) or isinstance(i, Rook):
+            if (i.loc == (pos1[0], pos1[1])) and i.islegal(Pieces, pos1, pos2):
+              
+              pygame.draw.rect(screen, pygame.Color('blue'), pygame.Rect((pos1[0] - ((pos1[0]) % 64)), (pos1[1]-(pos1[1]%64)), 64, 64))
+              i.loc = (pos2[0], pos2[1])
+              pygame.draw.rect(screen, pygame.Color('purple'), pygame.Rect((pos2[0] - (pos2[0]) % 64), (pos2[1]-pos2[1]%64), 64, 64))
+              drawpieces(Pieces)
+          elif isinstance(i, Piece):
+            if (i.loc == (pos1[0], pos1[1])):
+              pygame.draw.rect(screen, pygame.Color('blue'), pygame.Rect((pos1[0] - ((pos1[0]) % 64)), (pos1[1]-(pos1[1]%64)), 64, 64))
+              i.loc = (pos2[0], pos2[1])
+              pygame.draw.rect(screen, pygame.Color('purple'), pygame.Rect((pos2[0] - (pos2[0]) % 64), (pos2[1]-pos2[1]%64), 64, 64))
+              drawpieces(Pieces)
         
         pos1 = [-1,-1]
   
