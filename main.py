@@ -30,10 +30,10 @@ class Pawn(Piece):
       else:
         if((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) == (64)) and (pos2[1] - pos1[1] > 0)):
           return True
-      for c in ex_board: 
-        if ((pos1[0] - pos2[0] == 0) and (pos2[1] - pos1[1]) == (128) and pos2[1] - pos1[1] > 0):
-          ex_board.pop(c)
-          return True
+        for c in ex_board: 
+          if ((pos1[0] - pos2[0] == 0) and (pos2[1] - pos1[1]) == (128) and pos2[1] - pos1[1] > 0):
+            ex_board.pop(c)
+            return True
     elif self.team == 'r':
       if ((pos1[0] - pos2[0] == 0) and (pos2[1] - pos1[1]) == (-64) and pos2[1] - pos2[1] < 0):
         return True
