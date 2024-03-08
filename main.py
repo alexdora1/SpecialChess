@@ -14,29 +14,36 @@ class Piece:
         self.loc = loc
 
 class Rook(Piece):
-  def islegal():
-    print("UwU")
+  def islegal(self, ex_board, pos1, pos2):
+    return True
 
 class Pawn(Piece):
-  def islegal(self, ex_board, pos1, pos2):    
-    if self.loc == pos1:                  
-      if self.team == 'r':
-        if pos1[1] == 64:
-          if ((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) >= (-128)) and (pos2[1] - pos1[1] < 0)):
-            return True
-        if ((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) >= (-64)) and (pos2[1] - pos1[1] < 0)):
+  def islegal(self, ex_board, pos1, pos2):
+    print(pos1)
+    print(pos2)
+    print(pos2[1] - pos1[1])                  
+    if self.team == 'g':
+      if pos1[1] == 64:
+        #this is the only part that works
+        if ((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) == (128)) and (pos2[1] - pos1[1] > 0)):
           return True
-        for c in ex_board: 
-          if ((pos1[0] - pos2[0] == 0) and (pos2[1] - pos1[1]) >= (128) and pos2[1] - pos1[1] > 0):
-            ex_board.pop(c)
-            return True
-      elif self.team == 'g':
-        if ((pos1[0] - pos2[0] == 0) and (pos1[1] - pos2[1]) >= (-128) and pos1[1] - pos2[1] < 0):
+      else:
+        if((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) == (64)) and (pos2[1] - pos1[1] > 0)):
           return True
-        for c in ex_board: 
-          if c.team == ('r') and c.loc == (pos2[0], pos2[1]) and (c.loc[0] - pos2[0] == (-64) or c.loc[0] - pos2[0] == 64) and (pos2[1] - pos1[1] == (-64)):
-            ex_board.pop(c)
-            return True 
+      for c in ex_board: 
+        if ((pos1[0] - pos2[0] == 0) and (pos2[1] - pos1[1]) == (128) and pos2[1] - pos1[1] > 0):
+          ex_board.pop(c)
+          return True
+    elif self.team == 'r':
+      if ((pos1[0] - pos2[0] == 0) and (pos2[1] - pos1[1]) == (-64) and pos2[1] - pos2[1] < 0):
+        return True
+      elif ((pos1[1] == (448))):
+        if ((pos1[0] - pos2[0] == 0) and (pos2[1] - pos1[1]) == (-128) and pos2[1] - pos1[1] < 0):
+          return True
+      for c in ex_board: 
+        if c.team == ('r') and c.loc == (pos2[0], pos2[1]) and (c.loc[0] - pos2[0] == (-64) or c.loc[0] - pos2[0] == 64) and (pos2[1] - pos1[1] == (-64)):
+          ex_board.pop(c)
+          return True 
     else:
       return False
 
@@ -162,8 +169,9 @@ while running:
       
 
         for i in Pieces:
-          if isinstance(i, Pawn):
+          if isinstance(i, Pawn) or isinstance(i, Rook):
             if (i.loc == (pos1[0], pos1[1])) and i.islegal(Pieces, pos1, pos2):
+              
               pygame.draw.rect(screen, pygame.Color('blue'), pygame.Rect((pos1[0] - ((pos1[0]) % 64)), (pos1[1]-(pos1[1]%64)), 64, 64))
               i.loc = (pos2[0], pos2[1])
               pygame.draw.rect(screen, pygame.Color('purple'), pygame.Rect((pos2[0] - (pos2[0]) % 64), (pos2[1]-pos2[1]%64), 64, 64))
