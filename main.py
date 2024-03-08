@@ -27,26 +27,32 @@ class Pawn(Piece):
         #this is the only part that works
         if ((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) == (128)) and (pos2[1] - pos1[1] > 0)):
           return True
+        elif ((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) == (64)) and (pos2[1] - pos1[1] > 0)):
+          return True
       else:
         if((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) == (64)) and (pos2[1] - pos1[1] > 0)):
           return True
-        for c in ex_board: 
-          if ((pos1[0] - pos2[0] == 0) and (pos2[1] - pos1[1]) == (128) and pos2[1] - pos1[1] > 0):
-            ex_board.pop(c)
-            return True
-    elif self.team == 'r':
-      if ((pos1[0] - pos2[0] == 0) and (pos2[1] - pos1[1]) == (-64) and pos2[1] - pos2[1] < 0):
-        return True
-      elif ((pos1[1] == (448))):
-        if ((pos1[0] - pos2[0] == 0) and (pos2[1] - pos1[1]) == (-128) and pos2[1] - pos1[1] < 0):
-          return True
-      for c in ex_board: 
-        if c.team == ('r') and c.loc == (pos2[0], pos2[1]) and (c.loc[0] - pos2[0] == (-64) or c.loc[0] - pos2[0] == 64) and (pos2[1] - pos1[1] == (-64)):
-          ex_board.pop(c)
-          return True 
+        elif (((pos1[0] - pos2[0] == 64) or (pos1[0] - pos2[0] == (-64))) and (pos2[1] - pos1[1]) == (64) and pos2[1] - pos1[1] > 0):
+            for c in ex_board:
+              if c.loc == (pos2[0], pos2[1]):
+                ex_board.pop((ex_board.index(c)))
+                return True
     else:
-      return False
-
+      if pos1[1] == 448:
+        #this is the only part that works
+        if ((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) == (-128)) and (pos2[1] - pos1[1] < 0)):
+          return True
+        elif ((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) == (-64)) and (pos2[1] - pos1[1] < 0)):
+          return True
+      else:
+        if((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) == (-64)) and (pos2[1] - pos1[1] < 0)):
+          return True
+        elif (((pos1[0] - pos2[0] == 64) or (pos1[0] - pos2[0] == (-64))) and (pos2[1] - pos1[1]) == (-64) and pos2[1] - pos1[1] < 0):
+            for c in ex_board:
+              if c.loc == (pos2[0], pos2[1]):
+                ex_board.pop((ex_board.index(c)))
+                return True
+    return False
 
         
 
