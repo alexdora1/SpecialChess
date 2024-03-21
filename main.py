@@ -18,167 +18,252 @@ class Piece:
 
 
 class Rook(Piece):
-    def islegal(self, ex_board, pos1, pos2): 
-        
-      if self.team == 'r':       
-        #sees if the move is legal
-        if(pos1[0] < pos2[0]) and (pos2[1] == pos1[1]):
-          # finds pieces
-          i = pos1[0]
-          while i != pos2[0]: 
-            for c in ex_board:
-                if c.loc == (i, pos2[1]):
-                  return False
-            i += 64
-          for c in ex_board:
-              if c.loc == (pos2[0], pos2[1]) and c.team == 'g':
-                ex_board.pop((ex_board.index(c)))
-                return True
-              elif c.loc == (pos2[0], pos2[1]) and c.team == 'r':
-                return False
-          return True
-        elif(((pos1[0] > pos2[0]))) and ((pos2[1] == pos1[1])):
-          i = pos1[0]
-          while i != pos2[1]: 
-            for c in ex_board:
-                if c.loc == (i, pos2[1]):
-                  return False
-            i -= 64
-          for c in ex_board:
-              if c.loc == (pos2[0], pos2[1]) and c.team == 'g':
-                ex_board.pop((ex_board.index(c)))
-                return True
-              elif c.loc == (pos2[0], pos2[1]) and c.team == 'r':
-                return False
-          return True
-        
-        elif((pos1[0] == pos2[0])) and (pos1[1] > pos2[1]):
-          i = pos1[1]
-          while i != pos2[1]: 
-            for c in ex_board:
-                if c.loc == (i, pos2[1]):
-                  return False
-            i -= 64
-          for c in ex_board:
-              if c.loc == (pos2[0], pos2[1]) and c.team == 'g':
-                ex_board.pop((ex_board.index(c)))
-                return True
-              elif c.loc == (pos2[0], pos2[1]) and c.team == 'r':
-                return False
-          return True
-        elif((pos1[0] == pos2[0])) and (pos1[1] < pos2[1]):
-          i = pos1[1]
-          while i != pos2[1]: 
-            for c in ex_board:
-                if c.loc == (i, pos2[1]):
-                  return False
-            i += 64
-          for c in ex_board:
-              if c.loc == (pos2[0], pos2[1]) and c.team == 'g':
-                ex_board.pop((ex_board.index(c)))
-                return True
-              elif c.loc == (pos2[0], pos2[1]) and c.team == 'r':
-                return False
-          return True
-      else:
-        if(pos1[0] < pos2[0]) and (pos2[1] - pos1[1] == (0)):
-          # finds pieces
-          i = pos1[0]
-          while i != pos2[0]: 
-            for c in ex_board:
-                if c.loc == (i, pos2[1]):
-                  return False
-            i += 64
-          for c in ex_board:
-              if c.loc == (pos2[0], pos2[1]) and c.team == 'r':
-                ex_board.pop((ex_board.index(c)))
-                return True
-              elif c.loc == (pos2[0], pos2[1]) and c.team == 'g':
-                return False
-          return True
-        elif(((pos1[0] > pos2[0]))) and ((pos2[1] == pos1[1])):
-          i = pos1[0]
-          while i != pos2[1]: 
-            for c in ex_board:
-                if c.loc == (i, pos2[1]):
-                  return False
-            i -= 64
-          for c in ex_board:
-              if c.loc == (pos2[0], pos2[1]) and c.team == 'r':
-                ex_board.pop((ex_board.index(c)))
-                return True
-              elif c.loc == (pos2[0], pos2[1]) and c.team == 'g':
-                return False
-          return True
-        
-        elif((pos1[0] == pos2[0])) and (pos1[1] > pos2[1]):
-          i = pos1[1]
-          while i != pos2[1]: 
-            for c in ex_board:
-                if c.loc == (i, pos2[1]):
-                  return False
-            i -= 64
-          for c in ex_board:
-              if c.loc == (pos2[0], pos2[1]) and c.team == 'r':
-                ex_board.pop((ex_board.index(c)))
-                return True
-              elif c.loc == (pos2[0], pos2[1]) and c.team == 'g':
-                return False
-          return True
-        elif((pos1[0] == pos2[0])) and (pos1[1] < pos2[1]):
-          i = pos1[1]
-          while i != pos2[1]: 
-            for c in ex_board:
-                if c.loc == (i, pos2[1]):
-                  return False
-            i += 64
-          for c in ex_board:
-              if c.loc == (pos2[0], pos2[1]) and c.team == 'r':
-                ex_board.pop((ex_board.index(c)))
-                return True
-              elif c.loc == (pos2[0], pos2[1]) and c.team == 'g':
-                return False
-          return True          
+    def islegal(self, ex_board, pos1, pos2):         
+      if(pos1[0] < pos2[0]) and (pos2[1] == pos1[1]):
+        # finds pieces                         
+        for c in ex_board:
+            if c.loc[1] == pos2[1] and pos1[0] < c.loc[0] < pos2[0]:
+              return False
+        for c in ex_board:
+          if c.loc == (pos2[0], pos2[1]):
+            if c.team == self.team:
+              return False
+            else:
+              ex_board.pop(ex_board.index(c))
+              return True
+        return True
+      elif(pos2[0] < pos1[0]) and (pos2[1] == pos1[1]):
+        # finds pieces                 
+        for c in ex_board:
+            if (c.loc[1] == pos2[1]) and (pos1[0] > c.loc[0] > pos2[0]):
+              return False
+        for c in ex_board:
+          if c.loc == (pos2[0], pos2[1]):
+            if c.team == self.team:
+              return False
+            else:
+              ex_board.pop(ex_board.index(c))
+              return True
+        return True
+      elif(pos1[0] == pos2[0]) and (pos2[1] > pos1[1]):
+        # finds pieces                     
+        for c in ex_board:
+            if c.loc[0] == pos2[0] and pos1[1] < c.loc[1] < pos2[1]:
+              return False
+        for c in ex_board:
+          if c.loc == (pos2[0], pos2[1]):
+            if c.team == self.team:
+              return False
+            else:
+              ex_board.pop(ex_board.index(c))
+              return True
+        return True
+      elif(pos1[0] == pos2[0]) and (pos2[1] < pos1[1]):
+        # finds pieces                     
+        for c in ex_board:
+            if c.loc[0] == pos2[0] and pos1[1] > c.loc[1] > pos2[1]:
+              return False
+        for c in ex_board:
+          if c.loc == (pos2[0], pos2[1]):
+            if c.team == self.team:
+              return False
+            else:
+              ex_board.pop(ex_board.index(c))
+              return True
+        return True 
+      return False      
+
 class Knight(Piece):
     def islegal(self, ex_board, pos1, pos2):   
-      return True
+      if((pos1[0] + 128 == pos2[0] or pos1[0] - 128 == pos2[0]) and (pos1[1] - 64 == pos2[1] or pos1[1] + 64 == pos2[1])) or ((pos1[1] + 128 == pos2[1] or pos1[1] - 128 == pos2[1]) and (pos1[0] - 64 == pos2[0] or pos1[0] + 64 == pos2[0])):
+        for i in ex_board:
+          if i.loc == (pos2[0], pos2[1]):
+            if i.team == self.team:
+              return False
+            else:
+              ex_board.pop(ex_board.index(i))
+              return True
+
+        return True
+      return False
     
-class Bishop(Piece):
+class Boat(Piece):
     def islegal(self, ex_board, pos1, pos2):   
-      return True
+      if abs(pos2[0] - pos1[0]) == abs(pos2[1] - pos1[1]) and pos2[0] != pos1[0]:
+        if pos1[0] > pos2[0] and pos1[1] > pos2[1]:
+          x = pos1[0]
+          z = pos1[1]
+          while x != pos2[0]:
+            for c in ex_board:
+              if c.loc == (x,z) and c.loc != self.loc:
+                return False
+            x -= 64
+            z -= 64
+        elif pos1[0] < pos2[0] and pos1[1] > pos2[1]:
+          x = pos1[0]
+          z = pos1[1]
+          while x != pos2[0]:
+            for c in ex_board:
+              if c.loc == (x,z) and c.loc != self.loc:
+                return False
+            x += 64
+            z -= 64
+        elif pos1[0] > pos2[0] and pos1[1] < pos2[1]:
+          x = pos1[0]
+          z = pos1[1]
+          while x != pos2[0]:
+            for c in ex_board:
+              if c.loc == (x,z) and c.loc != self.loc:
+                return False
+            x -= 64
+            z += 64
+        elif pos1[0] < pos2[0] and pos1[1] < pos2[1]:
+          x = pos1[0]
+          z = pos1[1]
+          while x != pos2[0]:
+            for c in ex_board:
+              if c.loc == (x,z) and c.loc != self.loc:
+                return False
+            x += 64
+            z += 64
+        for c in ex_board:
+          if c.loc == (pos2[0], pos2[1]):
+            if c.team == self.team:
+              return False
+            else:
+              ex_board.pop(ex_board.index(c))
+              return True
+        return True
+      return False
+
 
 class King(Piece):
-    def islegal(self, ex_board, pos1, pos2):   
-      return True
+    def islegal(self, ex_board, pos1, pos2):
+      if(abs(abs(pos1[0]) - abs(pos2[0])) == 64 or pos1[0] - pos2[0] == 0) and (abs(abs(pos1[1]) - abs(pos2[1])) == 64 or pos1[1] - pos2[1] == 0) and pos1 != pos2:
+        for c in ex_board:
+          if c.loc == (pos2[0], pos2[1]):
+            if c.team == self.team:
+              return False
+            else:
+              ex_board.pop(ex_board.index(c))
+              return True
+        return True
+      return False
 
 class Queen(Piece):
-    def islegal(self, ex_board, pos1, pos2):   
-      return True
+    def islegal(self, ex_board, pos1, pos2):             
+      if abs(pos2[0] - pos1[0]) == abs(pos2[1] - pos1[1]) and pos2[0] != pos1[0]:
+        if pos1[0] > pos2[0] and pos1[1] > pos2[1]:
+          x = pos1[0]
+          z = pos1[1]
+          while x != pos2[0]:
+            for c in ex_board:
+              if c.loc == (x,z) and c.loc != self.loc:
+                return False
+            x -= 64
+            z -= 64
+        elif pos1[0] < pos2[0] and pos1[1] > pos2[1]:
+          x = pos1[0]
+          z = pos1[1]
+          while x != pos2[0]:
+            for c in ex_board:
+              if c.loc == (x,z) and c.loc != self.loc:
+                return False
+            x += 64
+            z -= 64
+        elif pos1[0] > pos2[0] and pos1[1] < pos2[1]:
+          x = pos1[0]
+          z = pos1[1]
+          while x != pos2[0]:
+            for c in ex_board:
+              if c.loc == (x,z) and c.loc != self.loc:
+                return False
+            x -= 64
+            z += 64
+        elif pos1[0] < pos2[0] and pos1[1] < pos2[1]:
+          x = pos1[0]
+          z = pos1[1]
+          while x != pos2[0]:
+            for c in ex_board:
+              if c.loc == (x,z) and c.loc != self.loc:
+                return False
+            x += 64
+            z += 64
+        for c in ex_board:
+          if c.loc == (pos2[0], pos2[1]):
+            if c.team == self.team:
+              return False
+            else:
+              ex_board.pop(ex_board.index(c))
+              return True
+        return True
+      elif(pos1[0] < pos2[0]) and (pos2[1] == pos1[1]):
+        # finds pieces                         
+        for c in ex_board:
+            if c.loc[1] == pos2[1] and pos1[0] < c.loc[0] < pos2[0]:
+              return False
+        for c in ex_board:
+          if c.loc == (pos2[0], pos2[1]):
+            if c.team == self.team:
+              return False
+            else:
+              ex_board.pop(ex_board.index(c))
+              return True
+        return True
+      elif(pos2[0] < pos1[0]) and (pos2[1] == pos1[1]):
+        # finds pieces                 
+        for c in ex_board:
+            if (c.loc[1] == pos2[1]) and (pos1[0] > c.loc[0] > pos2[0]):
+              return False
+        for c in ex_board:
+          if c.loc == (pos2[0], pos2[1]):
+            if c.team == self.team:
+              return False
+            else:
+              ex_board.pop(ex_board.index(c))
+              return True
+        return True
+      elif(pos1[0] == pos2[0]) and (pos2[1] > pos1[1]):
+        # finds pieces                     
+        for c in ex_board:
+            if c.loc[0] == pos2[0] and pos1[1] < c.loc[1] < pos2[1]:
+              return False
+        for c in ex_board:
+          if c.loc == (pos2[0], pos2[1]):
+            if c.team == self.team:
+              return False
+            else:
+              ex_board.pop(ex_board.index(c))
+              return True
+        return True
+      elif(pos1[0] == pos2[0]) and (pos2[1] < pos1[1]):
+        # finds pieces                     
+        for c in ex_board:
+            if c.loc[0] == pos2[0] and pos1[1] > c.loc[1] > pos2[1]:
+              return False
+        for c in ex_board:
+          if c.loc == (pos2[0], pos2[1]):
+            if c.team == self.team:
+              return False
+            else:
+              ex_board.pop(ex_board.index(c))
+              return True
+        return True 
+      return False   
+
 
 class Elephant(Piece):
     def islegal(self, ex_board, pos1, pos2):   
-      print(abs(pos1[0] - pos2[0]))
-      print(abs(pos1[1] - pos2[1]))
-        
-      if self.team == 'r':       
-        if((abs(pos1[0] - pos2[0]) == 128)) and (abs((pos1[1] - pos2[1]) == (128))):
-          for c in ex_board:
-              if c.loc == (pos2[0], pos2[1]) and c.team == 'g':
+      if((abs(pos1[0] - pos2[0]) == 128) and (abs(pos2[1] - pos1[1]) == (128))):
+        for c in ex_board:
+            if c.loc == (pos2[0], pos2[1]):
+              if c.team != self.team:
                 ex_board.pop((ex_board.index(c)))
                 return True
-              elif c.loc == (pos2[0], pos2[1]) and c.team == 'r':
+              else:
                 return False
-          return True
 
-      else:
-        if((abs(pos1[0] - pos2[0]) == 128) and (abs(pos2[1] - pos1[1]) == (128))):
-          for c in ex_board:
-              if c.loc == (pos2[0], pos2[1]) and c.team == 'r':
-                ex_board.pop((ex_board.index(c)))
-                return True
-              elif c.loc == (pos2[0], pos2[1]) and c.team == 'g':
-                return False
-          return True
+        return True
       return False  
       
 
@@ -187,47 +272,45 @@ class Pawn(Piece):
   def islegal(self, ex_board, pos1, pos2):              
     if self.team == 'g':
       if pos1[1] == 64:
-        #this is the only part that works
         if ((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) == (128)) and (pos2[1] - pos1[1] > 0)):
+          for c in ex_board:
+            if c.loc == (pos1[0], 384):
+              return False
           return True
-        elif ((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) == (64)) and (pos2[1] - pos1[1] > 0)):
-          return True
-      else:
-        if((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) == (64)) and (pos2[1] - pos1[1] > 0)):
-          return True
-        elif (((pos1[0] - pos2[0] == 64) or (pos1[0] - pos2[0] == (-64))) and (pos2[1] - pos1[1]) == (64) and pos2[1] - pos1[1] > 0):
-            for c in ex_board:
-              if c.loc == (pos2[0], pos2[1]) and c.team == 'r':
-                ex_board.pop((ex_board.index(c)))
-                return True
+      if((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) == (64)) and (pos2[1] - pos1[1] > 0)):
+        return True
+      elif (((pos1[0] - pos2[0] == 64) or (pos1[0] - pos2[0] == (-64))) and (pos2[1] - pos1[1]) == (64) and pos2[1] - pos1[1] > 0):
+          for c in ex_board:
+            if c.loc == (pos2[0], pos2[1]) and c.team == 'r':
+              ex_board.pop((ex_board.index(c)))
+              return True
     else:
       if pos1[1] == 448:
         #this is the only part that works
         if ((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) == (-128)) and (pos2[1] - pos1[1] < 0)):
+          for c in ex_board:
+            if c.loc == (pos1[0], 384):
+              return False
           return True
-        elif ((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) == (-64)) and (pos2[1] - pos1[1] < 0)):
-          return True
-      else:
-        if((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) == (-64)) and (pos2[1] - pos1[1] < 0)):
-          return True
-        elif (((pos1[0] - pos2[0] == 64) or (pos1[0] - pos2[0] == (-64))) and (pos2[1] - pos1[1]) == (-64) and pos2[1] - pos1[1] < 0):
-            for c in ex_board:
-              if c.loc == (pos2[0], pos2[1]) and c.team == 'g':
-                ex_board.pop((ex_board.index(c)))
-                return True
+      if((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) == (-64)) and (pos2[1] - pos1[1] < 0)):
+        return True
+      elif (((pos1[0] - pos2[0] == 64) or (pos1[0] - pos2[0] == (-64))) and (pos2[1] - pos1[1]) == (-64) and pos2[1] - pos1[1] < 0):
+          for c in ex_board:
+            if c.loc == (pos2[0], pos2[1]) and c.team == 'g':
+              ex_board.pop((ex_board.index(c)))
+              return True
     return False
 
         
-
 #Assiging places 
         
 gR1 = Rook('', '', '', (0,0))
 gN1 = Knight('', '', '', (0,0))
-gB1 = Bishop('', '', '', (0,0))
+gB1 = Boat('', '', '', (0,0))
 gE = Elephant('', '', '', (0,0)) 
 gK = King('', '', '', (0,0))
 gQ = Queen('', '', '', (0,0))
-gB2= Bishop('', '', '', (0,0))
+gB2= Boat('', '', '', (0,0))
 gN2 = Knight('', '', '', (0,0))
 gR2 = Rook('', '', '', (0,0))
 gP1 = Pawn('', '', '', (0,0))
@@ -249,16 +332,16 @@ rP7 = Pawn('', '', '', (0,0))
 rP8 = Pawn('', '', '', (0,0))
 rP9 = Pawn('', '', '', (0,0))
 rR1 = Rook('', '', '', (0,0))
-rB1 = Bishop('', '', '', (0,0))
+rB1 = Boat('', '', '', (0,0))
 rN1 = Knight('', '', '', (0,0))
 rE = Elephant('', '', '', (0,0))
 rK = King('', '', '', (0,0))
 rQ = Queen('', '', '', (0,0))
-rB2 = Bishop('', '', '', (0,0))
+rB2 = Boat('', '', '', (0,0))
 rN2 = Knight('', '', '', (0,0))
 rR2 = Rook('', '', '', (0,0))
 
-Pieces = [gR1, gN1, gB1, gE, gK, gQ, gB2, gN2, gR2, gP1, gP2, gP3, gP4, gP5, gP6, gP7, gP8, gP9, rP1,rP2,rP3,rP4,rP5,rP6,rP7,rP8,rP9,rR1,rN1,rB1,rE,rK,rQ,rB2,rN2,rR2]
+Pieces = [gR1, gN1, gB1, gE, gK, gQ, gB2, gN2, gR2, gP1, gP2, gP3, gP4, gP5, gP6, gP7, gP8, gP9, rP1,rP2,rP3,rP4,rP5,rP6,rP7,rP8,rP9,rR1,rN1,rB1,rE,rQ,rK,rB2,rN2,rR2]
 def drawboard(screen):
   Piecewidth = 64 
   Pieceheight = 64
@@ -272,17 +355,6 @@ def drawboard(screen):
 
 
 pieces_names = ["Rook", "Knight", "Boat", "Elephant", "King", "Queen", "Boat", "Knight", "Rook"]
-
-#Creating Board
-a =[]
-b =[]
-c =[]
-d = [] 
-e = []
-f = []
-g = []
-h = []
-i = []
 
 #putting pieces in board with for loop. '_' is an unoccupied space
 for i in range(0, 80):
@@ -302,7 +374,16 @@ def drawpieces(ex_board):
   for i in ex_board:
     screen.blit(pygame.image.load(i.image), (i.loc))
 
+#creating the turn logic 
 move = 0
+def isturn(piece, turn):
+  if turn % 2 == 0 and piece.team == 'r':
+    return True
+  elif turn % 2 != 0 and piece.team == 'g':
+    return True
+  else:
+    return False
+
 pygame.display.flip()
 
 #Assigning positions for the mouse clicks using placeholder values (-1,-1) cannot be clicked
@@ -339,7 +420,8 @@ while running:
 
         for i in Pieces:
           if (i.loc == (pos1[0], pos1[1])):      
-            if i.islegal(Pieces, pos1, pos2):            
+            if i.islegal(Pieces, pos1, pos2) and isturn(i, move):
+              move += 1            
               pygame.draw.rect(screen, pygame.Color('blue'), pygame.Rect((pos1[0] - ((pos1[0]) % 64)), (pos1[1]-(pos1[1]%64)), 64, 64))
               i.loc = (pos2[0], pos2[1])
               pygame.draw.rect(screen, pygame.Color('purple'), pygame.Rect((pos2[0] - (pos2[0]) % 64), (pos2[1]-pos2[1]%64), 64, 64))
