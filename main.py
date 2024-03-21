@@ -255,13 +255,70 @@ class Queen(Piece):
 class Elephant(Piece):
     def islegal(self, ex_board, pos1, pos2):   
       if((abs(pos1[0] - pos2[0]) == 128) and (abs(pos2[1] - pos1[1]) == (128))):
-        for c in ex_board:
-            if c.loc == (pos2[0], pos2[1]):
-              if c.team != self.team:
-                ex_board.pop((ex_board.index(c)))
+        if pos1[0] > pos2[0] and pos1[1] > pos2[1]:
+          x = pos1[0]
+          z = pos1[1]
+          while x != pos2[0]:
+            for c in ex_board:
+              if c.loc == (x,z) and c.loc != self.loc:
+                c.image = 'Explosion.png'
+                drawpieces(ex_board)
+                time.sleep(.25)
+                ex_board.pop(c)
+                drawpieces(ex_board)
                 return True
-              else:
-                return False
+            x -= 64
+            z -= 64
+        elif pos1[0] < pos2[0] and pos1[1] > pos2[1]:
+          x = pos1[0]
+          z = pos1[1]
+          while x != pos2[0]:
+            for c in ex_board:
+              if c.loc == (x,z) and c.loc != self.loc:
+                c.image = 'Explosion.png'
+                drawpieces(ex_board)
+                time.sleep(.25)
+                ex_board.pop(c)
+                drawpieces(ex_board)
+                return True
+            x += 64
+            z -= 64
+        elif pos1[0] > pos2[0] and pos1[1] < pos2[1]:
+          x = pos1[0]
+          z = pos1[1]
+          while x != pos2[0]:
+            for c in ex_board:
+              if c.loc == (x,z) and c.loc != self.loc:
+                c.image = 'Explosion.png'
+                drawpieces(ex_board)
+                time.sleep(.25)              
+                ex_board.pop(c)
+                drawpieces(ex_board)
+                return True
+            x -= 64
+            z += 64
+        elif pos1[0] < pos2[0] and pos1[1] < pos2[1]:
+          x = pos1[0]
+          z = pos1[1]
+          while x != pos2[0]:
+            for c in ex_board:
+              if c.loc == (x,z) and c.loc != self.loc:
+                c.image = 'Explosion.png'
+                drawpieces(ex_board)
+                time.sleep(.25)
+                ex_board.pop(c)
+                drawpieces(ex_board)               
+                return True
+            x += 64
+            z += 64
+        for c in ex_board:
+              if c.loc == (x,z) and c.loc != self.loc:
+                c.image = 'Explosion.png'
+                drawpieces(ex_board)
+                time.sleep(.25)
+                ex_board.pop(c)
+                drawpieces(ex_board)               
+                return True
 
         return True
       return False  
@@ -420,7 +477,7 @@ while running:
 
         for i in Pieces:
           if (i.loc == (pos1[0], pos1[1])):      
-            if i.islegal(Pieces, pos1, pos2) and isturn(i, move):
+            if isturn(i, move) and i.islegal(Pieces, pos1, pos2):
               move += 1            
               pygame.draw.rect(screen, pygame.Color('blue'), pygame.Rect((pos1[0] - ((pos1[0]) % 64)), (pos1[1]-(pos1[1]%64)), 64, 64))
               i.loc = (pos2[0], pos2[1])
