@@ -24,6 +24,11 @@ class Network:
         except socket.error as e:
             print(e)
 
+class Pieces:
+    def __init__(self, image, loc):
+        self.image = image
+        self.loc = loc
+
 def drawboard(screen):
   colors=[pygame.Color('green'),pygame.Color('red')]
   for r in range(9):
@@ -36,12 +41,14 @@ def drawpieces(ex_board):
     screen.blit(pygame.image.load(i.image), (i.loc))
 
 
-pygame.display.flip()
+
 runner = True
 (width, height) = (575, 575)
 screen = pygame.display.set_mode((width, height))
-
+drawboard(screen)
 while runner:
+    pygame.display.flip()
+
     drawpieces(Pieces)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
