@@ -1,6 +1,8 @@
 import socket
 from _thread import *
 import sys
+from main import *
+from network import *
 
 #ip adress
 server = '192.168.1.205'
@@ -18,18 +20,27 @@ except socket.error as e:
 s.listen(2)
 print("Waiting for connection, server started")
 PosP = [(-1, -1), (-1, -1)]
-def threaded_client(conn):
-    conn.send(str.encode('Connected'))
-    reply = ''
+def threaded_client(conn, current_player):
+    conn.send(str.encode(sending))
+    reply = sending
     while True:
         try:
-            data = conn.recv(2048)
-            reply = data.decode('utf-8')
+
+            data = read_pos(conn.recv(2048).decode())
+
+            reply = data('utf-8')
 
             if not data:
                 print('disconnected')
                 break
             else:
+                if current_player == 1:
+                    PosP[0] = data
+                elif current_player == 2:
+                    PosP[1] = data
+                
+
+
                 print('Recieved:', reply)
                 print('sending', reply)
             #sending conn as byte object

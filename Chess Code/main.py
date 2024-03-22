@@ -427,9 +427,6 @@ rR2 = Rook('', '', '', (0,0))
 
 Pieces = [gR1, gN1, gB1, gE, gK, gQ, gB2, gN2, gR2, gP1, gP2, gP3, gP4, gP5, gP6, gP7, gP8, gP9, rP1,rP2,rP3,rP4,rP5,rP6,rP7,rP8,rP9,rR1,rN1,rB1,rE,rQ,rK,rB2,rN2,rR2]
 def drawboard(screen):
-  Piecewidth = 64 
-  Pieceheight = 64
-
   colors=[pygame.Color('green'),pygame.Color('red')]
   for r in range(9):
       for c in range(9):
@@ -478,6 +475,7 @@ pygame.display.flip()
 pos1 = [-1,-1]
 pos2 = [-1, -1]
 running = True
+
 while running:
   #sending is a variable with all of the pieces in toString format.
   sending = ''
