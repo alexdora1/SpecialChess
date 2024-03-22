@@ -1,7 +1,9 @@
 import pygame
 import time
-
+from network import Network
 #Adding a function to show the clicking
+
+print('hello world')
 
 (width, height) = (575, 575)
 screen = pygame.display.set_mode((width, height))
@@ -17,6 +19,9 @@ class Piece:
     def islegal(self, ex_board, pos1,pos2):
       print("We're in the piece")
       return True
+    #this is so that one can easily send the pieces
+    def toString(self):
+      return(self.image + '|' + str(self.loc) + '$' )
 
 
 class Rook(Piece):
@@ -452,6 +457,10 @@ for i in range(0, 80):
 def drawpieces(ex_board):
   for i in ex_board:
     screen.blit(pygame.image.load(i.image), (i.loc))
+#Getting tupple mouse click positions
+def read_pos(str):
+  str = str.split(',')
+  return(int(str[0]), int(str[1]))
 
 #creating the turn logic 
 move = 0
@@ -468,41 +477,39 @@ pygame.display.flip()
 #Assigning positions for the mouse clicks using placeholder values (-1,-1) cannot be clicked
 pos1 = [-1,-1]
 pos2 = [-1, -1]
-
 running = True
 while running:
+  #sending is a variable with all of the pieces in toString format.
+  sending = ''
+  for i in Pieces:
+    sending+= i.toString()
+  n = Network()
+  n.send(sending)
   drawboard(screen)
   drawpieces(Pieces)
-
-  #We're going to need a shitload of logic here 
-  #Find whose turn it is
-  #Find which piece is being seleceted 
-  #Find where the piece is being moved to  
-  #Find if the move is legal 
-  #Have it interact with other pieces
-  #Checkmate 
-
+#I'm messing around to make the network work
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       running = False
-    #Recognizing first and second clicks 
-    elif event.type == pygame.MOUSEBUTTONDOWN:
-      if pos1 == [-1,-1]:
-        pos1 = pygame.mouse.get_pos()
-        pos1 = [(pos1[0] - (int(pos1[0]) % 64)), pos1[1] - pos1[1] % 64]
-        pos2 = [-1,-1]
-      elif pos1 != [-1, -1]:
-        pos2 = pygame.mouse.get_pos()
-        pos2 = [(pos2[0] - pos2[0] % 64), (pos2[1] - pos2[1] % 64)] 
-        for i in Pieces:
-          if (i.loc == (pos1[0], pos1[1])):      
-            if isturn(i, move) and i.islegal(Pieces, pos1, pos2):
-              move += 1            
-              i.loc = (pos2[0], pos2[1])
-              drawpieces(Pieces)
+    #Recognizing first and second clicks
+   
+  if read_pos(n.getPos()) != (-1, -1):  
+    if pos1 == [-1,-1]:
+      pos1 = read_pos(n.getpos())
+      pos1 = [(pos1[0] - (int(pos1[0]) % 64)), pos1[1] - pos1[1] % 64]
+      pos2 = [-1,-1]
+    elif pos1 != [-1, -1]:
+      read_pos(n.getpos())
+      pos2 = [(pos2[0] - pos2[0] % 64), (pos2[1] - pos2[1] % 64)] 
+      for i in Pieces:
+        if (i.loc == (pos1[0], pos1[1])):      
+          if isturn(i, move) and i.islegal(Pieces, pos1, pos2):
+            move += 1            
+            i.loc = (pos2[0], pos2[1])
+            drawpieces(Pieces)
 
-        
-        pos1 = [-1,-1]
+          
+          pos1 = [-1,-1]
   
   #marking pieces 
   

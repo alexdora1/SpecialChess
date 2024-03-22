@@ -15,9 +15,9 @@ try:
 except socket.error as e:
     str(e)
 
-s.listen(1)
+s.listen(2)
 print("Waiting for connection, server started")
-
+PosP = [(-1, -1), (-1, -1)]
 def threaded_client(conn):
     conn.send(str.encode('Connected'))
     reply = ''
@@ -41,9 +41,11 @@ def threaded_client(conn):
 
     
 #accepts incoming connections
+currentPlayer = 0
 while True:
     conn, addr = s.accept()
     #addr: IP adress
     print('connected to:', addr)
 #threaded_client is running in the backround, will not interfere with while loop
     start_new_thread(threaded_client, (conn,))
+    currentPlayer += 1
