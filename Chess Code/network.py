@@ -1,4 +1,5 @@
 import socket
+import pygame
 
 class Network:
     def __init__(self):
@@ -23,3 +24,29 @@ class Network:
         except socket.error as e:
             print(e)
 
+def drawboard(screen):
+  colors=[pygame.Color('green'),pygame.Color('red')]
+  for r in range(9):
+      for c in range(9):
+        color=colors[(r+c)%2]
+        pygame.draw.rect(screen, color, pygame.Rect(c*64,r*64,64,64))
+  
+def drawpieces(ex_board):
+  for i in ex_board:
+    screen.blit(pygame.image.load(i.image), (i.loc))
+
+
+pygame.display.flip()
+runner = True
+(width, height) = (575, 575)
+screen = pygame.display.set_mode((width, height))
+
+while runner:
+    drawpieces(Pieces)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            runner = False
+    drawpieces(Pieces)
+
+
+    pygame.display.update()

@@ -483,31 +483,26 @@ while running:
     sending+= i.toString()
   n = Network()
   n.send(sending)
-  drawboard(screen)
-  drawpieces(Pieces)
 #I'm messing around to make the network work
-  for event in pygame.event.get():
-    if event.type == pygame.QUIT:
-      running = False
     #Recognizing first and second clicks
-   
-  if read_pos(n.getPos()) != (-1, -1):  
-    if pos1 == [-1,-1]:
-      pos1 = read_pos(n.getpos())
-      pos1 = [(pos1[0] - (int(pos1[0]) % 64)), pos1[1] - pos1[1] % 64]
-      pos2 = [-1,-1]
-    elif pos1 != [-1, -1]:
-      read_pos(n.getpos())
-      pos2 = [(pos2[0] - pos2[0] % 64), (pos2[1] - pos2[1] % 64)] 
-      for i in Pieces:
-        if (i.loc == (pos1[0], pos1[1])):      
-          if isturn(i, move) and i.islegal(Pieces, pos1, pos2):
-            move += 1            
-            i.loc = (pos2[0], pos2[1])
-            drawpieces(Pieces)
+  if n.getPos() != None: 
+    if read_pos(n.getPos()) != (-1, -1):  
+      if pos1 == [-1,-1]:
+        pos1 = read_pos(n.getpos())
+        pos1 = [(pos1[0] - (int(pos1[0]) % 64)), pos1[1] - pos1[1] % 64]
+        pos2 = [-1,-1]
+      elif pos1 != [-1, -1]:
+        read_pos(n.getpos())
+        pos2 = [(pos2[0] - pos2[0] % 64), (pos2[1] - pos2[1] % 64)] 
+        for i in Pieces:
+          if (i.loc == (pos1[0], pos1[1])):      
+            if isturn(i, move) and i.islegal(Pieces, pos1, pos2):
+              move += 1            
+              i.loc = (pos2[0], pos2[1])
+              drawpieces(Pieces)
 
-          
-          pos1 = [-1,-1]
+            
+            pos1 = [-1,-1]
   
   #marking pieces 
   
