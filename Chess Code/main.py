@@ -1,12 +1,10 @@
-import pygame
 import time
 from network import Network
 #Adding a function to show the clicking
 
 print('hello world')
 
-(width, height) = (575, 575)
-screen = pygame.display.set_mode((width, height))
+
 
 clientNumber = 0
 
@@ -138,7 +136,6 @@ class Boat(Piece):
           if c.image == 'assets/Rock.png':
             if abs(pos2[0] - c.loc[0]) <= 64 or abs(pos2[1] - c.loc[1]) <= 64:
               self.loc = (pos2[0], pos2[1])
-              drawpieces(ex_board)
               time.sleep(1)
               ex_board.pop(ex_board.index(self))
               time.sleep(.5)
@@ -278,10 +275,8 @@ class Elephant(Piece):
             for c in ex_board:
               if c.loc == (x,z) and c.loc != self.loc:
                 c.image = 'assets/Explosion.png'
-                drawpieces(ex_board)
                 time.sleep(1)
                 ex_board.pop(ex_board.index(c))
-                drawpieces(ex_board)
                 return True
             x -= 64
             z -= 64
@@ -292,10 +287,8 @@ class Elephant(Piece):
             for c in ex_board:
               if c.loc == (x,z) and c.loc != self.loc:
                 c.image = 'assets/Explosion.png'
-                drawpieces(ex_board)
                 time.sleep(1)
                 ex_board.pop(ex_board.index(c))
-                drawpieces(ex_board)
                 return True
             x += 64
             z -= 64
@@ -306,10 +299,8 @@ class Elephant(Piece):
             for c in ex_board:
               if c.loc == (x,z) and c.loc != self.loc:
                 c.image = 'assets/Explosion.png'
-                drawpieces(ex_board)
                 time.sleep(1)              
                 ex_board.pop(ex_board.index(c))
-                drawpieces(ex_board)
                 return True
             x -= 64
             z += 64
@@ -320,20 +311,16 @@ class Elephant(Piece):
             for c in ex_board:
               if c.loc == (x,z) and c.loc != self.loc:
                 c.image = 'assets/Explosion.png'
-                drawpieces(ex_board)
                 time.sleep(1)
-                ex_board.pop(ex_board.index(c))
-                drawpieces(ex_board)               
+                ex_board.pop(ex_board.index(c))             
                 return True
             x += 64
             z += 64
         for c in ex_board:
               if c.loc == (x,z) and c.loc != self.loc:
                 c.image = 'assets/Explosion.png'
-                drawpieces(ex_board)
                 time.sleep(.5)
-                ex_board.pop(ex_board.index(c))
-                drawpieces(ex_board)               
+                ex_board.pop(ex_board.index(c))          
                 return True
 
         return True
@@ -426,13 +413,6 @@ rN2 = Knight('', '', '', (0,0))
 rR2 = Rook('', '', '', (0,0))
 
 Pieces = [gR1, gN1, gB1, gE, gK, gQ, gB2, gN2, gR2, gP1, gP2, gP3, gP4, gP5, gP6, gP7, gP8, gP9, rP1,rP2,rP3,rP4,rP5,rP6,rP7,rP8,rP9,rR1,rN1,rB1,rE,rQ,rK,rB2,rN2,rR2]
-def drawboard(screen):
-  colors=[pygame.Color('green'),pygame.Color('red')]
-  for r in range(9):
-      for c in range(9):
-        color=colors[(r+c)%2]
-        pygame.draw.rect(screen, color, pygame.Rect(c*64,r*64,64,64))
-  
 
 
 pieces_names = ["Rook", "Knight", "Boat", "Elephant", "King", "Queen", "Boat", "Knight", "Rook"]
@@ -451,9 +431,7 @@ for i in range(0, 80):
 
 
 #putting board into the game
-def drawpieces(ex_board):
-  for i in ex_board:
-    screen.blit(pygame.image.load(i.image), (i.loc))
+
 #Getting tupple mouse click positions
 def read_pos(str):
   str = str.split(',')
@@ -469,19 +447,18 @@ def isturn(piece, turn):
   else:
     return False
 
-pygame.display.flip()
+
 
 #Assigning positions for the mouse clicks using placeholder values (-1,-1) cannot be clicked
 pos1 = [-1,-1]
 pos2 = [-1, -1]
 running = True
-
+n = Network()
 while running:
   #sending is a variable with all of the pieces in toString format.
   sending = ''
   for i in Pieces:
     sending+= i.toString()
-  n = Network()
   n.send(sending)
 #I'm messing around to make the network work
     #Recognizing first and second clicks
@@ -499,7 +476,6 @@ while running:
             if isturn(i, move) and i.islegal(Pieces, pos1, pos2):
               move += 1            
               i.loc = (pos2[0], pos2[1])
-              drawpieces(Pieces)
 
             
             pos1 = [-1,-1]
@@ -512,8 +488,3 @@ while running:
   
   
   
-
-  drawpieces(Pieces)
-
-
-  pygame.display.update()

@@ -2,7 +2,7 @@ import socket
 from _thread import *
 import sys
 from main import *
-from network import *
+from network import Network
 
 #ip adress
 server = '192.168.1.205'
@@ -20,10 +20,12 @@ except socket.error as e:
 s.listen(2)
 print("Waiting for connection, server started")
 PosP = [(-1, -1), (-1, -1)]
+net = Network()
 def threaded_client(conn, current_player):
-    conn.send(str.encode(sending))
-    reply = sending
+    Main(net)
     while True:
+
+        Main()
         try:
 
             data = read_pos(conn.recv(2048).decode())

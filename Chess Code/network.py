@@ -40,20 +40,30 @@ def drawpieces(ex_board):
   for i in ex_board:
     screen.blit(pygame.image.load(i.image), (i.loc))
 
+def findImages(message):
+    pList = []
+    tempList = message.split('$')
+    for i in tempList:
+        pieceDecon= i.split('|')
+        pieceDecon[1].replace('(', '')
+        pieceDecon[1].replace(')', '')
+        loc = pieceDecon[1].split(',')
+        pList.append(Pieces(pieceDecon, (int(loc[0]), int(loc[1]))))
+        
 
-
+net = Network()
 runner = True
 (width, height) = (575, 575)
 screen = pygame.display.set_mode((width, height))
 drawboard(screen)
 while runner:
     pygame.display.flip()
+    if net.connect() != None and net.connect() != '(-1, -1)':
+        drawpieces(findImages(net.connect()))
 
-    drawpieces(Pieces)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             runner = False
-    drawpieces(Pieces)
 
 
     pygame.display.update()
