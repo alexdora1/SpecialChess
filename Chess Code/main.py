@@ -455,9 +455,9 @@ def drawpieces(ex_board):
   for i in ex_board:
     screen.blit(pygame.image.load(i.image), (i.loc))
 #Getting tupple mouse click positions
-def read_pos(str):
-  str = str.split(',')
-  return(int(str[0]), int(str[1]))
+def read_pos(stri):
+  stri = stri.split(',')
+  return(int(stri[0]), int(stri[1]))
 
 #creating the turn logic 
 move = 0
@@ -483,31 +483,28 @@ while running:
     sending+= i.toString()
   n = Network()
   n.send(sending)
-  drawboard(screen)
-  drawpieces(Pieces)
 #I'm messing around to make the network work
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       running = False
     #Recognizing first and second clicks
-   
-  if read_pos(n.getPos()) != (-1, -1):  
-    if pos1 == [-1,-1]:
-      pos1 = read_pos(n.getpos())
-      pos1 = [(pos1[0] - (int(pos1[0]) % 64)), pos1[1] - pos1[1] % 64]
-      pos2 = [-1,-1]
-    elif pos1 != [-1, -1]:
-      read_pos(n.getpos())
-      pos2 = [(pos2[0] - pos2[0] % 64), (pos2[1] - pos2[1] % 64)] 
-      for i in Pieces:
-        if (i.loc == (pos1[0], pos1[1])):      
-          if isturn(i, move) and i.islegal(Pieces, pos1, pos2):
-            move += 1            
-            i.loc = (pos2[0], pos2[1])
-            drawpieces(Pieces)
+  if n.connect() != None:
+    if read_pos(n.connect()) != (-1, -1):  
+      if pos1 == [-1,-1]:
+        pos1 = read_pos(n.connect())
+        pos1 = [(pos1[0] - (int(pos1[0]) % 64)), pos1[1] - pos1[1] % 64]
+        pos2 = [-1,-1]
+      elif pos1 != [-1, -1]:
+        read_pos(n.connect())
+        pos2 = [(pos2[0] - pos2[0] % 64), (pos2[1] - pos2[1] % 64)] 
+        for i in Pieces:
+          if (i.loc == (pos1[0], pos1[1])):      
+            if isturn(i, move) and i.islegal(Pieces, pos1, pos2):
+              move += 1            
+              i.loc = (pos2[0], pos2[1])
 
-          
-          pos1 = [-1,-1]
+            
+            pos1 = [-1,-1]
   
   #marking pieces 
   
