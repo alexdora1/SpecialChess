@@ -15,10 +15,11 @@ try:
 except socket.error as e:
     str(e)
 
-s.listen(2)
+s.listen(1)
 print("Waiting for connection, server started")
 
 def threaded_client(conn):
+    conn.send(str.encode('Connected'))
     reply = ''
     while True:
         try:
@@ -35,8 +36,10 @@ def threaded_client(conn):
             conn.sendall(str.encode(reply))
         except:
             break
+    print('lost connection')
+    conn.close()
 
-
+    
 #accepts incoming connections
 while True:
     conn, addr = s.accept()
