@@ -6,6 +6,8 @@ import time
 (width, height) = (575, 575)
 screen = pygame.display.set_mode((width, height))
 
+clientNumber = 0
+
 class Piece:
     def __init__(self, team, type, image, loc):
         self.team = team
@@ -488,20 +490,18 @@ while running:
       if pos1 == [-1,-1]:
         pos1 = pygame.mouse.get_pos()
         pos1 = [(pos1[0] - (int(pos1[0]) % 64)), pos1[1] - pos1[1] % 64]
-        
+        pygame.draw.rect(screen, pygame.Color('blue'), pygame.Rect((pos1[0] - ((pos1[0]) % 64)), (pos1[1]-(pos1[1]%64)), 64, 64))
         pos2 = [-1,-1]
       elif pos1 != [-1, -1]:
         pos2 = pygame.mouse.get_pos()
         pos2 = [(pos2[0] - pos2[0] % 64), (pos2[1] - pos2[1] % 64)] 
-      
+        pygame.draw.rect(screen, pygame.Color('purple'), pygame.Rect((pos2[0] - (pos2[0]) % 64), (pos2[1]-pos2[1]%64), 64, 64))      
 
         for i in Pieces:
           if (i.loc == (pos1[0], pos1[1])):      
             if isturn(i, move) and i.islegal(Pieces, pos1, pos2):
               move += 1            
-              pygame.draw.rect(screen, pygame.Color('blue'), pygame.Rect((pos1[0] - ((pos1[0]) % 64)), (pos1[1]-(pos1[1]%64)), 64, 64))
               i.loc = (pos2[0], pos2[1])
-              pygame.draw.rect(screen, pygame.Color('purple'), pygame.Rect((pos2[0] - (pos2[0]) % 64), (pos2[1]-pos2[1]%64), 64, 64))
               drawpieces(Pieces)
 
         
