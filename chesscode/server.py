@@ -4,7 +4,7 @@ def createServer():
     serversocket = socket(AF_INET, SOCK_STREAM)
     try:
         #ip adress of my mac, socket
-        serversocket.bind(('localhost', 5555))
+        serversocket.bind(('192.168.1.230', 5555))
 
         serversocket.listen(2)
         while True:
