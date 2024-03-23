@@ -2,7 +2,7 @@ import socket
 from _thread import *
 import sys
 from main import *
-from network import Network
+
 
 #ip adress
 server = '192.168.1.205'
@@ -22,6 +22,7 @@ print("Waiting for connection, server started")
 PosP = [(-1, -1), (-1, -1)]
 net = Network()
 def threaded_client(conn, current_player):
+    print('waiting')
     Main(net)
     while True:
 
@@ -55,7 +56,15 @@ def threaded_client(conn, current_player):
 net = Network()
 #accepts incoming connections
 currentPlayer = 0
+rüber = True
 while True:
+    Input = ''
+    Input = input()
+    if input == 'stop':
+        rüber = False
+
+    print('waiting')
+
     Main(net)
     conn, addr = s.accept()
     #addr: IP adress
