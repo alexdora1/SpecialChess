@@ -4,7 +4,7 @@ def createServer():
     serversocket = socket(AF_INET, SOCK_STREAM)
     try:
         #ip adress of my mac, socket
-        serversocket.bind('192.168.1.205', 5555)
+        serversocket.bind(('localhost', 5555))
 
         serversocket.listen(2)
         while True:
@@ -12,6 +12,7 @@ def createServer():
             (clientsocket, adress) = serversocket.accept()
             #running if someone has accepted
             rd = clientsocket.recv(2048).decode()
+            print(rd)
             #make sure we can send things
             #make sure we can recieve things
             data = 'hello world'
