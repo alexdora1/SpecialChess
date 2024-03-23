@@ -33,7 +33,7 @@ class Rook(Piece):
               return False
         for c in ex_board:
           if c.loc == (pos2[0], pos2[1]):
-            if c.team == self.team or c.image == 'assets/Rock.png':
+            if c.team == self.team:
               return False
             else:
               ex_board.pop(ex_board.index(c))
@@ -46,7 +46,7 @@ class Rook(Piece):
               return False
         for c in ex_board:
           if c.loc == (pos2[0], pos2[1]):
-            if c.team == self.team or c.image == 'assets/Rock.png':
+            if c.team == self.team:
               return False
             else:
               ex_board.pop(ex_board.index(c))
@@ -59,7 +59,7 @@ class Rook(Piece):
               return False
         for c in ex_board:
           if c.loc == (pos2[0], pos2[1]):
-            if c.team == self.team or c.image == 'assets/Rock.png':
+            if c.team == self.team:
               return False
             else:
               ex_board.pop(ex_board.index(c))
@@ -72,7 +72,7 @@ class Rook(Piece):
               return False
         for c in ex_board:
           if c.loc == (pos2[0], pos2[1]):
-            if c.team == self.team or c.image == 'assets/Rock.png':
+            if c.team == self.team:
               return False
             else:
               ex_board.pop(ex_board.index(c))
@@ -134,17 +134,8 @@ class Boat(Piece):
             x += 64
             z += 64
         for c in ex_board:
-          #boats crash on rocks! 
-          if c.image == 'assets/Rock.png':
-            if abs(pos2[0] - c.loc[0]) <= 64 or abs(pos2[1] - c.loc[1]) <= 64:
-              self.loc = (pos2[0], pos2[1])
-              drawpieces(ex_board)
-              time.sleep(1)
-              ex_board.pop(ex_board.index(self))
-              time.sleep(.5)
-              return False              
           if c.loc == (pos2[0], pos2[1]):
-            if c.team == self.team or c.image == 'assets/Rock.png':
+            if c.team == self.team:
               return False
             else:
               ex_board.pop(ex_board.index(c))
@@ -158,7 +149,7 @@ class King(Piece):
       if(abs(abs(pos1[0]) - abs(pos2[0])) == 64 or pos1[0] - pos2[0] == 0) and (abs(abs(pos1[1]) - abs(pos2[1])) == 64 or pos1[1] - pos2[1] == 0) and pos1 != pos2:
         for c in ex_board:
           if c.loc == (pos2[0], pos2[1]):
-            if c.team == self.team or c.image == 'assets/Rock.png':
+            if c.team == self.team:
               return False
             else:
               ex_board.pop(ex_board.index(c))
@@ -207,7 +198,7 @@ class Queen(Piece):
             z += 64
         for c in ex_board:
           if c.loc == (pos2[0], pos2[1]):
-            if c.team == self.team or c.image == 'assets/Rock.png':
+            if c.team == self.team:
               return False
             else:
               ex_board.pop(ex_board.index(c))
@@ -220,7 +211,7 @@ class Queen(Piece):
               return False
         for c in ex_board:
           if c.loc == (pos2[0], pos2[1]):
-            if c.team == self.team or c.image == 'assets/Rock.png':
+            if c.team == self.team:
               return False
             else:
               ex_board.pop(ex_board.index(c))
@@ -233,7 +224,7 @@ class Queen(Piece):
               return False
         for c in ex_board:
           if c.loc == (pos2[0], pos2[1]):
-            if c.team == self.team or c.image == 'assets/Rock.png':
+            if c.team == self.team:
               return False
             else:
               ex_board.pop(ex_board.index(c))
@@ -246,7 +237,7 @@ class Queen(Piece):
               return False
         for c in ex_board:
           if c.loc == (pos2[0], pos2[1]):
-            if c.team == self.team or c.image == 'assets/Rock.png':
+            if c.team == self.team:
               return False
             else:
               ex_board.pop(ex_board.index(c))
@@ -259,7 +250,7 @@ class Queen(Piece):
               return False
         for c in ex_board:
           if c.loc == (pos2[0], pos2[1]):
-            if c.team == self.team or c.image == 'assets/Rock.png':
+            if c.team == self.team:
               return False
             else:
               ex_board.pop(ex_board.index(c))
@@ -277,10 +268,10 @@ class Elephant(Piece):
           while x != pos2[0]:
             for c in ex_board:
               if c.loc == (x,z) and c.loc != self.loc:
-                c.image = 'assets/Explosion.png'
+                c.image = 'Explosion.png'
                 drawpieces(ex_board)
-                time.sleep(1)
-                ex_board.pop(ex_board.index(c))
+                time.sleep(.25)
+                ex_board.pop(c)
                 drawpieces(ex_board)
                 return True
             x -= 64
@@ -291,10 +282,10 @@ class Elephant(Piece):
           while x != pos2[0]:
             for c in ex_board:
               if c.loc == (x,z) and c.loc != self.loc:
-                c.image = 'assets/Explosion.png'
+                c.image = 'Explosion.png'
                 drawpieces(ex_board)
-                time.sleep(1)
-                ex_board.pop(ex_board.index(c))
+                time.sleep(.25)
+                ex_board.pop(c)
                 drawpieces(ex_board)
                 return True
             x += 64
@@ -305,10 +296,10 @@ class Elephant(Piece):
           while x != pos2[0]:
             for c in ex_board:
               if c.loc == (x,z) and c.loc != self.loc:
-                c.image = 'assets/Explosion.png'
+                c.image = 'Explosion.png'
                 drawpieces(ex_board)
-                time.sleep(1)              
-                ex_board.pop(ex_board.index(c))
+                time.sleep(.25)              
+                ex_board.pop(c)
                 drawpieces(ex_board)
                 return True
             x -= 64
@@ -319,20 +310,20 @@ class Elephant(Piece):
           while x != pos2[0]:
             for c in ex_board:
               if c.loc == (x,z) and c.loc != self.loc:
-                c.image = 'assets/Explosion.png'
+                c.image = 'Explosion.png'
                 drawpieces(ex_board)
-                time.sleep(1)
-                ex_board.pop(ex_board.index(c))
+                time.sleep(.25)
+                ex_board.pop(c)
                 drawpieces(ex_board)               
                 return True
             x += 64
             z += 64
         for c in ex_board:
               if c.loc == (x,z) and c.loc != self.loc:
-                c.image = 'assets/Explosion.png'
+                c.image = 'Explosion.png'
                 drawpieces(ex_board)
-                time.sleep(.5)
-                ex_board.pop(ex_board.index(c))
+                time.sleep(.25)
+                ex_board.pop(c)
                 drawpieces(ex_board)               
                 return True
 
@@ -347,41 +338,30 @@ class Pawn(Piece):
       if pos1[1] == 64:
         if ((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) == (128)) and (pos2[1] - pos1[1] > 0)):
           for c in ex_board:
-            if c.loc == (pos1[0], 128):
+            if c.loc == (pos1[0], 384):
               return False
           return True
       if((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) == (64)) and (pos2[1] - pos1[1] > 0)):
-        if pos2[1] == 512:
-          self.image = 'assets/Rock.png' 
         return True
       elif (((pos1[0] - pos2[0] == 64) or (pos1[0] - pos2[0] == (-64))) and (pos2[1] - pos1[1]) == (64) and pos2[1] - pos1[1] > 0):
           for c in ex_board:
             if c.loc == (pos2[0], pos2[1]) and c.team == 'r':
               ex_board.pop((ex_board.index(c)))
-              if pos2[1] == 512:
-                self.image = 'assets/Rock.png' 
               return True
     else:
       if pos1[1] == 448:
         #this is the only part that works
         if ((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) == (-128)) and (pos2[1] - pos1[1] < 0)):
           for c in ex_board:
-            if c.loc == (pos1[0], 0):
+            if c.loc == (pos1[0], 384):
               return False
           return True
       if((pos1[0] - pos2[0] == 0) and ((pos2[1] - pos1[1]) == (-64)) and (pos2[1] - pos1[1] < 0)):
-        for c in ex_board:
-            if c.loc == (pos2[0], pos2[1]):
-              return False
-        if pos2[1] == 0:
-                self.image = 'assets/Rock.png' 
         return True
       elif (((pos1[0] - pos2[0] == 64) or (pos1[0] - pos2[0] == (-64))) and (pos2[1] - pos1[1]) == (-64) and pos2[1] - pos1[1] < 0):
           for c in ex_board:
             if c.loc == (pos2[0], pos2[1]) and c.team == 'g':
               ex_board.pop((ex_board.index(c)))
-              if pos2[1] == 0:
-                self.image = 'assets/Rock.png'
               return True
     return False
 
