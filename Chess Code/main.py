@@ -450,12 +450,11 @@ def isturn(piece, turn):
 
 
 #Assigning positions for the mouse clicks using placeholder values (-1,-1) cannot be clicked
-pos1 = [-1,-1]
-pos2 = [-1, -1]
-running = True
-n = Network()
-while running:
-  #sending is a variable with all of the pieces in toString format.
+def Main(n):
+  pos1 = [-1,-1]
+  pos2 = [-1, -1]
+
+    #sending is a variable with all of the pieces in toString format.
   sending = ''
   for i in Pieces:
     sending+= i.toString()

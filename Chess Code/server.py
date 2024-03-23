@@ -52,13 +52,15 @@ def threaded_client(conn, current_player):
     print('lost connection')
     conn.close()
 
-    
+net = Network()
 #accepts incoming connections
 currentPlayer = 0
 while True:
+    Main(net)
     conn, addr = s.accept()
     #addr: IP adress
     print('connected to:', addr)
 #threaded_client is running in the backround, will not interfere with while loop
     start_new_thread(threaded_client, (conn,))
     currentPlayer += 1
+    print(currentPlayer)
