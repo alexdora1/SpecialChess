@@ -542,5 +542,6 @@ while running:
 
 
   pygame.display.update()
-
+sending = 'BYEBYEBYEBYEBYEBYEBYE'
+mysock.send(sending.encode())
 mysock.close()
