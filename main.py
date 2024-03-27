@@ -464,7 +464,7 @@ def isturn(piece, turn):
 #We're going to use this to determine which team the player is on -- the server already sends it
 
 
-def recieved(conn, compteam):
+def recieved(conn, compteam, Pieces):
   while compteam == 'null':
     data = conn.recv(50)  # Receive data from the client
     if not data:
@@ -479,26 +479,15 @@ def recieved(conn, compteam):
     if '[' in data.decode():
       #splitting something in the form of g(0, 128)[0, 128] in order to move a piece
       data = data.decode()
-      initialLoc = ('', '')
-      finalLoc = ('', '')
-      nums = '1234567890'
-      nums = nums.split()
-      points = ',['
-      data = data.split()
-      inflection = 0
+      data = data.split('#')
+      initialLoc = (data[0], data[1])
+      finalLoc = (data[2], data[3])
+
       print(data)
-      for i in data:
-        if inflection == 0 and i in nums:
-          initialLoc[0] += i
-        elif inflection == 1 and i in nums:
-          initialLoc[1] += i
-        elif inflection == 2 and i in nums:
-          finalLoc[0] += i
-        elif inflection == 3 and i in nums:
-          finalLoc[1] += i
-        elif i in points:
-          inflection += 1
-      print(initialLoc, finalLoc)
+
+      for i in Pieces:
+        if i.loc == initialLoc:
+          i.loc = finalLoc
 
           
 
@@ -519,7 +508,7 @@ pos1 = [-1,-1]
 pos2 = [-1, -1]
 mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 mysock.connect(('192.168.1.205', 5555))
-recieved_thread = threading.Thread(target=recieved, args=(mysock, compteam), daemon = True)
+recieved_thread = threading.Thread(target=recieved, args=(mysock, compteam, Pieces), daemon = True)
 recieved_thread.start()
 running = True
 while running:
@@ -550,7 +539,7 @@ while running:
               pygame.draw.rect(screen, pygame.Color('purple'), pygame.Rect((pos2[0] - (pos2[0]) % 64), (pos2[1]-pos2[1]%64), 64, 64))
               drawpieces(Pieces)
               try:
-                sending = i.team + str(i.loc) + str(pos2)
+                sending = str(i.loc[0]) + '#' + str(i.loc[1]) + '#' + str(pos2[0]) + '#' + str(pos2[1])
                 sending = sending.encode()
                 sent_bytes = 0
                 while sent_bytes < len(sending):
