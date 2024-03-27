@@ -1,5 +1,6 @@
 import pygame
 import time
+import threading
 import socket
 #Adding a function to show the clicking
 
@@ -461,6 +462,11 @@ def isturn(piece, turn):
   else:
     return False
 
+def recieved(conn):
+  while True:
+    msg = conn.recv(21).decode()
+    print('recieved: ', msg)
+  
 pygame.display.flip()
 
 #Assigning positions for the mouse clicks using placeholder values (-1,-1) cannot be clicked
@@ -468,10 +474,14 @@ pos1 = [-1,-1]
 pos2 = [-1, -1]
 mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 mysock.connect(('192.168.1.230', 5555))
+#fix this part, use threading to 
+Thread = threading.Thread(target = recieved, args = mysock)
 running = True
 while running:
+  #threading -- check all recieved things
   drawboard(screen)
   drawpieces(Pieces)
+  
 
 
   #We're going to need a shitload of logic here 
