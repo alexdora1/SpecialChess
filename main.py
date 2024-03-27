@@ -1,6 +1,6 @@
 import pygame
 import time
-
+import socket
 #Adding a function to show the clicking
 
 (width, height) = (575, 575)
@@ -466,11 +466,13 @@ pygame.display.flip()
 #Assigning positions for the mouse clicks using placeholder values (-1,-1) cannot be clicked
 pos1 = [-1,-1]
 pos2 = [-1, -1]
-
+mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+mysock.connect(('192.168.1.230', 5555))
 running = True
 while running:
   drawboard(screen)
   drawpieces(Pieces)
+
 
   #We're going to need a shitload of logic here 
   #Find whose turn it is
@@ -503,6 +505,26 @@ while running:
               i.loc = (pos2[0], pos2[1])
               pygame.draw.rect(screen, pygame.Color('purple'), pygame.Rect((pos2[0] - (pos2[0]) % 64), (pos2[1]-pos2[1]%64), 64, 64))
               drawpieces(Pieces)
+              try:
+                print('trying')
+                sending = i.team + str(i.loc) + str(pos2)
+                sending = sending.encode()
+                sent_bytes = 0
+                while sent_bytes < len(sending):
+                    
+                    sent = mysock.send(sending[sent_bytes:])
+                    if sent == 0:
+                        print('Socket connection broken')
+                        raise RuntimeError("Socket connection broken")
+
+                    sent_bytes += sent  
+                    print(sent_bytes)                
+              except socket.timeout:
+                  print('Timeout error')
+                  
+                  mysock.connect()
+              except socket.error as e:
+                  print('Socket error:', e)
 
         
         pos1 = [-1,-1]
@@ -520,3 +542,5 @@ while running:
 
 
   pygame.display.update()
+
+mysock.close()
