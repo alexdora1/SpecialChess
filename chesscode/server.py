@@ -3,6 +3,7 @@ from threading import *
 
 Header = 64
 serversocket = socket(AF_INET, SOCK_STREAM)
+#server is bount to Dean's mac
 ADDR = ('192.168.1.205', 5555)
 serversocket.bind(ADDR)
 computers = []
@@ -20,7 +21,7 @@ def client_interact(conn, addr):
         conn.send(team.encode())
     #gets messages, sends messages to
     while connected:
-        msg = conn.recv(21).decode()
+        msg = conn.recv(50).decode()
         print(addr, " sent:", msg)
         if len(computers) > 1 and computers.index(conn) % 2 == 0:
             computers[(computers.index(conn) + 1)].send(msg.encode())
