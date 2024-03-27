@@ -461,13 +461,51 @@ def isturn(piece, turn):
     return True
   else:
     return False
+#We're going to use this to determine which team the player is on -- the server already sends it
 
-def recieved(conn):
+
+def recieved(conn, compteam):
+  while compteam == 'null':
+    data = conn.recv(50)  # Receive data from the client
+    if not data:
+        break
+    compteam = data.decode()
+    print('team:', compteam)
   while True:
     data = conn.recv(50)  # Receive data from the client
     if not data:
         break
     print('Received:', data.decode())
+    if '[' in data.decode():
+      #splitting something in the form of g(0, 128)[0, 128] in order to move a piece
+      data = data.decode()
+      initialLoc = ('', '')
+      finalLoc = ('', '')
+      nums = '1234567890'
+      nums = nums.split()
+      points = ',['
+      data = data.split()
+      inflection = 0
+      for i in data:
+        if inflection == 0 and i in nums:
+          initialLoc[0] += i
+        elif inflection == 1 and i in nums:
+          initialLoc[1] += i
+        elif inflection == 2 and i in nums:
+          finalLoc[0] += i
+        elif inflection == 3 and i in nums:
+          finalLoc[1] += i
+        elif i in points:
+          inflection += 1
+      print(initialLoc, finalLoc)
+
+          
+
+        
+
+
+
+
 
 
 
@@ -475,11 +513,12 @@ def recieved(conn):
 pygame.display.flip()
 
 #Assigning positions for the mouse clicks using placeholder values (-1,-1) cannot be clicked
+compteam = 'null'
 pos1 = [-1,-1]
 pos2 = [-1, -1]
 mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 mysock.connect(('192.168.1.205', 5555))
-recieved_thread = threading.Thread(target=recieved, args=(mysock,), daemon = True)
+recieved_thread = threading.Thread(target=recieved, args=(mysock, compteam), daemon = True)
 recieved_thread.start()
 running = True
 while running:
@@ -503,7 +542,7 @@ while running:
 
         for i in Pieces:
           if (i.loc == (pos1[0], pos1[1])):      
-            if isturn(i, move) and i.islegal(Pieces, pos1, pos2):
+            if i.team == compteam and isturn(i, move) and i.islegal(Pieces, pos1, pos2):
               move += 1            
               pygame.draw.rect(screen, pygame.Color('blue'), pygame.Rect((pos1[0] - ((pos1[0]) % 64)), (pos1[1]-(pos1[1]%64)), 64, 64))
               i.loc = (pos2[0], pos2[1])
