@@ -1,7 +1,7 @@
 import pygame
 import time
-import threading
 import socket
+import threading 
 #Adding a function to show the clicking
 
 (width, height) = (575, 575)
@@ -464,9 +464,20 @@ def isturn(piece, turn):
 
 def recieved(conn):
   while True:
-    msg = conn.recv(21).decode()
-    print('recieved: ', msg)
-  
+      try:
+        data = conn.recv(21)  # Receive data from the client
+        if not data:
+            break
+        print('Received:', data.decode())
+      except ConnectionResetError:
+        print("Client closed the connection.")
+        break
+      except Exception as e:
+        print("Error:", e)
+        break
+
+
+
 pygame.display.flip()
 
 #Assigning positions for the mouse clicks using placeholder values (-1,-1) cannot be clicked
@@ -474,23 +485,13 @@ pos1 = [-1,-1]
 pos2 = [-1, -1]
 mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 mysock.connect(('192.168.1.230', 5555))
-#fix this part, use threading to 
-Thread = threading.Thread(target = recieved, args = mysock)
+connection, adress = mysock.accept()
+recieved_thread = threading.Thread(target=recieved, args=(connection,), daemon = True)
+recieved_thread.start()
 running = True
 while running:
-  #threading -- check all recieved things
   drawboard(screen)
   drawpieces(Pieces)
-  
-
-
-  #We're going to need a shitload of logic here 
-  #Find whose turn it is
-  #Find which piece is being seleceted 
-  #Find where the piece is being moved to  
-  #Find if the move is legal 
-  #Have it interact with other pieces
-  #Checkmate 
 
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
@@ -516,7 +517,6 @@ while running:
               pygame.draw.rect(screen, pygame.Color('purple'), pygame.Rect((pos2[0] - (pos2[0]) % 64), (pos2[1]-pos2[1]%64), 64, 64))
               drawpieces(Pieces)
               try:
-                print('trying')
                 sending = i.team + str(i.loc) + str(pos2)
                 sending = sending.encode()
                 sent_bytes = 0
@@ -527,8 +527,7 @@ while running:
                         print('Socket connection broken')
                         raise RuntimeError("Socket connection broken")
 
-                    sent_bytes += sent  
-                    print(sent_bytes)                
+                    sent_bytes += sent                 
               except socket.timeout:
                   print('Timeout error')
                   
