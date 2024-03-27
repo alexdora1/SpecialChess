@@ -464,17 +464,11 @@ def isturn(piece, turn):
 
 def recieved(conn):
   while True:
-      try:
-        data = conn.recv(21)  # Receive data from the client
-        if not data:
-            break
-        print('Received:', data.decode())
-      except ConnectionResetError:
-        print("Client closed the connection.")
+    data = conn.recv(21)  # Receive data from the client
+    if not data:
         break
-      except Exception as e:
-        print("Error:", e)
-        break
+    print('Received:', data.decode())
+
 
 
 
@@ -485,8 +479,7 @@ pos1 = [-1,-1]
 pos2 = [-1, -1]
 mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 mysock.connect(('192.168.1.230', 5555))
-connection, adress = mysock.accept()
-recieved_thread = threading.Thread(target=recieved, args=(connection,), daemon = True)
+recieved_thread = threading.Thread(target=recieved, args=(mysock,), daemon = True)
 recieved_thread.start()
 running = True
 while running:
