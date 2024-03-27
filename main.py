@@ -486,6 +486,7 @@ def recieved(conn, compteam):
       points = ',['
       data = data.split()
       inflection = 0
+      print(data)
       for i in data:
         if inflection == 0 and i in nums:
           initialLoc[0] += i
