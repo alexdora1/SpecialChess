@@ -14,10 +14,13 @@ def client_interact(conn, addr):
     while connected:
         msg = conn.recv(21).decode()
         print(addr, " sent:", msg)
-        conn.send(msg.encode())
+        for i in computers:
+            msg += str(addr)
+            conn.send(msg.encode())
         print('sent', msg)
         if msg == 'BYEBYEBYEBYEBYEBYEBYE':
             connected =False
+            computers.pop(computers.index(conn))
     conn.close()
 
 
@@ -26,6 +29,7 @@ def start():
     serversocket.listen()
     while True:
         conn, addr = serversocket.accept()
+        computers.append(conn)
         thread = Thread(target = client_interact, args=(conn,addr))
         thread.start()
 
