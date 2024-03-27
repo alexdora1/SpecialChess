@@ -5,14 +5,17 @@ Header = 64
 serversocket = socket(AF_INET, SOCK_STREAM)
 ADDR = ('192.168.1.230', 5555)
 serversocket.bind(ADDR)
+computers = []
 
 
 def client_interact(conn, addr):
     print('NEW CONNECTION', addr, 'connected')
     connected = True
-    while connected: 
+    while connected:
         msg = conn.recv(21).decode()
         print(addr, " sent:", msg)
+        conn.send(msg.encode())
+        print('sent', msg)
         if msg == 'BYEBYEBYEBYEBYEBYEBYE':
             connected =False
     conn.close()
@@ -25,8 +28,8 @@ def start():
         conn, addr = serversocket.accept()
         thread = Thread(target = client_interact, args=(conn,addr))
         thread.start()
-        print('ACTIVE CONNECTIONS:', (Thread.active_count() - 1))
 
+    
 print('Server is starting')
 start()
 
