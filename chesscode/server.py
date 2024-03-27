@@ -3,7 +3,7 @@ from threading import *
 
 Header = 64
 serversocket = socket(AF_INET, SOCK_STREAM)
-ADDR = ('192.168.1.230', 5555)
+ADDR = ('192.168.1.205', 5555)
 serversocket.bind(ADDR)
 computers = []
 
@@ -13,17 +13,19 @@ def client_interact(conn, addr):
     connected = True
     #sends teams to client side
     if computers.index(conn) % 2 == 0:
-        conn.send('red team')
+        team = 'r'
+        conn.send(team.encode())
     else:
-        conn.send('green team')
+        team = 'g'
+        conn.send(team.encode())
     #gets messages, sends messages to
     while connected:
         msg = conn.recv(21).decode()
         print(addr, " sent:", msg)
         if len(computers) > 1 and computers.index(conn) % 2 == 0:
-            computers((computers.index(conn) + 1)).send(msg.encode())
+            computers[(computers.index(conn) + 1)].send(msg.encode())
         elif len(computers) > 1 and computers.index(conn) % 2 != 0:
-            computers((computers.index(conn) - 1)).send(msg.encode())
+            computers[(computers.index(conn) - 1)].send(msg.encode())
         else:
             conn.send(msg.encode())
         print('sent', msg)
@@ -33,12 +35,12 @@ def client_interact(conn, addr):
             sendoff = 'your opponent quit'
             sendoff = sendoff.encode()
             if len(computers) > 1 and computers.index(conn) % 2 == 0:
-                    computers((computers.index(conn) + 1)).send(sendoff)
-                    computers((computers.index(conn) + 1)).close()
+                    computers[(computers.index(conn) + 1)].send(sendoff)
+                    computers[(computers.index(conn) + 1)].close()
                     computers.pop(computers.index(conn) + 1)
             elif len(computers) > 1 and computers.index(conn) % 2 != 0:
-                computers((computers.index(conn) - 1)).send(sendoff)
-                computers((computers.index(conn) - 1)).close()
+                computers[(computers.index(conn) - 1)].send(sendoff)
+                computers[(computers.index(conn) - 1)].close()
                 computers.pop(computers.index(conn) - 1)
             computers.pop(computers.index(conn))
             conn.close()
@@ -53,7 +55,7 @@ def start():
         thread = Thread(target = client_interact, args=(conn,addr))
         thread.start()
 
-    
+
 print('Server is starting')
 start()
 
@@ -89,7 +91,11 @@ def createServer():
 print('Starting...')
 createServer()
 
-''' 
+'''
+
+
+
+
 
 
 
