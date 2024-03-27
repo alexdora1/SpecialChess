@@ -464,7 +464,7 @@ def isturn(piece, turn):
 
 def recieved(conn):
   while True:
-    data = conn.recv(21)  # Receive data from the client
+    data = conn.recv(50)  # Receive data from the client
     if not data:
         break
     print('Received:', data.decode())
