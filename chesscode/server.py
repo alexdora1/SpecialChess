@@ -11,17 +11,37 @@ computers = []
 def client_interact(conn, addr):
     print('NEW CONNECTION', addr, 'connected')
     connected = True
+    #sends teams to client side
+    if computers.index(conn) % 2 == 0:
+        conn.send('red team')
+    else:
+        conn.send('green team')
+    #gets messages, sends messages to
     while connected:
         msg = conn.recv(21).decode()
         print(addr, " sent:", msg)
-        for i in computers:
-            msg += str(addr)
+        if len(computers) > 1 and computers.index(conn) % 2 == 0:
+            computers((computers.index(conn) + 1)).send(msg.encode())
+        elif len(computers) > 1 and computers.index(conn) % 2 != 0:
+            computers((computers.index(conn) - 1)).send(msg.encode())
+        else:
             conn.send(msg.encode())
         print('sent', msg)
+        #closes connections of players who were playing together if their opponent quit
         if msg == 'BYEBYEBYEBYEBYEBYEBYE':
             connected =False
+            sendoff = 'your opponent quit'
+            sendoff = sendoff.encode()
+            if len(computers) > 1 and computers.index(conn) % 2 == 0:
+                    computers((computers.index(conn) + 1)).send(sendoff)
+                    computers((computers.index(conn) + 1)).close()
+                    computers.pop(computers.index(conn) + 1)
+            elif len(computers) > 1 and computers.index(conn) % 2 != 0:
+                computers((computers.index(conn) - 1)).send(sendoff)
+                computers((computers.index(conn) - 1)).close()
+                computers.pop(computers.index(conn) - 1)
             computers.pop(computers.index(conn))
-    conn.close()
+            conn.close()
 
 
 
