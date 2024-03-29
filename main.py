@@ -490,11 +490,10 @@ def recieved(conn):
       print(finalLoc)
       for i in Pieces:
         if i.loc == initialLoc:
+          print(i.type)
           i.loc == finalLoc
           move += 1
           break
-
-
       print(data)
 
       for i in Pieces:
