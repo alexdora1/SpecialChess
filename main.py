@@ -490,6 +490,7 @@ def recieved(conn):
     data = conn.recv(50)  # Receive data from the client
     if not data:
         break
+    print('recieved: ', data.decode)
     if '#' in data.decode():
       #splitting something in the form of #0#128#0# 128 in order to move a piece
       data = data.decode()
@@ -566,10 +567,11 @@ while player_name == '':
       if event.key == pygame.K_BACKSPACE:
         userText = userText[:-1]
       elif event.key == pygame.K_RETURN:      
-        userTextList = userText.split(':')
+        userTextList = userText.split(':/n')
         player_name = userTextList[1]
         sending = 'name:' + userTextList[1]
         mysock.send(sending.encode())  
+        print(sending)
       else:
         userText += event.unicode
       
