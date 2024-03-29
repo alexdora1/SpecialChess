@@ -9,7 +9,8 @@ pygame.init()
 screen = pygame.display.set_mode((width, height))
 global player_name
 global opponent_name
-
+player_name = ''
+opponent_name = ''
 intro_screen = pygame.display.set_mode((width, height))
 
 
@@ -567,7 +568,7 @@ while player_name == '':
       if event.key == pygame.K_BACKSPACE:
         userText = userText[:-1]
       elif event.key == pygame.K_RETURN:      
-        userTextList = userText.split(':/n')
+        userTextList = userText.split(':')
         player_name = userTextList[1]
         sending = 'name:' + userTextList[1]
         mysock.send(sending.encode())  
