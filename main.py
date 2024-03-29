@@ -511,6 +511,7 @@ def recieved(conn):
       data = data.decode()
       dataList = data.split('$')
       opponent_name = dataList[1]
+      print('Opponent NAme:', opponent_name)
       
     elif 'BYEBYEBYEBYEBYEBYEBYE' in data.decode():
       print('Opponent quit')
