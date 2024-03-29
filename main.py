@@ -509,9 +509,9 @@ def recieved(conn):
           i.loc = finalLoc
     elif 'name' in data.decode():
       data = data.decode()
-      data.split(':')
-      opponent_name = data[1]
-      print('Opponent Name: ', opponent_name)
+      dataList = data.split('$')
+      opponent_name = dataList[1]
+      
     elif 'BYEBYEBYEBYEBYEBYEBYE' in data.decode():
       print('Opponent quit')
       global running
@@ -519,13 +519,7 @@ def recieved(conn):
 
           
 
-        
-
-
-
-
-
-
+      
 
 
 pygame.display.flip()
@@ -571,7 +565,7 @@ while player_name == '':
       elif event.key == pygame.K_RETURN:      
         userTextList = userText.split(':')
         player_name = userTextList[1]
-        sending = 'name:' + userTextList[1]
+        sending = 'name$' + userTextList[1]
         mysock.send(sending.encode())  
         print(sending)
       else:
@@ -590,7 +584,8 @@ while player_name == '':
   screen.blit(textSurface, (0,0))
   pygame.display.flip()
 
-print(player_name)
+print('Player_name:', player_name)
+
 #this loop will check to see if the opponent is in there
 if opponent_name == '':
   while opponent_name == '':
