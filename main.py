@@ -491,7 +491,7 @@ def recieved(conn):
     data = conn.recv(50)  # Receive data from the client
     if not data:
         break
-    print('recieved: ', data.decode)
+    print('recieved: ', data.decode())
     if '#' in data.decode():
       #splitting something in the form of #0#128#0# 128 in order to move a piece
       data = data.decode()
