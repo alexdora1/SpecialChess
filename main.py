@@ -380,7 +380,7 @@ class Pawn(Piece):
     return False
 
 #Alex: I know this isn't pretty, but this is the best way to have it work with multiplayer
-  
+global Pieces
 global gR1
 global gN1
 global gB1
@@ -508,7 +508,6 @@ compteam = 'null'
 def recieved(conn):
   global compteam
   global move
-  global Pieces
   while compteam == 'null':
     data = conn.recv(50)  # Receive data from the client
     if not data:
@@ -525,11 +524,13 @@ def recieved(conn):
       data = data.decode()
       print(data)
       data = data.split('#')
-      initialLoc = (data[0], data[1])
-      finalLoc = (data[2], data[3])
+      initialLoc = (int(data[0]), int(data[1]))
+      finalLoc = (int(data[2]), int(data[3]))
       print(initialLoc)
       print(finalLoc)
       for i in Pieces:
+        print('working')
+        print(i.type)
         if i.loc == initialLoc:
           print(i.type)
           i.loc == finalLoc
