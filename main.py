@@ -467,6 +467,8 @@ compteam = 'null'
 
 def recieved(conn):
   global compteam
+  global move
+  global Pieces
   while compteam == 'null':
     data = conn.recv(50)  # Receive data from the client
     if not data:
@@ -478,18 +480,29 @@ def recieved(conn):
     if not data:
         break
     print('Received:', data.decode())
-    if '[' in data.decode():
+    if '#' in data.decode():
       #splitting something in the form of g(0, 128)[0, 128] in order to move a piece
       data = data.decode()
       data = data.split('#')
       initialLoc = (data[0], data[1])
       finalLoc = (data[2], data[3])
+      print(initialLoc)
+      print(finalLoc)
+      for i in Pieces:
+        if i.loc == initialLoc:
+          i.loc == finalLoc
+          move += 1
+          break
+
 
       print(data)
 
       for i in Pieces:
         if i.loc == initialLoc:
           i.loc = finalLoc
+    elif 'BYEBYEBYEBYEBYEBYEBYE' in data.decode():
+      global running
+      running = False
 
           
 
