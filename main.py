@@ -483,7 +483,6 @@ def recieved(conn):
     data = conn.recv(50)  # Receive data from the client
     if not data:
         break
-    print('Received:', data.decode())
     if '#' in data.decode():
       #splitting something in the form of g(0, 128)[0, 128] in order to move a piece
       data = data.decode()
@@ -500,6 +499,7 @@ def recieved(conn):
         if i.loc == initialLoc:
           i.loc = finalLoc
     elif 'BYEBYEBYEBYEBYEBYEBYE' in data.decode():
+      print('Opponent quit')
       global running
       running = False
 
