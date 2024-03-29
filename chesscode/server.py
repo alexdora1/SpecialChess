@@ -7,7 +7,7 @@ serversocket = socket(AF_INET, SOCK_STREAM)
 ADDR = ('192.168.1.205', 5555)
 serversocket.bind(ADDR)
 computers = []
-
+Player_Names = []
 
 def client_interact(conn, addr):
     print('NEW CONNECTION', addr, 'connected')
@@ -19,14 +19,18 @@ def client_interact(conn, addr):
     else:
         team = 'g'
         conn.send(team.encode())
+        conn.send(Player_Names[computers.index(conn) - 1].encode())
     #gets messages, sends messages to
     while connected:
         msg = conn.recv(50).decode()
         print(addr, " sent:", msg)
+        if 'name' in msg:
+            Player_Names.append(msg)
         if len(computers) > 1 and computers.index(conn) % 2 == 0:
             computers[(computers.index(conn) + 1)].send(msg.encode())
         elif len(computers) > 1 and computers.index(conn) % 2 != 0:
             computers[(computers.index(conn) - 1)].send(msg.encode())
+
         else:
             conn.send(msg.encode())
         print('sent', msg)
@@ -39,10 +43,13 @@ def client_interact(conn, addr):
                     computers[(computers.index(conn) + 1)].send(sendoff)
                     computers[(computers.index(conn) + 1)].close()
                     computers.pop(computers.index(conn) + 1)
+                    Player_Names.pop(computers.index(conn) + 1)
             elif len(computers) > 1 and computers.index(conn) % 2 != 0:
+
                 computers[(computers.index(conn) - 1)].send(sendoff)
                 computers[(computers.index(conn) - 1)].close()
                 computers.pop(computers.index(conn) - 1)
+                Player_Names.pop(computers.index(conn) + 1)
             computers.pop(computers.index(conn))
             conn.close()
 
