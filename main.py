@@ -381,42 +381,7 @@ class Pawn(Piece):
 
 #Alex: I know this isn't pretty, but this is the best way to have it work with multiplayer
 global Pieces
-global gR1
-global gN1
-global gB1
-global gE
-global gK
-global gQ
-global gB2
-global gN2
-global gR2
-global gP1
-global gP2
-global gP3
-global gP4  
-global gP5
-global gP6
-global  gP7
-global gP8
-global gP9
-global rP1
-global rP2
-global rP3
-global rP4
-global rP5
-global rP6
-global rP7
-global rP8
-global rP9
-global rR1
-global rN1
-global rB1
-global rE
-global rQ
-global rK
-global rB2
-global rN2
-global rR2        
+  
 
 #Assiging places 
     
@@ -522,21 +487,14 @@ def recieved(conn):
     if '#' in data.decode():
       #splitting something in the form of g(0, 128)[0, 128] in order to move a piece
       data = data.decode()
-      print(data)
       data = data.split('#')
       initialLoc = (int(data[0]), int(data[1]))
       finalLoc = (int(data[2]), int(data[3]))
-      print(initialLoc)
-      print(finalLoc)
       for i in Pieces:
-        print('working')
-        print(i.type)
         if i.loc == initialLoc:
-          print(i.type)
           i.loc == finalLoc
           move += 1
           break
-      print(data)
 
       for i in Pieces:
         if i.loc == initialLoc:
