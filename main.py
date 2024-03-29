@@ -463,8 +463,10 @@ def isturn(piece, turn):
     return False
 #We're going to use this to determine which team the player is on -- the server already sends it
 
+compteam = 'null'
 
-def recieved(conn, compteam, Pieces):
+def recieved(conn):
+  global compteam
   while compteam == 'null':
     data = conn.recv(50)  # Receive data from the client
     if not data:
@@ -503,14 +505,15 @@ def recieved(conn, compteam, Pieces):
 pygame.display.flip()
 
 #Assigning positions for the mouse clicks using placeholder values (-1,-1) cannot be clicked
-compteam = 'null'
+
 pos1 = [-1,-1]
 pos2 = [-1, -1]
 mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 mysock.connect(('192.168.1.205', 5555))
-recieved_thread = threading.Thread(target=recieved, args=(mysock, compteam, Pieces), daemon = True)
+recieved_thread = threading.Thread(target=recieved, args=(mysock,), daemon = True)
 recieved_thread.start()
 running = True
+
 while running:
   drawboard(screen)
   drawpieces(Pieces)
