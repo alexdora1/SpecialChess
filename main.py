@@ -379,9 +379,47 @@ class Pawn(Piece):
               return True
     return False
 
-        
+#Alex: I know this isn't pretty, but this is the best way to have it work with multiplayer
+  
+global gR1
+global gN1
+global gB1
+global gE
+global gK
+global gQ
+global gB2
+global gN2
+global gR2
+global gP1
+global gP2
+global gP3
+global gP4
+global gP5
+global gP6
+global  gP7
+global gP8
+global gP9
+global rP1
+global rP2
+global rP3
+global rP4
+global rP5
+global rP6
+global rP7
+global rP8
+global rP9
+global rR1
+global rN1
+global rB1
+global rE
+global rQ
+global rK
+global rB2
+global rN2
+global rR2        
+
 #Assiging places 
-        
+    
 gR1 = Rook('', '', '', (0,0))
 gN1 = Knight('', '', '', (0,0))
 gB1 = Boat('', '', '', (0,0))
@@ -420,6 +458,8 @@ rN2 = Knight('', '', '', (0,0))
 rR2 = Rook('', '', '', (0,0))
 
 Pieces = [gR1, gN1, gB1, gE, gK, gQ, gB2, gN2, gR2, gP1, gP2, gP3, gP4, gP5, gP6, gP7, gP8, gP9, rP1,rP2,rP3,rP4,rP5,rP6,rP7,rP8,rP9,rR1,rN1,rB1,rE,rQ,rK,rB2,rN2,rR2]
+
+
 def drawboard(screen):
   Piecewidth = 64 
   Pieceheight = 64
