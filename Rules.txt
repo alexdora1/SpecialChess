@@ -60,3 +60,13 @@ Queen-High Queen
 
 Super Pawn
 -Can move two every time, and attack backwards diagonally 
+
+-What we need: 
+	Elegant quit / Game loop
+	Names for the players
+	Win conditions
+	All of those special pieces
+	Animations!!! 
+	Clear clicking
+	Rules pop up
+
