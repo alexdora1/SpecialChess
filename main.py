@@ -7,11 +7,7 @@ pygame.init()
 
 (width, height) = (575, 575)
 screen = pygame.display.set_mode((width, height))
-global player_name
-global opponent_name
-player_name = ''
-opponent_name = ''
-intro_screen = pygame.display.set_mode((width, height))
+
 
 
 
@@ -481,6 +477,8 @@ compteam = 'null'
 def recieved(conn):
   global compteam
   global move
+  player_name = ''
+  opponent_name = ''
   while compteam == 'null':
     data = conn.recv(50)  # Receive data from the client
     if not data:
@@ -507,17 +505,22 @@ def recieved(conn):
       for i in Pieces:
         if i.loc == initialLoc:
           i.loc = finalLoc
-    elif 'name' in data.decode():
+    elif 'opponentname$' in data.decode():
       data = data.decode()
       dataList = data.split('$')
       opponent_name = dataList[1]
-      print('Opponent NAme:', opponent_name)
+    
+    elif 'selfname$' in data.decode():
+      data = data.decode()
+      dataList = data.split('$')
+      
       
     elif 'BYEBYEBYEBYEBYEBYEBYE' in data.decode():
       print('Opponent quit')
       global running
       running = False
-
+    if player_name != '' and opponent_name != '':
+      pygame.display.set_caption('Special Chess:', player_name, ': (', compteam, 'vs:', opponent_name)
           
 
       
@@ -532,7 +535,7 @@ pos2 = [-1, -1]
 
 #Also connecting to server
 mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-mysock.connect(('192.168.1.205', 5555))
+mysock.connect(('192.168.1.205', 5050))
 
 #running a seperate thread for the recieving side of things
 recieved_thread = threading.Thread(target=recieved, args=(mysock,), daemon = True)
@@ -553,58 +556,10 @@ global running
 running = True
 
 #This sends the player 
-while player_name == '':
-  for event in pygame.event.get():
-    if event == pygame.QUIT:
-      running = False
-      player_name = 'HELLO'
-      opponent_name = 'Hello'
-      
-    elif event.type == pygame.KEYDOWN:
-      if event.key == pygame.K_BACKSPACE:
-        userText = userText[:-1]
-      elif event.key == pygame.K_RETURN:      
-        userTextList = userText.split(':')
-        player_name = userTextList[1]
-        sending = 'name$' + userTextList[1]
-        mysock.send(sending.encode())  
-        print(sending)
-      else:
-        userText += event.unicode
-      
-  if compteam == 'r':
-    if userText == 'Enter Name: ':
-      userText = 'ENTER NAME, RED TEAM: \n'
-    screen.fill((255,0,0))
-    textSurface = baseFont.render(userText, True, (0,255,0))
-  else:
-    if userText == 'Enter Name: ':
-      userText = 'ENTER NAME, GREEN TEAM: \n'
-    screen.fill((0,255,0))
-    textSurface = baseFont.render(userText, True, (250,0,0))
-  screen.blit(textSurface, (0,0))
-  pygame.display.flip()
-
-print('Player_name:', player_name)
-
-#this loop will check to see if the opponent is in there
-if opponent_name == '':
-  while opponent_name == '':
-    for event in pygame.event.get():
-      if event == pygame.QUIT:
-        running = False
-        player_name = 'HELLO'
-        opponent_name = 'Hello'
-    userText = 'Waitng for opponent'
-    screen.fill((0,255,0))
-    textSurface = baseFont.render(userText, True, (250,0,0))
-    screen.blit(textSurface, (0,0))
-    pygame.display.flip()
 
 
 #setting 
-Caption = 'Special Chess: ' + player_name + ' vs. ' + opponent_name 
-pygame.display.set_caption(Caption)
+
 
 while running:
   drawboard(screen)
