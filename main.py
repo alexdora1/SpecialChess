@@ -588,12 +588,7 @@ while running:
 
         for i in Pieces:
           if (i.loc == (pos1[0], pos1[1])):      
-            if i.team == compteam and isturn(i, move) and i.islegal(Pieces, pos1, pos2):
-              move += 1            
-              pygame.draw.rect(screen, pygame.Color('blue'), pygame.Rect((pos1[0] - ((pos1[0]) % 64)), (pos1[1]-(pos1[1]%64)), 64, 64))
-              i.loc = (pos2[0], pos2[1])
-              pygame.draw.rect(screen, pygame.Color('purple'), pygame.Rect((pos2[0] - (pos2[0]) % 64), (pos2[1]-pos2[1]%64), 64, 64))
-              drawpieces(Pieces)
+            if i.team == compteam and isturn(i, move) and i.islegal(Pieces, pos1, pos2):              
               try:
                 sending = str(i.loc[0]) + '#' + str(i.loc[1]) + '#' + str(pos2[0]) + '#' + str(pos2[1])
                 sending = sending.encode()
@@ -612,6 +607,12 @@ while running:
                   mysock.connect()
               except socket.error as e:
                   print('Socket error:', e)
+              
+              move += 1            
+              pygame.draw.rect(screen, pygame.Color('blue'), pygame.Rect((pos1[0] - ((pos1[0]) % 64)), (pos1[1]-(pos1[1]%64)), 64, 64))
+              i.loc = (pos2[0], pos2[1])
+              pygame.draw.rect(screen, pygame.Color('purple'), pygame.Rect((pos2[0] - (pos2[0]) % 64), (pos2[1]-pos2[1]%64), 64, 64))
+              drawpieces(Pieces)
 
         
         pos1 = [-1,-1]
