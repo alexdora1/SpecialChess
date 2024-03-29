@@ -393,7 +393,7 @@ global gR2
 global gP1
 global gP2
 global gP3
-global gP4
+global gP4  
 global gP5
 global gP6
 global  gP7
@@ -523,6 +523,7 @@ def recieved(conn):
     if '#' in data.decode():
       #splitting something in the form of g(0, 128)[0, 128] in order to move a piece
       data = data.decode()
+      print(data)
       data = data.split('#')
       initialLoc = (data[0], data[1])
       finalLoc = (data[2], data[3])
