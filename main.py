@@ -511,6 +511,7 @@ def recieved(conn):
       data = data.decode()
       data.split(':')
       opponent_name = data[1]
+      print('Opponent Name: ', opponent_name)
     elif 'BYEBYEBYEBYEBYEBYEBYE' in data.decode():
       print('Opponent quit')
       global running
