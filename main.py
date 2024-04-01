@@ -490,7 +490,7 @@ def recieved(conn):
       initialLoc = (int(data[0]), int(data[1]))
       finalLoc = (int(data[2]), int(data[3]))
       for i in Pieces:
-        if i.loc == initialLoc:
+        if i.loc == initialLoc and i.islegal(Pieces, initialLoc, finalLoc):
           i.loc == finalLoc
           move += 1
           break
