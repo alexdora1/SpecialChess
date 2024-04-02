@@ -6,7 +6,11 @@ import threading
 
 (width, height) = (575, 575)
 screen = pygame.display.set_mode((width, height))
-
+global Display_Name
+global FirstName
+FirstName = False
+Display_Name = 'Special Chess'
+pygame.display.set_caption(Display_Name)
 class Piece:
     def __init__(self, team, type, image, loc):
         self.team = team
@@ -480,7 +484,7 @@ def recieved(conn):
     compteam = data.decode()
     print('team:', compteam)
   while True:
-    data = conn.recv(50)  # Receive data from the client
+    data = conn.recv(100)  # Receive data from the client
     if not data:
         break
     if '#' in data.decode():
@@ -498,17 +502,17 @@ def recieved(conn):
       for i in Pieces:
         if i.loc == initialLoc:
           i.loc = finalLoc
+    elif '(self' in data.decode():
+      #setting display name
+      Display_Name = data.decode()
+      FirstName = True
+      print('recieved: ', Display_Name)
     elif 'BYEBYEBYEBYEBYEBYEBYE' in data.decode():
       print('Opponent quit')
       global running
       running = False
 
           
-
-        
-
-
-
 
 
 
@@ -529,6 +533,9 @@ running = True
 while running:
   drawboard(screen)
   drawpieces(Pieces)
+  if FirstName:
+    pygame.display.set_caption(Display_Name)
+    FirstName = False
 
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
