@@ -3,6 +3,7 @@ import time
 import socket
 import threading 
 #Adding a function to show the clicking
+pygame.font.init()
 
 (width, height) = (575, 575)
 screen = pygame.display.set_mode((width, height))
@@ -467,7 +468,7 @@ def drawpieces(ex_board):
 
 #putting the name text in there
 def drawtext(text):
-  baseFont = pygame.font.Font(None,20)
+  baseFont = pygame.font.SysFont('Arial', 20)
   textSurface = baseFont.render(text, False, (0,0,255))
   screen.blit(textSurface, (100,250))
 
