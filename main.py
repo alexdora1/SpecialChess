@@ -492,12 +492,12 @@ def recieved(conn):
     data = conn.recv(100)  # Receive data from the client
     if not data:
         break
-    if '*' in data:     
+    if '*' in data.decode():     
       data = data.decode()
       dataList = data.split('*')
       compteam = dataList[1]
       print('team:', compteam)
-      if len(dataList > 2):
+      if len(dataList) > 2:
         player_names = dataList[3]
   while True:
     data = conn.recv(100)  # Receive data from the client
