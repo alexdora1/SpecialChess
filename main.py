@@ -13,8 +13,7 @@ screen = pygame.display.set_mode((width, height))
 
 Display_Name = 'Special Chess'
 pygame.display.set_caption(Display_Name)
-global player_names
-player_names = 'Multiplayer Match'
+
 
 class Piece:
     def __init__(self, team, type, image, loc):
@@ -488,12 +487,18 @@ compteam = 'null'
 def recieved(conn):
   global compteam
   global move
+  global player_names
   while compteam == 'null':
-    data = conn.recv(50)  # Receive data from the client
+    data = conn.recv(100)  # Receive data from the client
     if not data:
         break
-    compteam = data.decode()
-    print('team:', compteam)
+    if '*' in data:     
+      data = data.decode()
+      dataList = data.split('*')
+      compteam = dataList[1]
+      print('team:', compteam)
+      if len(dataList > 2):
+        player_names = dataList[3]
   while True:
     data = conn.recv(100)  # Receive data from the client
     if not data:
@@ -513,11 +518,10 @@ def recieved(conn):
       for i in Pieces:
         if i.loc == initialLoc:
           i.loc = finalLoc
-    elif '(self' in data.decode():
-      #setting display name
-      print(data.decode())
+    elif '(self' in data.decode() and player_names == 'w':
+      #setting display name      
       player_names = data.decode()
-      print(player_names)
+      print('player names:', player_names)
     elif 'BYEBYEBYEBYEBYEBYEBYE' in data.decode():
       print('Opponent quit')
       global running
@@ -536,19 +540,18 @@ pos1 = [-1,-1]
 pos2 = [-1, -1]
 mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 mysock.connect(('172.27.8.183', 5555))
+global player_names
+player_names = 'w'
 recieved_thread = threading.Thread(target=recieved, args=(mysock,), daemon = True)
 recieved_thread.start()
 running = True
+
 
 while running:
   drawboard(screen)
   drawpieces(Pieces)
   drawtext(player_names)
-
-  
-
-  
-  
+  print(player_names)
 
 
   for event in pygame.event.get():
