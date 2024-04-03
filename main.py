@@ -6,11 +6,15 @@ import threading
 
 (width, height) = (575, 575)
 screen = pygame.display.set_mode((width, height))
-global Display_Name
-global FirstName
-FirstName = False
+
+
+
+
 Display_Name = 'Special Chess'
 pygame.display.set_caption(Display_Name)
+global player_names
+player_names = 'Multiplayer Match'
+
 class Piece:
     def __init__(self, team, type, image, loc):
         self.team = team
@@ -461,6 +465,12 @@ def drawpieces(ex_board):
   for i in ex_board:
     screen.blit(pygame.image.load(i.image), (i.loc))
 
+#putting the name text in there
+def drawtext(text):
+  baseFont = pygame.font.Font(None,20)
+  textSurface = baseFont.render(text, False, (0,0,255))
+  screen.blit(textSurface, (100,250))
+
 #creating the turn logic 
 move = 0
 def isturn(piece, turn):
@@ -487,7 +497,7 @@ def recieved(conn):
     data = conn.recv(100)  # Receive data from the client
     if not data:
         break
-    if '#' in data.decode():
+    if '#' in data.decode() and '(self' not in data.decode():
       #splitting something in the form of g(0, 128)[0, 128] in order to move a piece
       data = data.decode()
       data = data.split('#')
@@ -504,16 +514,15 @@ def recieved(conn):
           i.loc = finalLoc
     elif '(self' in data.decode():
       #setting display name
-      Display_Name = data.decode()
-      FirstName = True
-      print('recieved: ', Display_Name)
+      print(data.decode())
+      player_names = data.decode()
+      print(player_names)
     elif 'BYEBYEBYEBYEBYEBYEBYE' in data.decode():
       print('Opponent quit')
       global running
       running = False
 
           
-
 
 
 
@@ -533,9 +542,13 @@ running = True
 while running:
   drawboard(screen)
   drawpieces(Pieces)
-  if FirstName:
-    pygame.display.set_caption(Display_Name)
-    FirstName = False
+  drawtext(player_names)
+
+  
+
+  
+  
+
 
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
