@@ -469,7 +469,7 @@ def drawpieces(ex_board):
 def drawtext(text):
   baseFont = pygame.font.SysFont('Arial', 20)
   textSurface = baseFont.render(text, False, (0,0,255))
-  screen.blit(textSurface, (100,250))
+  screen.blit(textSurface, (50,250))
 
 #creating the turn logic 
 move = 0
@@ -498,7 +498,7 @@ def recieved(conn):
       compteam = dataList[1]
       print('team:', compteam)
       if len(dataList) > 2:
-        player_names = dataList[3]
+        player_names = dataList[2]
   while True:
     data = conn.recv(100)  # Receive data from the client
     if not data:
@@ -539,7 +539,9 @@ pygame.display.flip()
 pos1 = [-1,-1]
 pos2 = [-1, -1]
 mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-mysock.connect(('172.27.8.183', 5555))
+#GFS IP on the one below this
+#mysock.connect(('172.27.8.183', 5555))
+mysock.connect(('192.168.1.205', 5555))
 global player_names
 player_names = 'w'
 recieved_thread = threading.Thread(target=recieved, args=(mysock,), daemon = True)
