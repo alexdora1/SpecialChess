@@ -540,8 +540,8 @@ pos1 = [-1,-1]
 pos2 = [-1, -1]
 mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 #GFS IP on the one below this
-#mysock.connect(('172.27.8.183', 5555))
-mysock.connect(('192.168.1.205', 5555))
+mysock.connect(('172.27.8.183', 5555))
+#mysock.connect(('192.168.1.205', 5555))
 global player_names
 player_names = 'w'
 recieved_thread = threading.Thread(target=recieved, args=(mysock,), daemon = True)
