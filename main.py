@@ -16,7 +16,6 @@ class Piece:
       print("We're in the piece")
       return True
 
-
 class Rook(Piece):
     def islegal(self, ex_board, pos1, pos2):         
       if(pos1[0] < pos2[0]) and (pos2[1] == pos1[1]):
@@ -26,7 +25,11 @@ class Rook(Piece):
               return False
         for c in ex_board:
           if c.loc == (pos2[0], pos2[1]):
-            if c.team == self.team or c.image == 'assets/Rock.png':
+            if c.team == self.team or c.image == 'assets/Rock.png' :
+              print(c.image)
+              if c.image == 'assets/Green_Rook.png' or c.image == 'assets/Red_Rook.png':
+                ex_board.pop(ex_board.index(c))
+                return True
               return False
             else:
               ex_board.pop(ex_board.index(c))
@@ -36,23 +39,32 @@ class Rook(Piece):
         # finds pieces                 
         for c in ex_board:
             if (c.loc[1] == pos2[1]) and (pos1[0] > c.loc[0] > pos2[0]):
+              print('a')
               return False
         for c in ex_board:
           if c.loc == (pos2[0], pos2[1]):
             if c.team == self.team or c.image == 'assets/Rock.png':
+              if c.image == 'assets/Green_Rook.png' or c.image == 'assets/Red_Rook.png':
+                ex_board.pop(ex_board.index(c))
+                print('b')
+                return True
+              
               return False
             else:
               ex_board.pop(ex_board.index(c))
+              
               return True
         return True
       elif(pos1[0] == pos2[0]) and (pos2[1] > pos1[1]):
         # finds pieces                     
         for c in ex_board:
             if c.loc[0] == pos2[0] and pos1[1] < c.loc[1] < pos2[1]:
+              print('c')
               return False
         for c in ex_board:
           if c.loc == (pos2[0], pos2[1]):
             if c.team == self.team or c.image == 'assets/Rock.png':
+              print('d')
               return False
             else:
               ex_board.pop(ex_board.index(c))
@@ -62,15 +74,18 @@ class Rook(Piece):
         # finds pieces                     
         for c in ex_board:
             if c.loc[0] == pos2[0] and pos1[1] > c.loc[1] > pos2[1]:
+              print('e')
               return False
         for c in ex_board:
           if c.loc == (pos2[0], pos2[1]):
             if c.team == self.team or c.image == 'assets/Rock.png':
+              print('f')
               return False
             else:
               ex_board.pop(ex_board.index(c))
               return True
         return True 
+      print('g')
       return False      
 
 class Knight(Piece):
@@ -144,7 +159,6 @@ class Boat(Piece):
               return True
         return True
       return False
-
 
 class King(Piece):
     def islegal(self, ex_board, pos1, pos2):
@@ -260,7 +274,6 @@ class Queen(Piece):
         return True 
       return False   
 
-
 class Elephant(Piece):
     def islegal(self, ex_board, pos1, pos2):   
       if((abs(pos1[0] - pos2[0]) == 128) and (abs(pos2[1] - pos1[1]) == (128))):
@@ -331,8 +344,6 @@ class Elephant(Piece):
 
         return True
       return False  
-      
-
 
 class Pawn(Piece):
   def islegal(self, ex_board, pos1, pos2):              
@@ -378,9 +389,83 @@ class Pawn(Piece):
               return True
     return False
 
-        
+class Super_Rook(Piece):
+    def __init__(self, lives):
+      self.lives = 4
+    def get_lives(self):
+      return self.lives
+    def set_lives(self, lives):
+      self.lives=lives
+    def islegal(self, ex_board, pos1, pos2):         
+      if(pos1[0] < pos2[0]) and (pos2[1] == pos1[1]):
+        # finds pieces                         
+        for c in ex_board:
+            if c.loc[1] == pos2[1] and pos1[0] < c.loc[0] < pos2[0]:
+              return False
+        for c in ex_board:
+          if c.loc == (pos2[0], pos2[1]):
+            if c.team == self.team or c.image == 'assets/Rock.png' :
+              print(c.image)
+              
+          
+              return False
+            else:
+              ex_board.pop(ex_board.index(c))
+              return True
+        return True
+      elif(pos2[0] < pos1[0]) and (pos2[1] == pos1[1]):
+        # finds pieces                 
+        for c in ex_board:
+            if (c.loc[1] == pos2[1]) and (pos1[0] > c.loc[0] > pos2[0]):
+              print('a')
+              return False
+        for c in ex_board:
+          if c.loc == (pos2[0], pos2[1]):
+            if c.team == self.team or c.image == 'assets/Rock.png':
+              
+              
+              return False
+            else:
+              ex_board.pop(ex_board.index(c))
+              
+              return True
+        return True
+      elif(pos1[0] == pos2[0]) and (pos2[1] > pos1[1]):
+        # finds pieces                     
+        for c in ex_board:
+            if c.loc[0] == pos2[0] and pos1[1] < c.loc[1] < pos2[1]:
+              print('c')
+              return False
+        for c in ex_board:
+          if c.loc == (pos2[0], pos2[1]):
+            if c.team == self.team or c.image == 'assets/Rock.png':
+            
+              return False
+            else:
+              ex_board.pop(ex_board.index(c))
+              return True
+        return True
+      elif(pos1[0] == pos2[0]) and (pos2[1] < pos1[1]):
+        # finds pieces                     
+        for c in ex_board:
+            if c.loc[0] == pos2[0] and pos1[1] > c.loc[1] > pos2[1]:
+             
+              return False
+        for c in ex_board:
+          if c.loc == (pos2[0], pos2[1]):
+            if c.team == self.team or c.image == 'assets/Rock.png':
+            
+              return False
+            else:
+              ex_board.pop(ex_board.index(c))
+              return True
+        return True 
+   
+      return False      
+            
 #Assiging places 
-        
+gSR = Super_Rook('', '', '', (0,0))        
+rSR = Super_Rook('', '', '', (0,0))  
 gR1 = Rook('', '', '', (0,0))
 gN1 = Knight('', '', '', (0,0))
 gB1 = Boat('', '', '', (0,0))
@@ -418,7 +503,7 @@ rB2 = Boat('', '', '', (0,0))
 rN2 = Knight('', '', '', (0,0))
 rR2 = Rook('', '', '', (0,0))
 
-Pieces = [gR1, gN1, gB1, gE, gK, gQ, gB2, gN2, gR2, gP1, gP2, gP3, gP4, gP5, gP6, gP7, gP8, gP9, rP1,rP2,rP3,rP4,rP5,rP6,rP7,rP8,rP9,rR1,rN1,rB1,rE,rQ,rK,rB2,rN2,rR2]
+Pieces = [gR1, gN1, gB1, gE, gK, gQ, gB2, gN2, gR2, gP1, gP2, gP3, gP4, gP5, gP6, gP7, gP8, gP9, rP1,rP2,rP3,rP4,rP5,rP6,rP7,rP8,rP9,rR1,rN1,rB1,rE,rQ,rK,rB2,rN2,rR2,gSR,rSR]
 def drawboard(screen):
   Piecewidth = 64 
   Pieceheight = 64
@@ -431,7 +516,7 @@ def drawboard(screen):
   
 
 
-pieces_names = ["Rook", "Knight", "Boat", "Elephant", "King", "Queen", "Boat", "Knight", "Rook"]
+pieces_names = ["Rook", "Knight", "Boat", "Elephant", "King", "Queen", "Boat", "Knight", "Rook", "SuperRook"]
 
 #putting pieces in board with for loop. '_' is an unoccupied space
 for i in range(0, 80):
