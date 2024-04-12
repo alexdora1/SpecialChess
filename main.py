@@ -9,8 +9,11 @@ pygame.font.init()
 screen = pygame.display.set_mode((width, height))
 
 
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes
 Display_Name = 'Special Chess'
 pygame.display.set_caption(Display_Name)
 
@@ -521,6 +524,7 @@ def recieved(conn):
       for i in Pieces:
         if i.loc == initialLoc:
           i.loc = finalLoc
+<<<<<<< Updated upstream
     elif '(self' in data.decode() and player_names == 'w':
       #setting display name      
       player_names = data.decode()
@@ -543,6 +547,11 @@ def recieved(conn):
         location = Pieces[firstUltra].loc()
         pygame.draw.rect(screen, (255,192,203), pygame.Rect(location[0], location[1], 64, 64))
 
+=======
+    elif '(self' in data.decode():
+      #setting display name
+      print(data.decode())
+>>>>>>> Stashed changes
     elif 'BYEBYEBYEBYEBYEBYEBYE' in data.decode():
       print('Opponent quit')
       global running
@@ -552,6 +561,10 @@ def recieved(conn):
 
 
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 pygame.display.flip()
 
 #Assigning positions for the mouse clicks using placeholder values (-1,-1) cannot be clicked
@@ -579,7 +592,10 @@ while running:
   drawboard(screen)
   pygame.draw.rect(screen, rectColor, pygame.Rect(rectSquare))
   drawpieces(Pieces)
+<<<<<<< Updated upstream
   drawtext(player_names)
+=======
+>>>>>>> Stashed changes
 
 
   for event in pygame.event.get():
