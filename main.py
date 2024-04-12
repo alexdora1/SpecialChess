@@ -2,6 +2,7 @@ import pygame
 import time
 import socket
 import threading 
+import random
 #Adding a function to show the clicking
 pygame.font.init()
 
@@ -539,6 +540,14 @@ def recieved(conn):
       elif compteam == 'g':
         Pieces[secondUltra].image = 'assets/ultra.png'
         print('Green Team Team / First ultra index:', firstUltra, 'Second ultra index:', secondUltra)
+      
+    elif('%') in data.decode():
+       #rockCords = 'rock%' + str(xRock) + '%' + str(yRock) +'%'
+      rockList = data.decode.split()
+      xRock = rockList[1]
+      yRock = rockList [2]
+      new_Rock = Pawn('g', 'rock', 'assets/Rock.png', (xRock, yRock))
+      Pieces.append(new_Rock)
 
     elif 'BYEBYEBYEBYEBYEBYEBYE' in data.decode():
       print('Opponent quit')
@@ -630,6 +639,21 @@ while running:
               i.loc = (pos2[0], pos2[1])
               pygame.draw.rect(screen, pygame.Color('purple'), pygame.Rect((pos2[0] - (pos2[0]) % 64), (pos2[1]-pos2[1]%64), 64, 64))
               drawpieces(Pieces)
+              rockChance = 8
+              if rockChance == 8:
+                xRock = random.randint(0, 8)
+                xRock = xRock * 64
+                yRock = random.randint(0,8)
+                yRock = yRock * 64
+                for i in Pieces:
+                  if i.loc == (xRock, yRock):
+                    Pieces.pop(Pieces.index(i))
+
+                new_Rock = Pawn('g', 'rock', 'assets/Rock.png', (xRock, yRock))
+                rockCords = 'rock%' + str(xRock) + '%' + str(yRock) +'%'
+                mysock.send(rockCords.encode())
+                Pieces.append(new_Rock)
+                  #def __init__(self, team, type, image, loc):
 
         
         pos1 = [-1,-1]
@@ -647,6 +671,7 @@ while running:
 
 
   pygame.display.update()
+
 sending = 'BYEBYEBYEBYEBYEBYEBYE'
 mysock.send(sending.encode())
 mysock.close()
