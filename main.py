@@ -469,7 +469,7 @@ def drawpieces(ex_board):
 
 #putting the name text in there
 def drawtext(text):
-  baseFont = pygame.font.SysFont('Arial', 20)
+  baseFont = pygame.font.SysFont('Comic Sans MS', 20)
   textSurface = baseFont.render(text, False, (0,0,255))
   screen.blit(textSurface, (50,250))
 
