@@ -14,7 +14,6 @@ screen = pygame.display.set_mode((width, height))
 Display_Name = 'Special Chess'
 pygame.display.set_caption(Display_Name)
 
-
 class Piece:
     def __init__(self, team, type, image, loc):
         self.team = team
@@ -432,6 +431,9 @@ rR2 = Rook('', '', '', (0,0))
 
 Pieces = [gR1, gN1, gB1, gE, gK, gQ, gB2, gN2, gR2, gP1, gP2, gP3, gP4, gP5, gP6, gP7, gP8, gP9, rP1,rP2,rP3,rP4,rP5,rP6,rP7,rP8,rP9,rR1,rN1,rB1,rE,rQ,rK,rB2,rN2,rR2]
 
+#ultraPieces is the list for the pieces that automatically kill the thing
+global ultraPieces
+ultraPieces = []
 
 def drawboard(screen):
   Piecewidth = 64 
@@ -471,6 +473,7 @@ def drawtext(text):
   textSurface = baseFont.render(text, False, (0,0,255))
   screen.blit(textSurface, (50,250))
 
+
 #creating the turn logic 
 move = 0
 def isturn(piece, turn):
@@ -488,6 +491,7 @@ def recieved(conn):
   global compteam
   global move
   global player_names
+  global ultraPieces
   while compteam == 'null':
     data = conn.recv(100)  # Receive data from the client
     if not data:
@@ -496,7 +500,6 @@ def recieved(conn):
       data = data.decode()
       dataList = data.split('*')
       compteam = dataList[1]
-      print('team:', compteam)
       if len(dataList) > 2:
         player_names = dataList[2]
   while True:
@@ -522,13 +525,30 @@ def recieved(conn):
       #setting display name      
       player_names = data.decode()
       print('player names:', player_names)
+    elif 'Ultra^' in data.decode():
+      #getting the ultra pieces
+      data = data.decode()
+      dataList = data.split('^')
+      firstUltra = dataList[1]
+      firstUltra = int(firstUltra)
+      secondUltra = dataList[3]
+      secondUltra = int(secondUltra)
+      ultraPieces.append(Pieces[firstUltra])
+      ultraPieces.append(Pieces[secondUltra])
+      if compteam == 'r':
+        location = Pieces[secondUltra].loc()
+        ##pygame.draw.rect(screen, color, pygame.Rect(c*64,r*64,64,64))
+        pygame.draw.rect(screen, (255,192,203), pygame.Rect(location[0], location[1], 64, 64))
+      elif compteam == 'g':
+        location = Pieces[firstUltra].loc()
+        pygame.draw.rect(screen, (255,192,203), pygame.Rect(location[0], location[1], 64, 64))
+
     elif 'BYEBYEBYEBYEBYEBYEBYE' in data.decode():
       print('Opponent quit')
       global running
       running = False
 
           
-
 
 
 
@@ -547,13 +567,19 @@ player_names = 'w'
 recieved_thread = threading.Thread(target=recieved, args=(mysock,), daemon = True)
 recieved_thread.start()
 running = True
+#Clicking rect is the rectangle that tells a student where they are clicking 
+rectColor = (255,165,0)
+rectSquare = (0, 0, 0, 0)
+
 
 
 while running:
+  #pygame.draw.rect(screen, color, pygame.Rect(c*64,r*64,64,64))
+  
   drawboard(screen)
+  pygame.draw.rect(screen, rectColor, pygame.Rect(rectSquare))
   drawpieces(Pieces)
   drawtext(player_names)
-  print(player_names)
 
 
   for event in pygame.event.get():
@@ -564,11 +590,16 @@ while running:
       if pos1 == [-1,-1]:
         pos1 = pygame.mouse.get_pos()
         pos1 = [(pos1[0] - (int(pos1[0]) % 64)), pos1[1] - pos1[1] % 64]
+        rectColor = (255,165,0)
+        rectSquare = (pos1[0], pos1[1], 64, 64)
+
         
         pos2 = [-1,-1]
       elif pos1 != [-1, -1]:
         pos2 = pygame.mouse.get_pos()
         pos2 = [(pos2[0] - pos2[0] % 64), (pos2[1] - pos2[1] % 64)] 
+        rectSquare = (pos2[0], pos2[1], 64, 64)
+        rectColor = (255,223,0)
       
 
         for i in Pieces:
