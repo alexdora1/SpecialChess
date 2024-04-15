@@ -544,8 +544,8 @@ def recieved(conn):
     elif('%') in data.decode():
        #rockCords = 'rock%' + str(xRock) + '%' + str(yRock) +'%'
       rockList = data.decode.split()
-      xRock = rockList[1]
-      yRock = rockList [2]
+      xRock = rockList[2]
+      yRock = rockList [3]
       new_Rock = Pawn('g', 'rock', 'assets/Rock.png', (xRock, yRock))
       Pieces.append(new_Rock)
 
@@ -650,7 +650,7 @@ while running:
                     Pieces.pop(Pieces.index(i))
 
                 new_Rock = Pawn('g', 'rock', 'assets/Rock.png', (xRock, yRock))
-                rockCords = 'rock%' + str(xRock) + '%' + str(yRock) +'%'
+                rockCords = '%rock%' + str(xRock) + '%' + str(yRock) +'%'
                 mysock.send(rockCords.encode())
                 Pieces.append(new_Rock)
                   #def __init__(self, team, type, image, loc):
