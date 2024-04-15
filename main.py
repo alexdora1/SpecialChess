@@ -506,10 +506,10 @@ def recieved(conn):
         break
     if '#' in data.decode() and '(self' not in data.decode():
       #splitting something in the form of g(0, 128)[0, 128] in order to move a piece
-      data = data.decode()
-      data = data.split('#')
-      initialLoc = (int(data[0]), int(data[1]))
-      finalLoc = (int(data[2]), int(data[3]))
+      dList = data.decode()
+      dList = dList.split('#')
+      initialLoc = (int(dList[0]), int(dList[1]))
+      finalLoc = (int(dList[2]), int(dList[3]))
       for i in Pieces:
         if i.loc == initialLoc and i.islegal(Pieces, initialLoc, finalLoc):
           i.loc == finalLoc
@@ -525,8 +525,8 @@ def recieved(conn):
       print('player names:', player_names)
     elif 'Ultra^' in data.decode():
       #getting the ultra pieces
-      data = data.decode()
-      dataList = data.split('^')
+      data = dList.decode()
+      dataList = dList.split('^')
       firstUltra = dataList[2]
       firstUltra = int(firstUltra)
       secondUltra = dataList[4]
@@ -546,6 +546,9 @@ def recieved(conn):
       rockList = data.decode.split()
       xRock = rockList[2]
       yRock = rockList [3]
+      for i in Pieces:
+        if i.loc == (xRock, yRock):
+          Pieces.pop(Pieces.index(i))
       new_Rock = Pawn('g', 'rock', 'assets/Rock.png', (xRock, yRock))
       Pieces.append(new_Rock)
 
