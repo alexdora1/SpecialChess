@@ -639,8 +639,8 @@ while running:
               i.loc = (pos2[0], pos2[1])
               pygame.draw.rect(screen, pygame.Color('purple'), pygame.Rect((pos2[0] - (pos2[0]) % 64), (pos2[1]-pos2[1]%64), 64, 64))
               drawpieces(Pieces)
-              rockChance = 8
-              if rockChance == 8:
+              rockChance = (1,15)
+              if rockChance == 8 and move > 2:
                 xRock = random.randint(0, 8)
                 xRock = xRock * 64
                 yRock = random.randint(0,8)
