@@ -616,7 +616,7 @@ while running:
           if (i.loc == (pos1[0], pos1[1])):      
             if i.team == compteam and isturn(i, move) and i.islegal(Pieces, pos1, pos2):              
               try:
-                sending = str(i.loc[0]) + '#' + str(i.loc[1]) + '#' + str(pos2[0]) + '#' + str(pos2[1])
+                sending = str(i.loc[0]) + '#' + str(i.loc[1]) + '#' + str(pos2[0]) + '#' + str(pos2[1]) + '#'
                 sending = sending.encode()
                 sent_bytes = 0
                 while sent_bytes < len(sending):
