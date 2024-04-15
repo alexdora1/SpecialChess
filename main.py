@@ -525,7 +525,7 @@ def recieved(conn):
       print('player names:', player_names)
     elif 'Ultra^' in data.decode():
       #getting the ultra pieces
-      data = dList.decode()
+      dList = data.decode()
       dataList = dList.split('^')
       firstUltra = dataList[2]
       firstUltra = int(firstUltra)
