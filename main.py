@@ -495,8 +495,8 @@ def recieved(conn):
     if not data:
         break
     if '*' in data.decode():     
-      data = data.decode()
-      dataList = data.split('*')
+      dataList = data.decode()
+      dataList = dataList.split('*')
       compteam = dataList[1]
       if len(dataList) > 2:
         player_names = dataList[2]
@@ -504,22 +504,7 @@ def recieved(conn):
     data = conn.recv(100)  # Receive data from the client
     if not data:
         break
-    if '#' in data.decode() and '(self' not in data.decode():
-      #splitting something in the form of g(0, 128)[0, 128] in order to move a piece
-      dList = data.decode()
-      dList = dList.split('#')
-      initialLoc = (int(dList[0]), int(dList[1]))
-      finalLoc = (int(dList[2]), int(dList[3]))
-      for i in Pieces:
-        if i.loc == initialLoc and i.islegal(Pieces, initialLoc, finalLoc):
-          i.loc == finalLoc
-          move += 1
-          break
-
-      for i in Pieces:
-        if i.loc == initialLoc:
-          i.loc = finalLoc
-    elif '(self' in data.decode() and player_names == 'w':
+    if '(self' in data.decode() and player_names == 'w':
       #setting display name      
       player_names = data.decode()
       print('player names:', player_names)
@@ -551,6 +536,21 @@ def recieved(conn):
           Pieces.pop(Pieces.index(i))
       new_Rock = Pawn('g', 'rock', 'assets/Rock.png', (xRock, yRock))
       Pieces.append(new_Rock)
+    elif '#' in data.decode():
+      #splitting something in the form of g(0, 128)[0, 128] in order to move a piece
+      dList = data.decode()
+      dList = dList.split('#')
+      initialLoc = (int(dList[1]), int(dList[2]))
+      finalLoc = (int(dList[3]), int(dList[4]))
+      for i in Pieces:
+        if i.loc == initialLoc and i.islegal(Pieces, initialLoc, finalLoc):
+          i.loc == finalLoc
+          move += 1
+          break
+
+      for i in Pieces:
+        if i.loc == initialLoc:
+          i.loc = finalLoc
 
     elif 'BYEBYEBYEBYEBYEBYEBYE' in data.decode():
       print('Opponent quit')
@@ -570,7 +570,7 @@ pos2 = [-1, -1]
 mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 #GFS IP on the one below this
 #Alex
-mysock.connect(('172.27.8.183', 5555))
+mysock.connect(('172.27.8.183', 5557))
 #ADDR = ('172.27.8.183', 5555)
 #mysock.connect(('192.168.1.205', 5555))
 global player_names
@@ -621,7 +621,7 @@ while running:
           if (i.loc == (pos1[0], pos1[1])):      
             if i.team == compteam and isturn(i, move) and i.islegal(Pieces, pos1, pos2):              
               try:
-                sending = str(i.loc[0]) + '#' + str(i.loc[1]) + '#' + str(pos2[0]) + '#' + str(pos2[1]) + '#'
+                sending = '#' + str(i.loc[0]) + '#' + str(i.loc[1]) + '#' + str(pos2[0]) + '#' + str(pos2[1]) + '#'
                 sending = sending.encode()
                 sent_bytes = 0
                 while sent_bytes < len(sending):
