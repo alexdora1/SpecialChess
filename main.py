@@ -570,7 +570,7 @@ pos2 = [-1, -1]
 mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 #GFS IP on the one below this
 #Alex
-mysock.connect(('172.27.8.183', 5557))
+mysock.connect(('172.27.8.183', 5555))
 #ADDR = ('172.27.8.183', 5555)
 #mysock.connect(('192.168.1.205', 5555))
 global player_names

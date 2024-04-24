@@ -9,7 +9,7 @@ serversocket = socket(AF_INET, SOCK_STREAM)
 ADDR = ('172.27.8.183', 5555)
 serversocket.bind(ADDR)
 computers = []
-First_Moves = []
+First_Moves = ['_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_']
 
 Names = ['Mark', 'Alex', 'Matt', 'Collin', 'Christoph', 'Anna', 'Rob', 'Annie', 'Phredrick', 'olamma', 'lambda', 'jeremy', '@$%!', 'Jerome', 'Jemmy', 'Bilbo', 'Hobbit']
 ultraPieces = []
@@ -53,7 +53,8 @@ def client_interact(conn, addr):
         print('sent', team)
         team = team.encode()
         conn.send(team)
-        conn.send(First_Moves[index - 1].encode())
+        if First_Moves[index - 1] != '_':
+            conn.send(First_Moves[index - 1].encode())
         #This sends the ultra Pieces to
         sending = '^redUltra^' + ultraPieces[index - 1] + '^greenUltra^' + ultraPieces[index]  + '^'
         conn.send(sending.encode())
@@ -63,7 +64,8 @@ def client_interact(conn, addr):
         print(addr, " sent:", msg)
 
         if firstMove:
-            First_Moves.append(msg)
+            First_Moves[index] = (msg)
+            print('First Move: ', First_Moves[index])
             firstMove = False
         if len(computers) > 1 and computers.index(conn) % 2 == 0:
             computers[(computers.index(conn) + 1)].send(msg.encode())
@@ -81,10 +83,14 @@ def client_interact(conn, addr):
             if len(computers) > 1 and computers.index(conn) % 2 == 0:
                     computers[(computers.index(conn) + 1)].send(sendoff)
                     computers[(computers.index(conn) + 1)].close()
+                    First_Moves[index + 1] = '_'
+                    First_Moves[index] = '_'
                     computers.pop(computers.index(conn) + 1)
             elif len(computers) > 1 and computers.index(conn) % 2 != 0:
                 computers[(computers.index(conn) - 1)].send(sendoff)
                 computers[(computers.index(conn) - 1)].close()
+                First_Moves[index - 1] = '_'
+                First_Moves[index] = '_'
                 computers.pop(computers.index(conn) - 1)
             computers.pop(computers.index(conn))
             conn.close()
