@@ -6,7 +6,7 @@ Header = 64
 serversocket = socket(AF_INET, SOCK_STREAM)
 #server is bount to Dean's mac
 #ADDR = ('172.27.8.183', 5555)
-ADDR = ('172.27.8.183', 5555)
+ADDR = ('172.27.8.183', 6666)
 serversocket.bind(ADDR)
 computers = []
 First_Moves = ['_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_']
@@ -48,15 +48,16 @@ def client_interact(conn, addr):
         conn.send(sending.encode())
     else:
         team = 'team*g*'
-        sending = Names[index] + ' (self / green) vs. ' + Names[index - 1] + ' (opponent / red)'
+        sending = Names[index] + ' (self / green) vs. ' + Names[index - 1] + ' (opponent / red)*'
         team += sending
         print('sent', team)
         team = team.encode()
         conn.send(team)
-        if First_Moves[index - 1] != '_':
-            conn.send(First_Moves[index - 1].encode())
         #This sends the ultra Pieces to
-        sending = '^redUltra^' + ultraPieces[index - 1] + '^greenUltra^' + ultraPieces[index]  + '^'
+        sending = '^redUltra^' + ultraPieces[index - 1] + '^greenUltra^' + ultraPieces[index]  + '^'        
+        if First_Moves[index - 1] != '_':
+            sending += (First_Moves[index - 1])
+        print('Sent', sending)
         conn.send(sending.encode())
     #gets messages, sends messages to
     while connected:
