@@ -463,7 +463,9 @@ for i in range(0, 80):
 #putting board into the game
 def drawpieces(ex_board):
   for i in ex_board:
-    screen.blit(pygame.image.load(i.image), (i.loc))
+    image2 = pygame.image.load(i.image)
+    image3 = pygame.transform.scale(image2, (64,64))
+    screen.blit(image3, (i.loc))
 
 #putting the name text in there
 def drawtext(text):
@@ -565,7 +567,7 @@ pos2 = [-1, -1]
 mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 #GFS IP on the one below this
 #Alex
-mysock.connect(('172.27.8.183', 6666))
+mysock.connect(('172.27.8.183', 5555))
 #ADDR = ('172.27.8.183', 5555)
 #mysock.connect(('192.168.1.205', 5555))
 global player_names

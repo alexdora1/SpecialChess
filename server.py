@@ -6,7 +6,7 @@ Header = 64
 serversocket = socket(AF_INET, SOCK_STREAM)
 #server is bount to Dean's mac
 #ADDR = ('172.27.8.183', 5555)
-ADDR = ('172.27.8.183', 6666)
+ADDR = ('172.27.8.183', 5555)
 serversocket.bind(ADDR)
 computers = []
 First_Moves = ['_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_']
