@@ -13,6 +13,7 @@ Display_Name = 'Special Chess'
 pygame.display.set_caption(Display_Name)
 
 class Piece:
+  
     def __init__(self, team, type, image, loc):
         self.team = team
         self.type = type
@@ -21,9 +22,11 @@ class Piece:
     def islegal(self, ex_board, pos1,pos2):
       print("We're in the piece")
       return True
-
-
+    def get_type(self):
+      return str(self.type)
+    
 class Rook(Piece):
+    
     def islegal(self, ex_board, pos1, pos2):         
       if(pos1[0] < pos2[0]) and (pos2[1] == pos1[1]):
         # finds pieces                         
@@ -32,51 +35,116 @@ class Rook(Piece):
               return False
         for c in ex_board:
           if c.loc == (pos2[0], pos2[1]):
-            if c.team == self.team or c.image == 'assets/Rock.png':
+            if c.team == self.team or c.image == 'assets/Rock.png' :
+              print(c.image)
+              if c.image == 'assets/Green_Rook.png' or c.image == 'assets/Red_Rook.png':
+                ex_board.pop(ex_board.index(c))
+                ex_board.pop(ex_board.index(self))
+                if c.image =='assets/Green_Rook.png':
+                  gSR = Super_Rook("g", "Super_Rook", "assets/Super_Green_Rook.png", (0,0))      
+                  Pieces.append(gSR)
+                  Pieces[-1].loc = (pos2[0], pos2[1])
+                else:
+                  rSR = Super_Rook("r", "Super_Rook", "assets/Super_Red_Rook.png", (0,0))      
+                  Pieces.append(rSR)
+                  Pieces[-1].loc = (pos2[0], pos2[1])
+                return True
               return False
             else:
-              ex_board.pop(ex_board.index(c))
+              if ex_board[ex_board.index(c)].get_type() == "Super_rook":
+                lives = ex_board[ex_board.index(c)].get_lives
+                if lives ==1 :
+                  ex_board.pop(ex_board.index(c))
+                else:
+                  ex_board[ex_board.index(c)].set_lives(lives-1)
+              else:
+                ex_board.pop(ex_board.index(c))
               return True
         return True
       elif(pos2[0] < pos1[0]) and (pos2[1] == pos1[1]):
         # finds pieces                 
         for c in ex_board:
             if (c.loc[1] == pos2[1]) and (pos1[0] > c.loc[0] > pos2[0]):
+              print('a')
               return False
         for c in ex_board:
           if c.loc == (pos2[0], pos2[1]):
             if c.team == self.team or c.image == 'assets/Rock.png':
+              if c.image == 'assets/Green_Rook.png' or c.image == 'assets/Red_Rook.png':
+                
+                ex_board.pop(ex_board.index(c))
+                ex_board.pop(ex_board.index(self))
+                if c.image =='assets/Green_Rook.png':
+                  
+                  gSR = Super_Rook("g", "Super_Rook", "assets/Super_Green_Rook.png", (0,0))      
+                  Pieces.append(gSR)
+                  Pieces[-1].loc = (pos2[0], pos2[1])
+                else:
+                  rSR = Super_Rook("r", "Super_Rook", "assets/Super_Red_Rook.png", (0,0))      
+                  Pieces.append(rSR)
+                  Pieces[-1].loc = (pos2[0], pos2[1])
+                print('b')
+                return True
+              
               return False
             else:
-              ex_board.pop(ex_board.index(c))
+              
+              if ex_board[ex_board.index(c)].get_type() == "Super_rook":
+                lives = ex_board[ex_board.index(c)].get_lives
+                if lives ==1 :
+                  ex_board.pop(ex_board.index(c))
+                else:
+                  ex_board[ex_board.index(c)].set_lives(lives-1)
+              else:
+                ex_board.pop(ex_board.index(c))
+              
               return True
         return True
       elif(pos1[0] == pos2[0]) and (pos2[1] > pos1[1]):
         # finds pieces                     
         for c in ex_board:
             if c.loc[0] == pos2[0] and pos1[1] < c.loc[1] < pos2[1]:
+              print('c')
               return False
         for c in ex_board:
           if c.loc == (pos2[0], pos2[1]):
             if c.team == self.team or c.image == 'assets/Rock.png':
+              print('d')
               return False
             else:
-              ex_board.pop(ex_board.index(c))
+              if ex_board[ex_board.index(c)].get_type() == "Super_rook":
+                lives = ex_board[ex_board.index(c)].get_lives
+                if lives ==1 :
+                  ex_board.pop(ex_board.index(c))
+                else:
+                  ex_board[ex_board.index(c)].set_lives(lives-1)
+              else:
+                ex_board.pop(ex_board.index(c))
               return True
         return True
       elif(pos1[0] == pos2[0]) and (pos2[1] < pos1[1]):
         # finds pieces                     
         for c in ex_board:
             if c.loc[0] == pos2[0] and pos1[1] > c.loc[1] > pos2[1]:
+              print('e')
               return False
         for c in ex_board:
           if c.loc == (pos2[0], pos2[1]):
             if c.team == self.team or c.image == 'assets/Rock.png':
+              print('f')
               return False
             else:
-              ex_board.pop(ex_board.index(c))
+              if ex_board[ex_board.index(c)].get_type() == "Super_rook":
+                lives = ex_board[ex_board.index(c)].get_lives
+                if lives ==1 :
+                  ex_board.pop(ex_board.index(c))
+                else:
+                  ex_board[ex_board.index(c)].set_lives(lives-1)
+              else:
+                ex_board.pop(ex_board.index(c))
               return True
         return True 
+      print('g')
       return False      
 
 class Knight(Piece):
@@ -85,6 +153,21 @@ class Knight(Piece):
         for i in ex_board:
           if i.loc == (pos2[0], pos2[1]):
             if i.team == self.team:
+              if i.image == 'assets/Green_Knight.png' or i.image == 'assets/Red_Knight.png':
+                
+                ex_board.pop(ex_board.index(i))
+                ex_board.pop(ex_board.index(self))
+                if i.image =='assets/Green_Knight.png':
+                  
+                  gSN = Super_Knight("g", "Super_Knight", "assets/Super_Green_Knight.png", (0,0))      
+                  Pieces.append(gSN)
+                  Pieces[-1].loc = (pos2[0], pos2[1])
+                else:
+                  rSN = Super_Knight("r", "Super_Knight", "assets/Super_Red_Knight.png", (0,0))      
+                  Pieces.append(rSN)
+                  Pieces[-1].loc = (pos2[0], pos2[1])
+                print('b')
+                return True
               return False
             else:
               ex_board.pop(ex_board.index(i))
@@ -93,7 +176,7 @@ class Knight(Piece):
         return True
       return False
     
-class Boat(Piece):
+class Bishop(Piece):
     def islegal(self, ex_board, pos1, pos2):   
       if abs(pos2[0] - pos1[0]) == abs(pos2[1] - pos1[1]) and pos2[0] != pos1[0]:
         if pos1[0] > pos2[0] and pos1[1] > pos2[1]:
@@ -144,13 +227,24 @@ class Boat(Piece):
               return False              
           if c.loc == (pos2[0], pos2[1]):
             if c.team == self.team or c.image == 'assets/Rock.png':
+              if c.image == 'assets/Green_Bishop.png' or c.image == 'assets/Red_Bishop.png':
+                ex_board.pop(ex_board.index(c))
+                ex_board.pop(ex_board.index(self))
+                if c.image =='assets/Green_Bishop.png':
+                  gSB = Super_Bishop("g", "Super_Bishop", "assets/Super_Green_Bishop.png", (0,0))      
+                  Pieces.append(gSB)
+                  Pieces[-1].loc = (pos2[0], pos2[1])
+                else:
+                  rSB = Super_Bishop("r", "Super_Bishop", "assets/Super_Red_Bishop.png", (0,0))      
+                  Pieces.append(rSB)
+                  Pieces[-1].loc = (pos2[0], pos2[1])
+                return True
               return False
             else:
               ex_board.pop(ex_board.index(c))
               return True
         return True
       return False
-
 
 class King(Piece):
     def islegal(self, ex_board, pos1, pos2):
@@ -266,7 +360,6 @@ class Queen(Piece):
         return True 
       return False   
 
-
 class Elephant(Piece):
     def islegal(self, ex_board, pos1, pos2):   
       if((abs(pos1[0] - pos2[0]) == 128) and (abs(pos2[1] - pos1[1]) == (128))):
@@ -337,8 +430,6 @@ class Elephant(Piece):
 
         return True
       return False  
-      
-
 
 class Pawn(Piece):
   def islegal(self, ex_board, pos1, pos2):              
@@ -384,6 +475,155 @@ class Pawn(Piece):
               return True
     return False
 
+class Super_Rook(Piece):
+    
+    
+    def __init__(self, team, type, image, loc):
+      super().__init__(team, type, image, loc)
+      self.lives = 4
+    
+    def get_lives(self):
+      return self.lives
+    def set_lives(self, lives):
+      self.lives = lives
+    def islegal(self, ex_board, pos1, pos2):         
+      if(pos1[0] < pos2[0]) and (pos2[1] == pos1[1]):
+        # finds pieces                         
+        for c in ex_board:
+            if c.loc[1] == pos2[1] and pos1[0] < c.loc[0] < pos2[0]:
+              return False
+        for c in ex_board:
+          if c.loc == (pos2[0], pos2[1]):
+            if c.team == self.team or c.image == 'assets/Rock.png' :
+              print(c.image)
+              
+          
+              return False
+            else:
+              ex_board.pop(ex_board.index(c))
+              return True
+        return True
+      elif(pos2[0] < pos1[0]) and (pos2[1] == pos1[1]):
+        # finds pieces                 
+        for c in ex_board:
+            if (c.loc[1] == pos2[1]) and (pos1[0] > c.loc[0] > pos2[0]):
+              print('a')
+              return False
+        for c in ex_board:
+          if c.loc == (pos2[0], pos2[1]):
+            if c.team == self.team or c.image == 'assets/Rock.png':
+              
+              
+              return False
+            else:
+              ex_board.pop(ex_board.index(c))
+              
+              return True
+        return True
+      elif(pos1[0] == pos2[0]) and (pos2[1] > pos1[1]):
+        # finds pieces                     
+        for c in ex_board:
+            if c.loc[0] == pos2[0] and pos1[1] < c.loc[1] < pos2[1]:
+              print('c')
+              return False
+        for c in ex_board:
+          if c.loc == (pos2[0], pos2[1]):
+            if c.team == self.team or c.image == 'assets/Rock.png':
+            
+              return False
+            else:
+              ex_board.pop(ex_board.index(c))
+              return True
+        return True
+      elif(pos1[0] == pos2[0]) and (pos2[1] < pos1[1]):
+        # finds pieces                     
+        for c in ex_board:
+            if c.loc[0] == pos2[0] and pos1[1] > c.loc[1] > pos2[1]:
+             
+              return False
+        for c in ex_board:
+          if c.loc == (pos2[0], pos2[1]):
+            if c.team == self.team or c.image == 'assets/Rock.png':
+            
+              return False
+            else:
+              ex_board.pop(ex_board.index(c))
+              return True
+        return True 
+   
+      return False      
+            
+class Super_Knight(Piece):
+    def islegal(self, ex_board, pos1, pos2):   
+      if((pos1[0] + 128 == pos2[0] or pos1[0] - 128 == pos2[0]) and (pos1[1] - 64 == pos2[1] or pos1[1] + 64 == pos2[1])) or ((pos1[1] + 128 == pos2[1] or pos1[1] - 128 == pos2[1]) and (pos1[0] - 64 == pos2[0] or pos1[0] + 64 == pos2[0])):
+        for i in ex_board:
+          if i.loc == (pos2[0], pos2[1]):
+            if i.team == self.team:
+              
+              return False
+            else:
+              ex_board.pop(ex_board.index(i))
+              return True
+
+        return True
+      return False
+
+class Super_Bishop(Piece):
+    def islegal(self, ex_board, pos1, pos2):   
+      if abs(pos2[0] - pos1[0]) == abs(pos2[1] - pos1[1]) and pos2[0] != pos1[0]:
+        if pos1[0] > pos2[0] and pos1[1] > pos2[1]:
+          x = pos1[0]
+          z = pos1[1]
+          while x != pos2[0]:
+            for c in ex_board:
+              if c.loc == (x,z) and c.loc != self.loc:
+                return False
+            x -= 64
+            z -= 64
+        elif pos1[0] < pos2[0] and pos1[1] > pos2[1]:
+          x = pos1[0]
+          z = pos1[1]
+          while x != pos2[0]:
+            for c in ex_board:
+              if c.loc == (x,z) and c.loc != self.loc:
+                return False
+            x += 64
+            z -= 64
+        elif pos1[0] > pos2[0] and pos1[1] < pos2[1]:
+          x = pos1[0]
+          z = pos1[1]
+          while x != pos2[0]:
+            for c in ex_board:
+              if c.loc == (x,z) and c.loc != self.loc:
+                return False
+            x -= 64
+            z += 64
+        elif pos1[0] < pos2[0] and pos1[1] < pos2[1]:
+          x = pos1[0]
+          z = pos1[1]
+          while x != pos2[0]:
+            for c in ex_board:
+              if c.loc == (x,z) and c.loc != self.loc:
+                return False
+            x += 64
+            z += 64
+        for c in ex_board:
+          #boats crash on rocks! 
+          if c.image == 'assets/Rock.png':
+            if abs(pos2[0] - c.loc[0]) <= 64 or abs(pos2[1] - c.loc[1]) <= 64:
+              self.loc = (pos2[0], pos2[1])
+              drawpieces(ex_board)
+              time.sleep(1)
+              ex_board.pop(ex_board.index(self))
+              time.sleep(.5)
+              return False              
+          if c.loc == (pos2[0], pos2[1]):
+            
+              return False
+            
+        return True
+      return False
+
 #Alex: I know this isn't pretty, but this is the best way to have it work with multiplayer
 global Pieces
   
@@ -392,11 +632,11 @@ global Pieces
     
 gR1 = Rook('', '', '', (0,0))
 gN1 = Knight('', '', '', (0,0))
-gB1 = Boat('', '', '', (0,0))
+gB1 = Bishop('', '', '', (0,0))
 gE = Elephant('', '', '', (0,0)) 
 gK = King('', '', '', (0,0))
 gQ = Queen('', '', '', (0,0))
-gB2= Boat('', '', '', (0,0))
+gB2= Bishop('', '', '', (0,0))
 gN2 = Knight('', '', '', (0,0))
 gR2 = Rook('', '', '', (0,0))
 gP1 = Pawn('', '', '', (0,0))
@@ -418,12 +658,12 @@ rP7 = Pawn('', '', '', (0,0))
 rP8 = Pawn('', '', '', (0,0))
 rP9 = Pawn('', '', '', (0,0))
 rR1 = Rook('', '', '', (0,0))
-rB1 = Boat('', '', '', (0,0))
+rB1 = Bishop('', '', '', (0,0))
 rN1 = Knight('', '', '', (0,0))
 rE = Elephant('', '', '', (0,0))
 rK = King('', '', '', (0,0))
 rQ = Queen('', '', '', (0,0))
-rB2 = Boat('', '', '', (0,0))
+rB2 = Bishop('', '', '', (0,0))
 rN2 = Knight('', '', '', (0,0))
 rR2 = Rook('', '', '', (0,0))
 
@@ -445,7 +685,7 @@ def drawboard(screen):
   
 
 
-pieces_names = ["Rook", "Knight", "Boat", "Elephant", "King", "Queen", "Boat", "Knight", "Rook"]
+pieces_names = ["Rook", "Knight", "Bishop", "Elephant", "King", "Queen", "Bishop", "Knight", "Rook"]
 
 #putting pieces in board with for loop. '_' is an unoccupied space
 for i in range(0, 80):
@@ -548,6 +788,20 @@ def recieved(conn):
       for i in Pieces:
         if i.loc == initialLoc:
           i.loc = finalLoc
+    if '@' in data.decode():
+      if '@gUp@' in data.decode():
+        for i in Pieces:
+          i.loc = (i.loc[0], (i.loc[1] + 64))
+          
+          if i.loc[1] > 8*64:
+            Pieces.pop(Pieces.index(i))
+      elif '@gDown@' in data.decode():
+        for i in Pieces:
+          for i in Pieces:
+            i.loc = (i.loc[0], (i.loc[1] - 64))
+            if i.loc[1] < 0:
+
+              Pieces.pop(Pieces.index(i))
 
     if 'BYEBYEBYEBYEBYEBYEBYE' in data.decode():
       print('Opponent quit')
@@ -567,7 +821,7 @@ pos2 = [-1, -1]
 mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 #GFS IP on the one below this
 #Alex
-mysock.connect(('172.27.8.183', 5555))
+mysock.connect(('172.27.8.183', 14000))
 #ADDR = ('172.27.8.183', 5555)
 #mysock.connect(('192.168.1.205', 5555))
 global player_names
@@ -655,6 +909,25 @@ while running:
                 rockCords = '%rock%' + str(xRock) + '%' + str(yRock) +'%'
                 mysock.send(rockCords.encode())
                 Pieces.append(new_Rock)
+              gChance = random.randint(1, 50)
+              if gChance == (0) and move > 30:
+                gMessage = '@gDown@'
+                mysock.send(gMessage.encode())
+                for i in Pieces:
+                  i.loc = (i.loc[0], (i.loc[1] - 64))
+                  
+                  if i.loc[1] < 0:
+                    Pieces.pop(Pieces.index(i))
+
+              
+              elif gChance == (2):
+                gMessage = '@gUp@'
+                mysock.send(gMessage.encode())
+                for i in Pieces:
+                  i.loc = (i.loc[0], (i.loc[1] + 64))
+                  
+                  if i.loc[1] > 8*64:
+                    Pieces.pop(Pieces.index(i))
                   #def __init__(self, team, type, image, loc):
 
         

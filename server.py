@@ -6,9 +6,11 @@ Header = 64
 serversocket = socket(AF_INET, SOCK_STREAM)
 #server is bount to Dean's mac
 #ADDR = ('172.27.8.183', 5555)
-ADDR = ('172.27.8.183', 5555)
+ADDR = ('172.27.8.183', 14000)
 serversocket.bind(ADDR)
 computers = []
+global Thread_List
+Thread_List = []
 First_Moves = ['_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_','_']
 
 Names = ['Mark', 'Alex', 'Matt', 'Collin', 'Christoph', 'Anna', 'Rob', 'Annie', 'Phredrick', 'olamma', 'lambda', 'jeremy', '@$%!', 'Jerome', 'Jemmy', 'Bilbo', 'Hobbit']
@@ -19,8 +21,6 @@ def extra(msg):
     i = 0
     while i != number:
         filler += '_'
-
-
 
 
 
@@ -100,11 +100,15 @@ def client_interact(conn, addr):
 
 def start():
     serversocket.listen()
-    while True:
+    try:
         conn, addr = serversocket.accept()
         computers.append(conn)
         thread = Thread(target = client_interact, args=(conn,addr))
+        Thread_List.append(thread)
         thread.start()
+    except KeyboardInterrupt:
+        print('Code killed')
+        
 
 
 print('Server is starting')
