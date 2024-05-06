@@ -550,6 +550,73 @@ class Super_Rook(Piece):
               ex_board.pop(ex_board.index(c))
               return True
         return True 
+      elif((abs(pos1[0] - pos2[0]) == 128) and (abs(pos2[1] - pos1[1]) == (128))):
+        if pos1[0] > pos2[0] and pos1[1] > pos2[1]:
+          x = pos1[0]
+          z = pos1[1]
+          while x != pos2[0]:
+            for c in ex_board:
+              if c.loc == (x,z) and c.loc != self.loc:
+                c.image = 'assets/Explosion.png'
+                drawpieces(ex_board)
+                time.sleep(1)
+                ex_board.pop(ex_board.index(c))
+                drawpieces(ex_board)
+                return True
+            x -= 64
+            z -= 64
+        elif pos1[0] < pos2[0] and pos1[1] > pos2[1]:
+          x = pos1[0]
+          z = pos1[1]
+          while x != pos2[0]:
+            for c in ex_board:
+              if c.loc == (x,z) and c.loc != self.loc:
+                c.image = 'assets/Explosion.png'
+                drawpieces(ex_board)
+                time.sleep(1)
+                ex_board.pop(ex_board.index(c))
+                drawpieces(ex_board)
+                return True
+            x += 64
+            z -= 64
+        elif pos1[0] > pos2[0] and pos1[1] < pos2[1]:
+          x = pos1[0]
+          z = pos1[1]
+          while x != pos2[0]:
+            for c in ex_board:
+              if c.loc == (x,z) and c.loc != self.loc:
+                c.image = 'assets/Explosion.png'
+                drawpieces(ex_board)
+                time.sleep(1)              
+                ex_board.pop(ex_board.index(c))
+                drawpieces(ex_board)
+                return True
+            x -= 64
+            z += 64
+        elif pos1[0] < pos2[0] and pos1[1] < pos2[1]:
+          x = pos1[0]
+          z = pos1[1]
+          while x != pos2[0]:
+            for c in ex_board:
+              if c.loc == (x,z) and c.loc != self.loc:
+                c.image = 'assets/Explosion.png'
+                drawpieces(ex_board)
+                time.sleep(1)
+                ex_board.pop(ex_board.index(c))
+                drawpieces(ex_board)               
+                return True
+            x += 64
+            z += 64
+        for c in ex_board:
+              if c.loc == (x,z) and c.loc != self.loc:
+                c.image = 'assets/Explosion.png'
+                drawpieces(ex_board)
+                time.sleep(.5)
+                ex_board.pop(ex_board.index(c))
+                drawpieces(ex_board)               
+                return True
+
+        return True
    
       return False      
             
@@ -566,11 +633,119 @@ class Super_Knight(Piece):
               return True
 
         return True
+      elif abs(pos2[0] - pos1[0]) == abs(pos2[1] - pos1[1]) and pos2[0] != pos1[0]:
+        if pos1[0] > pos2[0] and pos1[1] > pos2[1]:
+          x = pos1[0]
+          z = pos1[1]
+          while x != pos2[0]:
+            for c in ex_board:
+              if c.loc == (x,z) and c.loc != self.loc:
+                return False
+            x -= 64
+            z -= 64
+        elif pos1[0] < pos2[0] and pos1[1] > pos2[1]:
+          x = pos1[0]
+          z = pos1[1]
+          while x != pos2[0]:
+            for c in ex_board:
+              if c.loc == (x,z) and c.loc != self.loc:
+                return False
+            x += 64
+            z -= 64
+        elif pos1[0] > pos2[0] and pos1[1] < pos2[1]:
+          x = pos1[0]
+          z = pos1[1]
+          while x != pos2[0]:
+            for c in ex_board:
+              if c.loc == (x,z) and c.loc != self.loc:
+                return False
+            x -= 64
+            z += 64
+        elif pos1[0] < pos2[0] and pos1[1] < pos2[1]:
+          x = pos1[0]
+          z = pos1[1]
+          while x != pos2[0]:
+            for c in ex_board:
+              if c.loc == (x,z) and c.loc != self.loc:
+                return False
+            x += 64
+            z += 64
+        for c in ex_board:
+          if c.loc == (pos2[0], pos2[1]):
+            if c.team == self.team or c.image == 'assets/Rock.png':
+              return False
+            else:
+              ex_board.pop(ex_board.index(c))
+              return True
+        return True
+      elif(pos1[0] < pos2[0]) and (pos2[1] == pos1[1]):
+        # finds pieces                         
+        for c in ex_board:
+            if c.loc[1] == pos2[1] and pos1[0] < c.loc[0] < pos2[0]:
+              return False
+        for c in ex_board:
+          if c.loc == (pos2[0], pos2[1]):
+            if c.team == self.team or c.image == 'assets/Rock.png':
+              return False
+            else:
+              ex_board.pop(ex_board.index(c))
+              return True
+        return True
+      elif(pos2[0] < pos1[0]) and (pos2[1] == pos1[1]):
+        # finds pieces                 
+        for c in ex_board:
+            if (c.loc[1] == pos2[1]) and (pos1[0] > c.loc[0] > pos2[0]):
+              return False
+        for c in ex_board:
+          if c.loc == (pos2[0], pos2[1]):
+            if c.team == self.team or c.image == 'assets/Rock.png':
+              return False
+            else:
+              ex_board.pop(ex_board.index(c))
+              return True
+        return True
+      elif(pos1[0] == pos2[0]) and (pos2[1] > pos1[1]):
+        # finds pieces                     
+        for c in ex_board:
+            if c.loc[0] == pos2[0] and pos1[1] < c.loc[1] < pos2[1]:
+              return False
+        for c in ex_board:
+          if c.loc == (pos2[0], pos2[1]):
+            if c.team == self.team or c.image == 'assets/Rock.png':
+              return False
+            else:
+              ex_board.pop(ex_board.index(c))
+              return True
+        return True
+      elif(pos1[0] == pos2[0]) and (pos2[1] < pos1[1]):
+        # finds pieces                     
+        for c in ex_board:
+            if c.loc[0] == pos2[0] and pos1[1] > c.loc[1] > pos2[1]:
+              return False
+        for c in ex_board:
+          if c.loc == (pos2[0], pos2[1]):
+            if c.team == self.team or c.image == 'assets/Rock.png':
+              return False
+            else:
+              ex_board.pop(ex_board.index(c))
+              return True
+        return True 
       return False
 
 class Super_Bishop(Piece):
     def islegal(self, ex_board, pos1, pos2):   
-      if abs(pos2[0] - pos1[0]) == abs(pos2[1] - pos1[1]) and pos2[0] != pos1[0]:
+      if((pos1[0] + 128 == pos2[0] or pos1[0] - 128 == pos2[0]) and (pos1[1] - 64 == pos2[1] or pos1[1] + 64 == pos2[1])) or ((pos1[1] + 128 == pos2[1] or pos1[1] - 128 == pos2[1]) and (pos1[0] - 64 == pos2[0] or pos1[0] + 64 == pos2[0])):
+        for i in ex_board:
+          if i.loc == (pos2[0], pos2[1]):
+            if i.team == self.team:
+              
+              return False
+            else:
+              ex_board.pop(ex_board.index(i))
+              return True
+
+        return True
+      elif abs(pos2[0] - pos1[0]) == abs(pos2[1] - pos1[1]) and pos2[0] != pos1[0]:
         if pos1[0] > pos2[0] and pos1[1] > pos2[1]:
           x = pos1[0]
           z = pos1[1]
@@ -698,8 +873,6 @@ for i in range(0, 80):
   elif 26 < i < 36:
     Pieces[i] = Pieces[i].__class__('r', pieces_names[(i-27)], ('assets/Red_' + pieces_names[i-27]+'.png'), ((64*(i-27), 64*8)))
 
-
-
 #putting board into the game
 def drawpieces(ex_board):
   for i in ex_board:
@@ -788,6 +961,7 @@ def recieved(conn):
       for i in Pieces:
         if i.loc == initialLoc:
           i.loc = finalLoc
+          '''
     if '@' in data.decode():
       if '@gUp@' in data.decode():
         for i in Pieces:
@@ -802,17 +976,26 @@ def recieved(conn):
             if i.loc[1] < 0:
 
               Pieces.pop(Pieces.index(i))
-
+'''
     if 'BYEBYEBYEBYEBYEBYEBYE' in data.decode():
       print('Opponent quit')
       global running
       running = False
 
-          
+start = False
 
-
+while not start:
+   #pygame.blit("assets/rules.png", (0,0))
+   for event in pygame.event.get():
+    if event.type == pygame.QUIT:
+      start = True
+    #Recognizing first and second clicks 
+    elif event.type == pygame.KEYDOWN:
+      start = True
+  
 
 pygame.display.flip()
+
 
 #Assigning positions for the mouse clicks using placeholder values (-1,-1) cannot be clicked
 
@@ -832,6 +1015,8 @@ running = True
 #Clicking rect is the rectangle that tells a student where they are clicking 
 rectColor = (255,165,0)
 rectSquare = (0, 0, 0, 0)
+
+start = False
 
 
 
@@ -910,7 +1095,7 @@ while running:
                 mysock.send(rockCords.encode())
                 Pieces.append(new_Rock)
               gChance = random.randint(1, 50)
-              if gChance == (0) and move > 30:
+              if gChance == (5) and move > 30:
                 gMessage = '@gDown@'
                 mysock.send(gMessage.encode())
                 for i in Pieces:
@@ -934,11 +1119,6 @@ while running:
         pos1 = [-1,-1]
   
   #marking pieces 
-  
-  
-  
-
-  
   
   
 

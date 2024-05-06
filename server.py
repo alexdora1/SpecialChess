@@ -101,11 +101,12 @@ def client_interact(conn, addr):
 def start():
     serversocket.listen()
     try:
-        conn, addr = serversocket.accept()
-        computers.append(conn)
-        thread = Thread(target = client_interact, args=(conn,addr))
-        Thread_List.append(thread)
-        thread.start()
+        while True:
+            conn, addr = serversocket.accept()
+            computers.append(conn)
+            thread = Thread(target = client_interact, args=(conn,addr))
+            Thread_List.append(thread)
+            thread.start()
     except KeyboardInterrupt:
         print('Code killed')
         
