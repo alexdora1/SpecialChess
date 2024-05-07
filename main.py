@@ -985,8 +985,9 @@ def recieved(conn):
 start = False
 
 while not start:
-   #pygame.blit("assets/rules.png", (0,0))
-   for event in pygame.event.get():
+  screen.blit(pygame.image.load("assets/rules.png"), (0,0))
+  pygame.display.flip()
+  for event in pygame.event.get():
     if event.type == pygame.QUIT:
       start = True
     #Recognizing first and second clicks 
