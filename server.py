@@ -5,8 +5,10 @@ import random
 Header = 64
 serversocket = socket(AF_INET, SOCK_STREAM)
 #server is bount to Dean's mac
-#ADDR = ('172.27.8.183', 5555)
-ADDR = ('172.27.8.183', 14000)
+ADDR = ('172.27.8.183', 5555)
+#ADDR = ('172.27.8.183', 14000)
+#172.20.10.2
+#ADDR = ('172.20.10.2', 14000)
 serversocket.bind(ADDR)
 computers = []
 global Thread_List

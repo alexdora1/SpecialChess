@@ -20,7 +20,7 @@ class Piece:
         self.image = image
         self.loc = loc
     def islegal(self, ex_board, pos1,pos2):
-      print("We're in the piece")
+   
       return True
     def get_type(self):
       return str(self.type)
@@ -36,7 +36,6 @@ class Rook(Piece):
         for c in ex_board:
           if c.loc == (pos2[0], pos2[1]):
             if c.team == self.team or c.image == 'assets/Rock.png' :
-              print(c.image)
               if c.image == 'assets/Green_Rook.png' or c.image == 'assets/Red_Rook.png':
                 ex_board.pop(ex_board.index(c))
                 ex_board.pop(ex_board.index(self))
@@ -65,7 +64,6 @@ class Rook(Piece):
         # finds pieces                 
         for c in ex_board:
             if (c.loc[1] == pos2[1]) and (pos1[0] > c.loc[0] > pos2[0]):
-              print('a')
               return False
         for c in ex_board:
           if c.loc == (pos2[0], pos2[1]):
@@ -83,7 +81,6 @@ class Rook(Piece):
                   rSR = Super_Rook("r", "Super_Rook", "assets/Super_Red_Rook.png", (0,0))      
                   Pieces.append(rSR)
                   Pieces[-1].loc = (pos2[0], pos2[1])
-                print('b')
                 return True
               
               return False
@@ -104,12 +101,10 @@ class Rook(Piece):
         # finds pieces                     
         for c in ex_board:
             if c.loc[0] == pos2[0] and pos1[1] < c.loc[1] < pos2[1]:
-              print('c')
               return False
         for c in ex_board:
           if c.loc == (pos2[0], pos2[1]):
             if c.team == self.team or c.image == 'assets/Rock.png':
-              print('d')
               return False
             else:
               if ex_board[ex_board.index(c)].get_type() == "Super_rook":
@@ -126,12 +121,10 @@ class Rook(Piece):
         # finds pieces                     
         for c in ex_board:
             if c.loc[0] == pos2[0] and pos1[1] > c.loc[1] > pos2[1]:
-              print('e')
               return False
         for c in ex_board:
           if c.loc == (pos2[0], pos2[1]):
             if c.team == self.team or c.image == 'assets/Rock.png':
-              print('f')
               return False
             else:
               if ex_board[ex_board.index(c)].get_type() == "Super_rook":
@@ -144,7 +137,7 @@ class Rook(Piece):
                 ex_board.pop(ex_board.index(c))
               return True
         return True 
-      print('g')
+
       return False      
 
 class Knight(Piece):
@@ -166,7 +159,6 @@ class Knight(Piece):
                   rSN = Super_Knight("r", "Super_Knight", "assets/Super_Red_Knight.png", (0,0))      
                   Pieces.append(rSN)
                   Pieces[-1].loc = (pos2[0], pos2[1])
-                print('b')
                 return True
               return False
             else:
@@ -366,7 +358,7 @@ class Elephant(Piece):
         if pos1[0] > pos2[0] and pos1[1] > pos2[1]:
           x = pos1[0]
           z = pos1[1]
-          while x != pos2[0]:
+          while x >= pos2[0]:
             for c in ex_board:
               if c.loc == (x,z) and c.loc != self.loc:
                 c.image = 'assets/Explosion.png'
@@ -374,13 +366,13 @@ class Elephant(Piece):
                 time.sleep(1)
                 ex_board.pop(ex_board.index(c))
                 drawpieces(ex_board)
-                return True
+              
             x -= 64
             z -= 64
         elif pos1[0] < pos2[0] and pos1[1] > pos2[1]:
           x = pos1[0]
           z = pos1[1]
-          while x != pos2[0]:
+          while x <= pos2[0]:
             for c in ex_board:
               if c.loc == (x,z) and c.loc != self.loc:
                 c.image = 'assets/Explosion.png'
@@ -388,13 +380,13 @@ class Elephant(Piece):
                 time.sleep(1)
                 ex_board.pop(ex_board.index(c))
                 drawpieces(ex_board)
-                return True
+             
             x += 64
             z -= 64
         elif pos1[0] > pos2[0] and pos1[1] < pos2[1]:
           x = pos1[0]
           z = pos1[1]
-          while x != pos2[0]:
+          while x >= pos2[0]:
             for c in ex_board:
               if c.loc == (x,z) and c.loc != self.loc:
                 c.image = 'assets/Explosion.png'
@@ -402,13 +394,13 @@ class Elephant(Piece):
                 time.sleep(1)              
                 ex_board.pop(ex_board.index(c))
                 drawpieces(ex_board)
-                return True
+           
             x -= 64
             z += 64
         elif pos1[0] < pos2[0] and pos1[1] < pos2[1]:
           x = pos1[0]
           z = pos1[1]
-          while x != pos2[0]:
+          while x <= pos2[0]:
             for c in ex_board:
               if c.loc == (x,z) and c.loc != self.loc:
                 c.image = 'assets/Explosion.png'
@@ -416,7 +408,7 @@ class Elephant(Piece):
                 time.sleep(1)
                 ex_board.pop(ex_board.index(c))
                 drawpieces(ex_board)               
-                return True
+            
             x += 64
             z += 64
         for c in ex_board:
@@ -426,7 +418,8 @@ class Elephant(Piece):
                 time.sleep(.5)
                 ex_board.pop(ex_board.index(c))
                 drawpieces(ex_board)               
-                return True
+               
+    
 
         return True
       return False  
@@ -495,7 +488,6 @@ class Super_Rook(Piece):
         for c in ex_board:
           if c.loc == (pos2[0], pos2[1]):
             if c.team == self.team or c.image == 'assets/Rock.png' :
-              print(c.image)
               
           
               return False
@@ -507,7 +499,6 @@ class Super_Rook(Piece):
         # finds pieces                 
         for c in ex_board:
             if (c.loc[1] == pos2[1]) and (pos1[0] > c.loc[0] > pos2[0]):
-              print('a')
               return False
         for c in ex_board:
           if c.loc == (pos2[0], pos2[1]):
@@ -524,7 +515,6 @@ class Super_Rook(Piece):
         # finds pieces                     
         for c in ex_board:
             if c.loc[0] == pos2[0] and pos1[1] < c.loc[1] < pos2[1]:
-              print('c')
               return False
         for c in ex_board:
           if c.loc == (pos2[0], pos2[1]):
@@ -878,6 +868,7 @@ def drawpieces(ex_board):
   for i in ex_board:
     image2 = pygame.image.load(i.image)
     image3 = pygame.transform.scale(image2, (64,64))
+
     screen.blit(image3, (i.loc))
 
 #putting the name text in there
@@ -909,14 +900,12 @@ def recieved(conn):
     data = conn.recv(100)  # Receive data from the client
     if not data:
         break
-    print('Recieved:', data.decode())
     if '*' in data.decode():     
       dataList = data.decode()
       dataList = dataList.split('*')
       compteam = dataList[1]
       if len(dataList) > 2:
         player_names = dataList[2]
-        print('player names:', player_names)
     if 'Ultra^' in data.decode():
       #getting the ultra pieces
       aList = data.decode()
@@ -928,18 +917,17 @@ def recieved(conn):
       ultraPieces.append(Pieces[firstUltra])
       ultraPieces.append(Pieces[secondUltra])
       if compteam == 'r':
-        print('Red Team / First ultra index:', firstUltra, 'Second ultra index:', secondUltra)
         Pieces[firstUltra].image = 'assets/ultra.png'
         ##pygame.draw.rect(screen, color, pygame.Rect(c*64,r*64,64,64))
       elif compteam == 'g':
         Pieces[secondUltra].image = 'assets/ultra.png'
-        print('Green Team Team / First ultra index:', firstUltra, 'Second ultra index:', secondUltra)
       
     if('%') in data.decode():
        #rockCords = 'rock%' + str(xRock) + '%' + str(yRock) +'%'
-      rockList = data.decode.split()
-      xRock = rockList[2]
-      yRock = rockList [3]
+      rockList = data.decode()
+      rockList = rockList.split('%')
+      xRock = int(rockList[2])
+      yRock = int(rockList [3])
       for i in Pieces:
         if i.loc == (xRock, yRock):
           Pieces.pop(Pieces.index(i))
@@ -949,7 +937,6 @@ def recieved(conn):
       #splitting something in the form of g(0, 128)[0, 128] in order to move a piece
       bList = data.decode()
       bList = bList.split('#')
-      print('bList', bList)
       initialLoc = (int(bList[1]), int(bList[2]))
       finalLoc = (int(bList[3]), int(bList[4]))
       for i in Pieces:
@@ -961,22 +948,7 @@ def recieved(conn):
       for i in Pieces:
         if i.loc == initialLoc:
           i.loc = finalLoc
-          '''
-    if '@' in data.decode():
-      if '@gUp@' in data.decode():
-        for i in Pieces:
-          i.loc = (i.loc[0], (i.loc[1] + 64))
-          
-          if i.loc[1] > 8*64:
-            Pieces.pop(Pieces.index(i))
-      elif '@gDown@' in data.decode():
-        for i in Pieces:
-          for i in Pieces:
-            i.loc = (i.loc[0], (i.loc[1] - 64))
-            if i.loc[1] < 0:
 
-              Pieces.pop(Pieces.index(i))
-'''
     if 'BYEBYEBYEBYEBYEBYEBYE' in data.decode():
       print('Opponent quit')
       global running
@@ -1005,7 +977,9 @@ pos2 = [-1, -1]
 mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 #GFS IP on the one below this
 #Alex
-mysock.connect(('172.27.8.183', 14000))
+#mysock.connect(('172.20.10.2', 14000))
+mysock.connect(('172.27.8.183', 5555))
+#172.20.10.2
 #ADDR = ('172.27.8.183', 5555)
 #mysock.connect(('192.168.1.205', 5555))
 global player_names
@@ -1065,7 +1039,6 @@ while running:
                     
                     sent = mysock.send(sending[sent_bytes:])
                     if sent == 0:
-                        print('Socket connection broken')
                         raise RuntimeError("Socket connection broken")
 
                     sent_bytes += sent                 
@@ -1081,8 +1054,8 @@ while running:
               i.loc = (pos2[0], pos2[1])
               pygame.draw.rect(screen, pygame.Color('purple'), pygame.Rect((pos2[0] - (pos2[0]) % 64), (pos2[1]-pos2[1]%64), 64, 64))
               drawpieces(Pieces)
-              rockChance = (1,15)
-              if rockChance == 8 and move > 2:
+              rockChance = random.randint(4,9)
+              if move > 2 and rockChance == 8:
                 xRock = random.randint(0, 8)
                 xRock = xRock * 64
                 yRock = random.randint(0,8)
@@ -1095,27 +1068,7 @@ while running:
                 rockCords = '%rock%' + str(xRock) + '%' + str(yRock) +'%'
                 mysock.send(rockCords.encode())
                 Pieces.append(new_Rock)
-              gChance = random.randint(1, 50)
-              if gChance == (5) and move > 30:
-                gMessage = '@gDown@'
-                mysock.send(gMessage.encode())
-                for i in Pieces:
-                  i.loc = (i.loc[0], (i.loc[1] - 64))
-                  
-                  if i.loc[1] < 0:
-                    Pieces.pop(Pieces.index(i))
-
-              
-              elif gChance == (2):
-                gMessage = '@gUp@'
-                mysock.send(gMessage.encode())
-                for i in Pieces:
-                  i.loc = (i.loc[0], (i.loc[1] + 64))
-                  
-                  if i.loc[1] > 8*64:
-                    Pieces.pop(Pieces.index(i))
-                  #def __init__(self, team, type, image, loc):
-
+                
         
         pos1 = [-1,-1]
   
