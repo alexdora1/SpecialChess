@@ -3,6 +3,7 @@ import time
 import socket
 import threading 
 import random
+pygame.mixer.init()
 #Adding a function to show the clicking
 pygame.font.init()
 
@@ -971,7 +972,8 @@ pygame.display.flip()
 
 
 #Assigning positions for the mouse clicks using placeholder values (-1,-1) cannot be clicked
-
+pygame.mixer.music.load('assets/venceremos.mp3')
+pygame.mixer.music.play()
 pos1 = [-1,-1]
 pos2 = [-1, -1]
 mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -1011,6 +1013,7 @@ while running:
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       running = False
+      pygame.mixer.music.stop()
     #Recognizing first and second clicks 
     elif event.type == pygame.MOUSEBUTTONDOWN:
       if pos1 == [-1,-1]:
